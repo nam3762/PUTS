@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import MainPage from "./Mainpage";
+import SignupPage from "./Signup";
+import MyPage from "./Mypage";
+import EditProfile from "./EditProfile";
+import TimetableManage from "./TimetableManage";
+import Professor from "./Professor";
+import Classroom from "./Classroom";
+import ClassroomGroup from "./ClassroomGroup";
+import Lecture from "./Lecture";
+import FinishInsert from "./FinishInsert";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/Signup" element={<SignupPage />} />
+        <Route path="/Mypage" element={<MyPage />} />
+        <Route path="/EditProfile" element={<EditProfile />} />
+        <Route path="/TimetableManage" element={<TimetableManage />} />
+        <Route path="/Classroom" element={<Classroom />} />
+        <Route path="/ClassroomGroup" element={<ClassroomGroup />} />
+        <Route path="/Lecture" element={<Lecture />} />
+        <Route path="/FinishInsert" element={<FinishInsert />} />
+        <Route path="/Professor" element={<Professor />} />
+        {/* 추가 경로 정의 가능 */}
+      </Routes>
+      <Footer />
+    </Router>
   );
 }
 
