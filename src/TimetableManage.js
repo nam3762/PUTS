@@ -4,9 +4,6 @@ import "./TimetableManage.css";
 import { Link, useNavigate } from "react-router-dom";
 import "./Mypage.css"; // Ensure the CSS file path is correct
 import userImage from "./public/d.jpg"; // Update the path as necessary
-import timetableImage from "./public/timetable.jpg"; // Update the path as necessary
-
-const weekdays = ["월요일", "화요일", "수요일", "목요일", "금요일"];
 
 const TimetableManage = () => {
   const navigate = useNavigate(); // useNavigate 훅 사용
@@ -30,20 +27,25 @@ const TimetableManage = () => {
         <aside className="sidebar">
           <img src={userImage} alt="User" className="user-image" />
           <h2 className="user-name">
-            <Link to="/Mypage">John jong-hoon</Link>
+            <Link to="/Mypage">Jaehong Nam</Link>
           </h2>
-          <p className="user-email">John@example.com</p>
-          <button onClick={handleEditProfile} className="edit-profile-button">
-            <Link to="/EditProfile">Edit Profile</Link>
-          </button>
-          <button
-            onClick={handleManageTimetable}
-            className="timetable-management-button"
-          >
-            <Link to="/TimetableManage">Timetable Management</Link>
-          </button>
+          <p className="user-email">Nam@example.com</p>
+          <Link to="/EditProfile">
+            <button onClick={handleEditProfile} className="edit-profile-button">
+              Edit Profile
+            </button>
+          </Link>
+          <Link to="/TimetableManage">
+            <button
+              onClick={handleManageTimetable}
+              className="timetable-management-button"
+            >
+              Timetable Management
+            </button>
+          </Link>
         </aside>
         <div className="timetable-manage-container">
+          <h2>STEP 1</h2>
           <h2>시간표 정보 입력</h2>
           <form className="timetable-info-form" onSubmit={handleSubmit}>
             <div className="form-group">

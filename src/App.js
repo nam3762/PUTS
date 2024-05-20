@@ -12,6 +12,7 @@ import Classroom from "./Classroom";
 import ClassroomGroup from "./ClassroomGroup";
 import Lecture from "./Lecture";
 import FinishInsert from "./FinishInsert";
+import FirstPage from "./Firstpage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/Lecture" element={<Lecture />} />
         <Route path="/FinishInsert" element={<FinishInsert />} />
         <Route path="/Professor" element={<Professor />} />
+        <Route path="/Firstpage" element={<FirstPage />} />
         {/* 추가 경로 정의 가능 */}
       </Routes>
       <Footer />

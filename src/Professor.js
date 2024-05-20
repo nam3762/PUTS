@@ -33,27 +33,27 @@ const Professor = () => {
             <Link to="/Mypage">John jong-hoon</Link>
           </h2>
           <p className="user-email">John@example.com</p>
-          <button onClick={handleEditProfile} className="edit-profile-button">
-            <Link to="/EditProfile">Edit Profile</Link>
-          </button>
-          <button
-            onClick={handleManageTimetable}
-            className="timetable-management-button"
-          >
-            <Link to="/TimetableManage">Timetable Management</Link>
-          </button>
+          <Link to="/EditProfile">
+            <button onClick={handleEditProfile} className="edit-profile-button">
+              Edit Profile
+            </button>
+          </Link>
+          <Link to="/TimetableManage">
+            <button
+              onClick={handleManageTimetable}
+              className="timetable-management-button"
+            >
+              Timetable Management
+            </button>
+          </Link>
         </aside>
         <div className="timetable-manage-container">
+          <h2>STEP 2</h2>
           <h2>교수 정보 입력</h2>
           <form className="professor-info-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="professorName">이름:</label>
-              <input
-                type="text"
-                id="professorName"
-                name="professorName"
-                required
-              />
+              <input type="text" id="professorName" name="professorName" />
             </div>
             <fieldset className="form-group">
               <legend>Off-day:</legend>
@@ -68,6 +68,8 @@ const Professor = () => {
             </fieldset>
             <button type="submit">정보 제출</button>
           </form>
+          <Link to="/TimetableManage">뒤로가기</Link>
+          <br></br>
           <Link to="/Mypage">마이 페이지로 돌아가기</Link>
         </div>
       </div>

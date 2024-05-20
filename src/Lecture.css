@@ -38,7 +38,7 @@
     cursor: pointer;
 }
 
-button:hover {
+.timetable-manage-container button:hover {
     background-color: #0056b3;
 }
 

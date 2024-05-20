@@ -89,17 +89,22 @@ const Lecture = () => {
             <Link to="/Mypage">John jong-hoon</Link>
           </h2>
           <p className="user-email">John@example.com</p>
-          <button onClick={handleEditProfile} className="edit-profile-button">
-            <Link to="/EditProfile">Edit Profile</Link>
-          </button>
-          <button
-            onClick={handleManageTimetable}
-            className="timetable-management-button"
-          >
-            <Link to="/TimetableManage">Timetable Management</Link>
-          </button>
+          <Link to="/EditProfile">
+            <button onClick={handleEditProfile} className="edit-profile-button">
+              Edit Profile
+            </button>
+          </Link>
+          <Link to="/TimetableManage">
+            <button
+              onClick={handleManageTimetable}
+              className="timetable-management-button"
+            >
+              Timetable Management
+            </button>
+          </Link>
         </aside>
         <div className="timetable-manage-container">
+          <h2>STEP 5</h2>
           <h2>강의 정보 입력</h2>
           <form onSubmit={handleSubmit}>
             {lectures.map((lecture, lectureIndex) => (

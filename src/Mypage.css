@@ -101,6 +101,11 @@ body {
 
 }
 
+.mypage-container button:hover{
+    opacity: 0.9;
+    transition: 0.2s;
+}
+
 .add-button {
     display: flex;
     align-items: center;

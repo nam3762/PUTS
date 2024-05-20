@@ -1,10 +1,8 @@
 import React from "react";
 import "./Mainpage.css"; // Ensure the CSS file path is correct
 import { Link } from "react-router-dom";
-import hamburgerIcon from "./public/hamburger.svg"; // 이미지 경로 확인
 import "./Mypage.css"; // Ensure the CSS file path is correct
 import userImage from "./public/d.jpg"; // Update the path as necessary
-import timetableImage from "./public/timetable.jpg"; // Update the path as necessary
 
 function EditProfile() {
   const handleEditProfile = () => {
@@ -24,15 +22,19 @@ function EditProfile() {
             <Link to="/Mypage">John jong-hoon</Link>
           </h2>
           <p className="user-email">John@example.com</p>
-          <button onClick={handleEditProfile} className="edit-profile-button">
-            <Link to="/EditProfile">Edit Profile</Link>
-          </button>
-          <button
-            onClick={handleManageTimetable}
-            className="timetable-management-button"
-          >
-            <Link to="/TimetableManage">Timetable Management</Link>
-          </button>
+          <Link to="/EditProfile">
+            <button onClick={handleEditProfile} className="edit-profile-button">
+              Edit Profile
+            </button>
+          </Link>
+          <Link to="/TimetableManage">
+            <button
+              onClick={handleManageTimetable}
+              className="timetable-management-button"
+            >
+              Timetable Management
+            </button>
+          </Link>
         </aside>
         <section className="main-content">
           <div className="home-signup">
@@ -48,7 +50,7 @@ function EditProfile() {
                   <input type="email" id="email" name="email" required />
                 </div>
                 <div className="form-field">
-                  <label htmlFor="password">Confirm password</label>
+                  <label htmlFor="password">Confirm Password</label>
                   <input
                     type="password"
                     id="password"

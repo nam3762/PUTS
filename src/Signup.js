@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Mainpage.css"; // Adjust the path as needed
 import "./Signup.css"; // Adjust the path as needed
 import googleLogo from "./public/google-logo.png"; // Ensure you have this image in your project
@@ -10,6 +10,13 @@ function SignupPage() {
     // Form submission logic here
     console.log("Form submitted");
   };
+
+  useEffect(() => {
+    // Navbar.js의 높이에 해당하는 값을 스크롤 다운합니다.
+    // 64px는 Navbar.js의 대략적인 높이입니다.
+    // 정확한 높이를 알고 있다면 그 값을 사용하세요.
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="home-container">
