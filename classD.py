@@ -19,10 +19,16 @@ class Lecture:
 
 
 class Professor:
-    def __init__(self, prof_code, name, off_days=[]):
+    def __init__(self, prof_code, name, is_instructor, off_times=[], preferred_times=[]):
         self.prof_code = prof_code
         self.name = name
-        self.off_days = off_days
+        self.is_instructor = is_instructor  # 0 for Professor, 1 for Instructor
+        self.off_times = off_times  # [(day, period), ...]
+        self.preferred_times = preferred_times  # [(day, period), ...]
+
+    def __str__(self):
+        role = "Instructor" if self.is_instructor else "Professor"
+        return f"{self.name} ({role})"
 
 
 class Classroom:
@@ -53,7 +59,7 @@ class Chosen:
 
 
 class Assign:
-    def __init__(self, lecture_code, division, section, year, building, classroom_no, date, period, prof_code):
+    def __init__(self, lecture_code, division, section, year, building, classroom_no, date, period, prof_code, major_required=False, duration=1):
         self.lecture_code = lecture_code
         self.division = division
         self.section = section
@@ -62,34 +68,58 @@ class Assign:
         self.classroom_no = classroom_no
         self.date = date
         self.period = period
-        self.prof_code = prof_code  # Added prof_code attribute
+        self.prof_code = prof_code
+        self.major_required = major_required
+        self.duration = duration  # New attribute to handle multi-hour lectures
 
 
-# Example instantiation
-professors = [Professor('P001', '이건명', []), Professor('P002', '홍장의', [4]), Professor('P003', '최경주', [3]), Professor('P004', '류관희', [5])
-              , Professor('P005', '이재성', [3]), Professor('P006', '이종연', [5]), Professor('P007', 'Aziz', []), Professor('P008', '조오현', [4])
-              , Professor('P009', '노서영', [4]), Professor('P010', '조희승', [4]), Professor('P011', '이의종', [1]), Professor('P012', '정지훈', [1])
-              , Professor('P013', '홍신', [4]), Professor('P014', '박정희', []), Professor('P015', '김세민', []), Professor('P016', '김정훈', [])
-              , Professor('P017', '이병훈', []), Professor('P018', '안광모', []), Professor('P019', '김윤석', []), Professor('P020', '장순선', [])
-              , Professor('P021', '정태은', []), Professor('P022', '김용채', []), Professor('P023', '강재구', []), Professor('P024', '신재혁', [])
-              , Professor('P025', '문현주', []), Professor('P026', '주영관', []), Professor('P027', '황경순', [])]
+# Example instantiation with preferred_times added
+professors = [
+    Professor('P001', '이건명', 0, [(4, i) for i in range(1, 10)] + [(5, i) for i in range(1, 10)], [(2, 2), (3, 2)]),
+    Professor('P002', '홍장의', 0, [(3, 3), (5, 6)], [(1, 2), (2, 3)]),
+    Professor('P003', '최경주', 0, [(1, i) for i in range(1, 10)] + [(2, i) for i in range(1, 10)], [(3, 4), (4, 4)]),
+    Professor('P004', '류관희', 0, [(4, 4), (2, 1)], [(3, 1), (5, 2)]),
+    Professor('P005', '이재성', 0, [(1, 5), (2, 2), (4, 9)], [(2, 4), (3, 3)]),
+    Professor('P006', '이종연', 0, [(3, 5), (5, 1), (4, 7)], [(1, 3), (2, 4)]),
+    Professor('P007', 'Aziz', 0, [(1, 2), (3, 6)], [(3, 3), (4, 5)]),
+    Professor('P008', '조오현', 0, [(5, 3), (1, 8)], [(2, 5), (4, 3)]),
+    Professor('P009', '노서영', 0, [(4, 2), (2, 6), (1, 9)], [(3, 2), (5, 1)]),
+    Professor('P010', '조희승', 0, [(3, 1), (5, 4), (2, 8)], [(1, 4), (2, 6)]),
+    Professor('P011', '이의종', 0, [(4, 5), (1, 3), (3, 9)], [(2, 2), (4, 4)]),
+    Professor('P012', '정지훈', 0, [(2, 3), (4, 6), (5, 8)], [(3, 1), (4, 3)]),
+    Professor('P013', '홍신', 0, [(1, 4), (3, 2), (5, 9)], [(2, 5), (3, 4)]),
+    Professor('P014', '박정희', 1, [(4, 3), (2, 7), (1, 6)], [(3, 6), (5, 7)]),
+    Professor('P015', '김세민', 1, [(3, 4), (5, 2), (1, 7)], [(2, 2), (4, 1)]),
+    Professor('P016', '김정훈', 1, [(2, 5), (4, 1), (1, 8)], [(3, 3), (5, 4)]),
+    Professor('P017', '이병훈', 1, [(5, 4), (3, 8), (2, 2)], [(1, 5), (4, 6)]),
+    Professor('P018', '안광모', 1, [(1, 5), (4, 7), (3, 1)], [(2, 1), (3, 2)]),
+    Professor('P019', '김윤석', 1, [(2, 4), (5, 6), (4, 9)], [(1, 6), (3, 4)]),
+    Professor('P020', '장순선', 1, [(3, 5), (1, 2), (2, 7)], [(4, 3), (5, 5)]),
+    Professor('P021', '정태은', 1, [(4, 6), (2, 1), (5, 8)], [(3, 2), (4, 4)]),
+    Professor('P022', '김용채', 1, [(1, 3), (3, 7), (4, 2)], [(2, 6), (3, 8)]),
+    Professor('P023', '강재구', 1, [(5, 5), (2, 8), (1, 9)], [(3, 4), (4, 5)]),
+    Professor('P024', '신재혁', 1, [(3, 2), (4, 4), (2, 6)], [(1, 2), (2, 3)]),
+    Professor('P025', '문현주', 1, [(1, 1), (5, 3), (3, 9)], [(2, 5), (4, 6)]),
+    Professor('P026', '주영관', 1, [(2, 5), (4, 7), (1, 8)], [(3, 2), (5, 3)]),
+    Professor('P027', '황경순', 1, [(3, 6), (5, 2), (4, 8)], [(1, 4), (2, 7)])
+]
+
 
 classrooms = [Classroom('S4-1', '101', 50, 'G1'), Classroom('S4-1', '102', 70, 'G1'), Classroom('S4-1', '103', 70, 'G1')
-              , Classroom('S4-1', '104', 70, 'G1'), Classroom('S4-1', '106', 100, 'G1'), Classroom('S4-1', '201', 54, 'G2')
+              , Classroom('S4-1', '104', 70, 'G1'), Classroom('S4-1', '106', 101, 'G1'), Classroom('S4-1', '201', 54, 'G2')
               , Classroom('S4-1', '204', 54, 'G2'), Classroom('S4-1', '205', 48, 'G2'), Classroom('S4-1', '206', 46, 'G2')
-              , Classroom('S4-1', '106', 60, 'G1')]
+              , Classroom('S4-1', '505', 101, 'G3')]
 
-groups = [Group('G1', '1층 이론'), Group('G2', '2층 실습')]
+groups = [Group('G1', '1층 이론'), Group('G2', '2층 실습'),Group('G3', '3층 실습')]
 
 lectures = [
-    # group, duration, capacity, year
     Lecture('이산수학', 'SW001', 'A', 'S1', True, 'G1', 2, 40, 1),
     Lecture('이산수학', 'SW001', 'A', 'S2', True, 'G1', 1, 40, 1),
     Lecture('이산수학', 'SW001', 'B', 'S1', True, 'G1', 2, 40, 1),
     Lecture('이산수학', 'SW001', 'B', 'S2', True, 'G1', 1, 40, 1),
     Lecture('이산수학', 'SW001', 'C', 'S1', True, 'G1', 2, 40, 1),
     Lecture('이산수학', 'SW001', 'C', 'S2', True, 'G1', 1, 40, 1),
-    Lecture('미래설계탐색', 'SW002', 'A', 'S1', False, 'G1', 2, 100, 1),
+    Lecture('미래설계탐색', 'SW002', 'A', 'S1', False, 'G3', 2, 100, 1),
     Lecture('자료구조', 'SW003', 'A', 'S1', True, 'G1', 2, 40, 2),
     Lecture('자료구조', 'SW003', 'A', 'S2', True, 'G1', 1, 40, 2),
     Lecture('자료구조', 'SW003', 'B', 'S1', True, 'G1', 2, 40, 2),
@@ -113,7 +143,7 @@ lectures = [
     Lecture('선형대수학', 'SW007', 'A', 'S2', False, 'G1', 1, 40, 2),
     Lecture('선형대수학', 'SW007', 'B', 'S1', False, 'G1', 2, 40, 2),
     Lecture('선형대수학', 'SW007', 'B', 'S2', False, 'G1', 1, 40, 2),
-    Lecture('미래설계구현', 'SW008', 'A', 'S2', False, 'G1', 2, 100, 2),
+    Lecture('미래설계구현', 'SW008', 'A', 'S2', False, 'G3', 2, 100, 2),
     Lecture('오픈소스 기초프로젝트', 'SW009', 'A', 'S1', False, 'G2', 4, 40, 2),
     Lecture('오픈소스 기초프로젝트', 'SW009', 'B', 'S1', False, 'G2', 4, 40, 2),
     Lecture('운영체제', 'SW010', 'A', 'S1', True, 'G1', 2, 40, 3),
@@ -130,7 +160,7 @@ lectures = [
     Lecture('객체지향 설계', 'SW011', 'C', 'S2', True, 'G1', 1, 40, 3),
     Lecture('컴퓨터 네트워크', 'SW012', 'A', 'S1', False, 'G1', 2, 40, 3),
     Lecture('컴퓨터 네트워크', 'SW012', 'A', 'S2', False, 'G1', 1, 40, 3),
-    Lecture('창업기획', 'SW013', 'A', 'S1', False, 'G1', 2, 100, 3),
+    Lecture('창업기획', 'SW013', 'A', 'S1', False, 'G3', 2, 100, 3),
     Lecture('오픈소스 웹소프트웨어', 'SW014', 'A', 'S1', False, 'G1', 2, 40, 3),
     Lecture('오픈소스 웹소프트웨어', 'SW014', 'A', 'S2', False, 'G2', 2, 40, 3),
     Lecture('오픈소스 웹소프트웨어', 'SW014', 'B', 'S1', False, 'G1', 2, 40, 3),
@@ -139,16 +169,16 @@ lectures = [
     Lecture('오픈소스 전문프로젝트', 'SW015', 'B', 'S1', False, 'G2', 4, 40, 3),
     Lecture('인공지능수학', 'SW016', 'A', 'S1', False, 'G1', 3, 40, 3),
     Lecture('컴파일러', 'SW017', 'A', 'S1', False, 'G1', 2, 40, 3),
-    Lecture('컴파일러', 'SW017', 'B', 'S2', False, 'G1', 1, 40, 3),
-    Lecture('창업산학초청세미나 I', 'SW018', 'A', 'S1', False, 'G1', 2, 100, 4),
+    Lecture('컴파일러', 'SW017', 'A', 'S2', False, 'G1', 1, 40, 3),
+    Lecture('창업산학초청세미나 I', 'SW018', 'A', 'S1', False, 'G3', 2, 100, 4),
     Lecture('임베디드시스템', 'SW019', 'A', 'S1', False, 'G2', 4, 40, 4),
     Lecture('빅데이터시스템설계', 'SW020', 'A', 'S1', False, 'G1', 2, 40, 4),
     Lecture('빅데이터시스템설계', 'SW020', 'A', 'S2', False, 'G2', 2, 40, 4),
     Lecture('기계학습', 'SW021', 'A', 'S1', False, 'G1', 2, 40, 4),
     Lecture('기계학습', 'SW021', 'A', 'S2', False, 'G1', 1, 40, 4),
     Lecture('기계학습', 'SW021', 'B', 'S1', False, 'G1', 3, 40, 4),
-    Lecture('캡스톤디자인', 'SW022', 'A', 'S1', True, 'G2', 4, 60, 4),
-    Lecture('캡스톤디자인', 'SW022', 'B', 'S1', True, 'G2', 4, 58, 4),
+    Lecture('캡스톤디자인', 'SW022', 'A', 'S1', True, 'G1', 4, 60, 4),
+    Lecture('캡스톤디자인', 'SW022', 'B', 'S1', True, 'G2', 4, 54, 4),
     Lecture('정보·컴퓨터교재연구및지도법', 'SW023', 'A', 'S1', False, 'G1', 3, 40, 4)
 ]
 

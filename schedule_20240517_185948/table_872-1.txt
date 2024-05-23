@@ -1,0 +1,182 @@
+
+P001's Schedule:
+Day 2, Period 1: SW021-A in classroom 101 (year-4)
+Day 1, Period 6: SW021-A in classroom 102 (year-4)
+=======================================
+
+P002's Schedule:
+Day 4, Period 3: SW011-A in classroom 101 (year-3)
+Day 2, Period 3: SW011-A in classroom 103 (year-3)
+=======================================
+
+P003's Schedule:
+Day 4, Period 4: SW006-A in classroom 201 (year-2)
+Day 5, Period 1: SW006-A in classroom 204 (year-2)
+Day 4, Period 7: SW022-A in classroom 106 (year-4)
+=======================================
+
+P004's Schedule:
+Day 1, Period 9: SW014-A in classroom 204 (year-3)
+Day 5, Period 6: SW014-A in classroom 204 (year-3)
+=======================================
+
+P005's Schedule:
+Day 3, Period 2: SW017-A in classroom 101 (year-3)
+Day 5, Period 8: SW017-A in classroom 104 (year-3)
+=======================================
+
+P006's Schedule:
+Day 4, Period 6: SW022-B in classroom 201 (year-4)
+Day 5, Period 2: SW011-B in classroom 101 (year-3)
+Day 4, Period 1: SW011-B in classroom 101 (year-3)
+=======================================
+
+P007's Schedule:
+=======================================
+
+P008's Schedule:
+Day 5, Period 1: SW012-A in classroom 101 (year-3)
+Day 3, Period 3: SW012-A in classroom 101 (year-3)
+=======================================
+
+P009's Schedule:
+Day 3, Period 6: SW003-A in classroom 101 (year-2)
+Day 2, Period 4: SW007-A in classroom 102 (year-2)
+Day 1, Period 6: SW007-A in classroom 101 (year-2)
+Day 5, Period 7: SW003-A in classroom 101 (year-2)
+=======================================
+
+P010's Schedule:
+Day 4, Period 7: SW004-A in classroom 101 (year-2)
+Day 2, Period 9: SW004-A in classroom 101 (year-2)
+Day 3, Period 6: SW010-A in classroom 102 (year-3)
+Day 4, Period 9: SW010-B in classroom 103 (year-3)
+Day 5, Period 3: SW010-B in classroom 102 (year-3)
+Day 1, Period 1: SW010-A in classroom 102 (year-3)
+=======================================
+
+P011's Schedule:
+Day 5, Period 4: SW003-B in classroom 101 (year-2)
+Day 4, Period 2: SW011-C in classroom 102 (year-3)
+Day 2, Period 8: SW003-B in classroom 101 (year-2)
+Day 3, Period 8: SW011-C in classroom 102 (year-3)
+=======================================
+
+P012's Schedule:
+Day 2, Period 5: SW016-A in classroom 101 (year-3)
+Day 3, Period 9: SW021-B in classroom 102 (year-4)
+=======================================
+
+P013's Schedule:
+Day 3, Period 7: SW010-C in classroom 101 (year-3)
+Day 3, Period 8: SW005-A in classroom 101 (year-2)
+Day 1, Period 2: SW004-B in classroom 101 (year-2)
+Day 4, Period 6: SW010-C in classroom 102 (year-3)
+Day 2, Period 1: SW003-C in classroom 102 (year-2)
+Day 4, Period 9: SW004-B in classroom 104 (year-2)
+Day 1, Period 1: SW003-C in classroom 101 (year-2)
+Day 4, Period 3: SW005-A in classroom 103 (year-2)
+=======================================
+
+P014's Schedule:
+Day 5, Period 6: SW001-B in classroom 101 (year-1)
+Day 4, Period 9: SW001-A in classroom 102 (year-1)
+Day 5, Period 8: SW001-C in classroom 102 (year-1)
+Day 3, Period 8: SW001-B in classroom 103 (year-1)
+Day 5, Period 4: SW001-A in classroom 103 (year-1)
+Day 1, Period 5: SW001-C in classroom 101 (year-1)
+=======================================
+
+P015's Schedule:
+Day 4, Period 8: SW004-C in classroom 101 (year-2)
+=======================================
+
+P016's Schedule:
+Day 5, Period 5: SW014-B in classroom 201 (year-3)
+Day 2, Period 1: SW014-B in classroom 201 (year-3)
+Day 1, Period 4: SW020-A in classroom 201 (year-4)
+Day 5, Period 3: SW020-A in classroom 204 (year-4)
+=======================================
+
+P017's Schedule:
+Day 3, Period 1: SW019-A in classroom 204 (year-4)
+=======================================
+
+P018's Schedule:
+Day 2, Period 6: SW006-B in classroom 201 (year-2)
+Day 5, Period 2: SW006-C in classroom 201 (year-2)
+Day 4, Period 1: SW006-B in classroom 201 (year-2)
+Day 4, Period 4: SW006-C in classroom 204 (year-2)
+=======================================
+
+P019's Schedule:
+Day 1, Period 8: SW009-B in classroom 201 (year-2)
+Day 1, Period 3: SW015-B in classroom 204 (year-3)
+=======================================
+
+P020's Schedule:
+Day 5, Period 6: SW023-A in classroom 103 (year-4)
+=======================================
+
+P021's Schedule:
+Day 2, Period 3: SW007-B in classroom 101 (year-2)
+Day 5, Period 9: SW007-B in classroom 101 (year-2)
+=======================================
+
+P022's Schedule:
+=======================================
+
+P023's Schedule:
+Day 3, Period 9: SW015-A in classroom 201 (year-3)
+=======================================
+
+P024's Schedule:
+=======================================
+
+P025's Schedule:
+=======================================
+
+P026's Schedule:
+=======================================
+
+P027's Schedule:
+Day 3, Period 2: SW009-A in classroom 201 (year-2)
+=======================================
+
+Evaluation Details:
+- Professor P007 did not lecture at least 2 days: -5 points
+- Professor P014 did not lecture at least 2 days: -5 points
+- Professor P015 did not lecture at least 2 days: -5 points
+- Professor P016 did not lecture at least 2 days: -5 points
+- Professor P017 did not lecture at least 2 days: -5 points
+- Professor P018 did not lecture at least 2 days: -5 points
+- Professor P019 did not lecture at least 2 days: -5 points
+- Professor P020 did not lecture at least 2 days: -5 points
+- Professor P021 did not lecture at least 2 days: -5 points
+- Professor P022 did not lecture at least 2 days: -5 points
+- Professor P023 did not lecture at least 2 days: -5 points
+- Professor P024 did not lecture at least 2 days: -5 points
+- Professor P025 did not lecture at least 2 days: -5 points
+- Professor P026 did not lecture at least 2 days: -5 points
+- Professor P027 did not lecture at least 2 days: -5 points
+- Section S1 of lecture SW021 at 1st period: -1 point
+- Section S1 of lecture SW016 during lunch time (4th or 5th period): -5 points
+- Section S2 of lecture SW014 during lunch time (4th or 5th period): -5 points
+- Section S1 of lecture SW014 at 1st period: -1 point
+- Section S2 of lecture SW012 at 1st period: -1 point
+- Section S1 of lecture SW003 during lunch time (4th or 5th period): -5 points
+- Section S1 of lecture SW020 during lunch time (4th or 5th period): -5 points
+- Section S1 of lecture SW007 during lunch time (4th or 5th period): -5 points
+- Section S1 of lecture SW006 during lunch time (4th or 5th period): -5 points
+- Preferred time slot for section S1 of lecture SW006: +1 point
+- Section S1 of lecture SW019 at 1st period: -1 point
+- Section S1 of lecture SW003 at 1st period: -1 point
+- Section S1 of lecture SW006 at 1st period: -1 point
+- Preferred time slot for section S1 of lecture SW011: +1 point
+- Section S2 of lecture SW003 at 1st period: -1 point
+- Section S2 of lecture SW006 at 1st period: -1 point
+- Section S1 of lecture SW010 at 1st period: -1 point
+- Section S2 of lecture SW001 during lunch time (4th or 5th period): -5 points
+- Section S2 of lecture SW001 during lunch time (4th or 5th period): -5 points
+- Section S1 of lecture SW011 at 1st period: -1 point
+- Section S2 of lecture SW006 during lunch time (4th or 5th period): -5 points
