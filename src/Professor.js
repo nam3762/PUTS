@@ -1,19 +1,53 @@
-import React from "react";
-import "./Mainpage.css";
-import "./TimetableManage.css";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Mypage.css"; // Ensure the CSS file path is correct
-import userImage from "./public/d.jpg"; // Update the path as necessary
-import timetableImage from "./public/timetable.jpg"; // Update the path as necessary
+import { FormContext } from "./FormContext";
+import userImage from "./public/d.jpg";
 
 const weekdays = ["월요일", "화요일", "수요일", "목요일", "금요일"];
 
 const Professor = () => {
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const { formData, setFormData } = useContext(FormContext);
+  const navigate = useNavigate();
+
+  const [professors, setProfessors] = useState(
+    formData.professors || [
+      {
+        professorName: "",
+        offDays: [],
+      },
+    ]
+  );
 
   const handleSubmit = (event) => {
-    event.preventDefault(); // 폼의 기본 제출 동작을 방지
-    navigate("/Classroom"); // Classroom 경로로 이동
+    event.preventDefault();
+    setFormData({ ...formData, professors });
+    navigate("/Classroom");
+  };
+
+  const handleProfessorChange = (index, event) => {
+    const { name, value, checked } = event.target;
+    const newProfessors = [...professors];
+
+    if (name === "offDays") {
+      const newOffDays = checked
+        ? [...newProfessors[index].offDays, value]
+        : newProfessors[index].offDays.filter((day) => day !== value);
+      newProfessors[index].offDays = newOffDays;
+    } else {
+      newProfessors[index][name] = value;
+    }
+
+    setProfessors(newProfessors);
+  };
+
+  const addProfessor = () => {
+    setProfessors([...professors, { professorName: "", offDays: [] }]);
+  };
+
+  const removeProfessor = (index) => {
+    const newProfessors = [...professors];
+    newProfessors.splice(index, 1);
+    setProfessors(newProfessors);
   };
 
   const handleEditProfile = () => {
@@ -25,52 +59,113 @@ const Professor = () => {
   };
 
   return (
-    <div className="home-container">
-      <div className="mypage-container">
-        <aside className="sidebar">
-          <img src={userImage} alt="User" className="user-image" />
-          <h2 className="user-name">
+    <div className="flex flex-col items-center">
+      <div className="flex w-full max-w-6xl mx-auto">
+        <aside className="w-64 p-6 bg-gray-100 border-r border-gray-300">
+          <img
+            src={userImage}
+            alt="User"
+            className="w-24 h-24 rounded-full mb-4 mx-auto"
+          />
+          <h2 className="text-center text-xl font-semibold mb-2">
             <Link to="/Mypage">John jong-hoon</Link>
           </h2>
-          <p className="user-email">John@example.com</p>
+          <p className="text-center text-gray-600 mb-4">John@example.com</p>
           <Link to="/EditProfile">
-            <button onClick={handleEditProfile} className="edit-profile-button">
+            <button
+              onClick={handleEditProfile}
+              className="w-full py-2 mb-2 bg-blue-500 text-white rounded"
+            >
               Edit Profile
             </button>
           </Link>
           <Link to="/TimetableManage">
             <button
               onClick={handleManageTimetable}
-              className="timetable-management-button"
+              className="w-full py-2 bg-blue-500 text-white rounded"
             >
               Timetable Management
             </button>
           </Link>
         </aside>
-        <div className="timetable-manage-container">
-          <h2>STEP 2</h2>
-          <h2>교수 정보 입력</h2>
-          <form className="professor-info-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="professorName">이름:</label>
-              <input type="text" id="professorName" name="professorName" />
-            </div>
-            <fieldset className="form-group">
-              <legend>Off-day:</legend>
-              <div className="checkbox-container">
-                {weekdays.map((day, index) => (
-                  <label key={index} className="checkbox-label">
-                    <input type="checkbox" id={day} name="offDay" value={day} />
-                    {day}
+        <div className="flex-grow p-6">
+          <h2 className="text-2xl font-bold mb-4">STEP 2</h2>
+          <h2 className="text-xl font-semibold mb-6">교수 정보 입력</h2>
+          <form onSubmit={handleSubmit}>
+            {professors.map((professor, index) => (
+              <div
+                key={index}
+                className="mb-6 p-4 border-2 border-green-400 rounded"
+              >
+                <div className="mb-4">
+                  <label
+                    htmlFor={`professorName-${index}`}
+                    className="block font-medium"
+                  >
+                    이름:
                   </label>
-                ))}
+                  <input
+                    type="text"
+                    id={`professorName-${index}`}
+                    name="professorName"
+                    value={professor.professorName}
+                    onChange={(e) => handleProfessorChange(index, e)}
+                    className="mt-1 p-2 border rounded w-full"
+                  />
+                </div>
+                <fieldset className="mb-4">
+                  <legend className="block font-medium mb-2">Off-day:</legend>
+                  <div className="flex flex-wrap">
+                    {weekdays.map((day, dayIndex) => (
+                      <label key={dayIndex} className="mr-4">
+                        <input
+                          type="checkbox"
+                          name="offDays"
+                          value={day}
+                          checked={professor.offDays.includes(day)}
+                          onChange={(e) => handleProfessorChange(index, e)}
+                          className="mr-1"
+                        />
+                        {day}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+                {professors.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeProfessor(index)}
+                    className="py-2 px-4 bg-red-500 text-white rounded"
+                  >
+                    교수 삭제
+                  </button>
+                )}
               </div>
-            </fieldset>
-            <button type="submit">정보 제출</button>
+            ))}
+            <button
+              type="button"
+              onClick={addProfessor}
+              className="py-2 px-4 bg-blue-500 text-white rounded mb-4"
+            >
+              교수 추가
+            </button>
+            <button
+              type="submit"
+              className="py-2 px-4 bg-green-500 text-white rounded"
+            >
+              정보 제출
+            </button>
           </form>
-          <Link to="/TimetableManage">뒤로가기</Link>
-          <br></br>
-          <Link to="/Mypage">마이 페이지로 돌아가기</Link>
+          <Link
+            to="/TimetableManage"
+            className="block mt-4 text-blue-500 underline"
+          >
+            뒤로가기
+          </Link>
+          <br />
+          <Link to="/Mypage" className="block mt-2 text-blue-500 underline">
+            마이 페이지로 돌아가기
+          </Link>
         </div>
       </div>
     </div>

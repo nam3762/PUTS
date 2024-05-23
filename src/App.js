@@ -13,27 +13,30 @@ import ClassroomGroup from "./ClassroomGroup";
 import Lecture from "./Lecture";
 import FinishInsert from "./FinishInsert";
 import FirstPage from "./Firstpage";
+import { FormProvider } from "./FormContext";
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/Signup" element={<SignupPage />} />
-        <Route path="/Mypage" element={<MyPage />} />
-        <Route path="/EditProfile" element={<EditProfile />} />
-        <Route path="/TimetableManage" element={<TimetableManage />} />
-        <Route path="/Classroom" element={<Classroom />} />
-        <Route path="/ClassroomGroup" element={<ClassroomGroup />} />
-        <Route path="/Lecture" element={<Lecture />} />
-        <Route path="/FinishInsert" element={<FinishInsert />} />
-        <Route path="/Professor" element={<Professor />} />
-        <Route path="/Firstpage" element={<FirstPage />} />
-        {/* 추가 경로 정의 가능 */}
-      </Routes>
-      <Footer />
-    </Router>
+    <FormProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/Signup" element={<SignupPage />} />
+          <Route path="/Mypage" element={<MyPage />} />
+          <Route path="/EditProfile" element={<EditProfile />} />
+          <Route path="/TimetableManage" element={<TimetableManage />} />
+          <Route path="/Classroom" element={<Classroom />} />
+          <Route path="/ClassroomGroup" element={<ClassroomGroup />} />
+          <Route path="/Lecture" element={<Lecture />} />
+          <Route path="/FinishInsert" element={<FinishInsert />} />
+          <Route path="/Professor" element={<Professor />} />
+          <Route path="/Firstpage" element={<FirstPage />} />
+          {/* 추가 경로 정의 가능 */}
+        </Routes>
+        <Footer />
+      </Router>
+    </FormProvider>
   );
 }
 
