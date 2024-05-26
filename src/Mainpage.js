@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./Mainpage.css"; // Ensure the CSS file path is correct
 import previewIcon from "./public/timetable-i3.png"; // 실제 이미지 파일 경로에 맞게 조정하세요
 
 const MainPage = () => {

@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import hamburgerIcon from "./public/hamburger.svg";
 
-const Navbar = () => {
-  // useState로 햄버거 메뉴 상태 관리 (사용 예시 추가 필요시)
+const Navbar = ({ isLoggedIn, onLogout }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    onLogout();
+    navigate("/login");
+  };
 
   return (
     <div className="w-full flex justify-center">
@@ -19,17 +24,24 @@ const Navbar = () => {
             <span className="text-xl hidden md:block">
               <Link to="/firstpage">Temp page</Link>
             </span>
-            <span className="text-xl hidden md:block">
-              <Link to="/mypage">My Page</Link>
-            </span>
-            <Link to="/signup">
+            {isLoggedIn ? (
+              <span className="text-xl hidden md:block">
+                <Link to="/mypage">My Page</Link>
+              </span>
+            ) : (
+              <span className="text-xl hidden md:block text-gray-400 cursor-not-allowed">
+                My Page
+              </span>
+            )}
+            {isLoggedIn ? (
               <button
                 className="flex items-center justify-center cursor-pointer transition duration-300 py-4 px-8 rounded-full bg-sky-400 hover:opacity-70 hover:text-white"
                 aria-label="Menu"
+                onClick={handleLogoutClick}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
-                <span className="text-xl hidden md:block">Sign Up</span>
+                <span className="text-xl hidden md:block">Logout</span>
                 <img
                   alt="Hamburger"
                   src={hamburgerIcon}
@@ -52,7 +64,39 @@ const Navbar = () => {
                   </div>
                 )}
               </button>
-            </Link>
+            ) : (
+              <Link to="/login">
+                <button
+                  className="flex items-center justify-center cursor-pointer transition duration-300 py-4 px-8 rounded-full bg-sky-400 hover:opacity-70 hover:text-white"
+                  aria-label="Menu"
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                >
+                  <span className="text-xl hidden md:block">Login</span>
+                  <img
+                    alt="Hamburger"
+                    src={hamburgerIcon}
+                    className="md:hidden w-4 h-4"
+                  />
+                  {isHovered && (
+                    <div className="md:hidden absolute top-full mt-0 py-0 bg-white shadow-md rounded-md z-50">
+                      <Link
+                        to="/mypage"
+                        className="block px-4 py-2 text-sm text-black hover:bg-neutral-300"
+                      >
+                        My Page
+                      </Link>
+                      <Link
+                        to="/signup"
+                        className="block px-4 py-2 text-sm text-black hover:bg-neutral-300"
+                      >
+                        Sign Up
+                      </Link>
+                    </div>
+                  )}
+                </button>
+              </Link>
+            )}
           </nav>
         </div>
       </header>

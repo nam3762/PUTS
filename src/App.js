@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -13,13 +13,32 @@ import ClassroomGroup from "./ClassroomGroup";
 import Lecture from "./Lecture";
 import FinishInsert from "./FinishInsert";
 import FirstPage from "./Firstpage";
+import LoginPage from "./Login";
 import { FormProvider } from "./FormContext";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    localStorage.removeItem("nickname");
+    setIsLoggedIn(false);
+  };
+
   return (
     <FormProvider>
       <Router>
-        <Navbar />
+        <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/Signup" element={<SignupPage />} />
@@ -32,6 +51,7 @@ function App() {
           <Route path="/FinishInsert" element={<FinishInsert />} />
           <Route path="/Professor" element={<Professor />} />
           <Route path="/Firstpage" element={<FirstPage />} />
+          <Route path="/Login" element={<LoginPage onLogin={handleLogin} />} />
           {/* 추가 경로 정의 가능 */}
         </Routes>
         <Footer />

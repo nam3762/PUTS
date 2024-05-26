@@ -1,60 +1,107 @@
-import React, { useEffect } from "react";
-import "./Mainpage.css"; // Adjust the path as needed
-import "./Signup.css"; // Adjust the path as needed
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import googleLogo from "./public/google-logo.png"; // Ensure you have this image in your project
 
 function SignupPage() {
-  // Example function to handle form submission
-  const handleSubmit = (e) => {
+  const [email, setEmail] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form submission logic here
-    console.log("Form submitted");
+
+    try {
+      await axios.post("http://localhost:4000/signup", {
+        email,
+        nickname,
+        password,
+      });
+      setMessage("회원가입 성공!");
+      navigate("/login");
+    } catch (error) {
+      setMessage("회원가입 실패");
+    }
   };
 
-  useEffect(() => {
-    // Navbar.js의 높이에 해당하는 값을 스크롤 다운합니다.
-    // 64px는 Navbar.js의 대략적인 높이입니다.
-    // 정확한 높이를 알고 있다면 그 값을 사용하세요.
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
-    <div className="home-container">
-      <div className="home-signup">
-        <div className="home-header">
-          <form className="signup-form" onSubmit={handleSubmit}>
-            <h2>Sign Up</h2>
-            <div className="form-field">
-              <label htmlFor="name">Name</label>
-              <input type="text" id="name" name="name" required />
-            </div>
-            <div className="form-field">
-              <label htmlFor="email">Email</label>
-              <input type="email" id="email" name="email" required />
-            </div>
-            <div className="form-field">
-              <label htmlFor="password">Password</label>
-              <input type="password" id="password" name="password" required />
-            </div>
-            <div className="form-field">
-              {/* Adjusted button logic for React */}
-              <button type="submit" className="signup-button">
-                Sign Up
-              </button>
-            </div>
-            <div className="form-divider"></div>
-            <div className="form-field google-signup">
-              <button type="button" className="google-signup-button">
-                <img
-                  src={googleLogo}
-                  alt="Google Logo"
-                  className="google-logo"
-                />
-                Sign Up with Google
-              </button>
-            </div>
-          </form>
-        </div>
+    <div className="flex flex-col items-center min-h-screen p-4 bg-gray-50">
+      <div className="w-full max-w-lg bg-white p-10 rounded-lg shadow-lg">
+        <form className="flex flex-col" onSubmit={handleSubmit}>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-5">Sign Up</h2>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              className="w-full p-3 border border-gray-300 rounded-md"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="nickname"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Nickname
+            </label>
+            <input
+              type="text"
+              id="nickname"
+              name="nickname"
+              required
+              className="w-full p-3 border border-gray-300 rounded-md"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              className="w-full p-3 border border-gray-300 rounded-md"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full py-3 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-200"
+          >
+            Sign Up
+          </button>
+          {message && <p className="mt-4 text-red-500">{message}</p>}
+          <div className="flex items-center justify-center my-6">
+            <div className="w-full border-t border-gray-300"></div>
+            <span className="px-2 text-sm text-gray-500">OR</span>
+            <div className="w-full border-t border-gray-300"></div>
+          </div>
+          <button
+            type="button"
+            className="w-full py-3 bg-gray-100 text-gray-700 rounded-md flex items-center justify-center hover:bg-gray-200 transition duration-200"
+          >
+            <img src={googleLogo} alt="Google Logo" className="w-5 h-5 mr-2" />
+            Sign Up with Google
+          </button>
+        </form>
       </div>
     </div>
   );
