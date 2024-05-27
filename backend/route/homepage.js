@@ -57,8 +57,8 @@ router.post("/loginProcess", (req, res) => {
       }
 
       const token = jwt.sign({ id: user.Email }, SECRET_KEY, {
-        expiresIn: 86400,
-      }); // 24 hours
+        expiresIn: 600,
+      }); // 10 minutes
 
       res.status(200).send({ auth: true, token, nickname: user.Nickname });
     }

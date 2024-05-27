@@ -4,6 +4,9 @@ import { FormContext } from "./FormContext";
 import userImage from "./public/d.jpg";
 
 const Lecture = () => {
+  const email = localStorage.getItem("email");
+  const nickname = localStorage.getItem("nickname");
+
   const { formData, setFormData } = useContext(FormContext);
   const navigate = useNavigate();
 
@@ -86,28 +89,30 @@ const Lecture = () => {
   return (
     <div className="flex flex-col items-center">
       <div className="flex w-full max-w-6xl mx-auto">
-        <aside className="w-64 p-6 bg-gray-100 border-r border-gray-300">
+        <aside className="flex flex-col items-center bg-gray-100 p-6 md:w-1/4">
           <img
             src={userImage}
             alt="User"
-            className="w-24 h-24 rounded-full mb-4 mx-auto"
+            className="rounded-full w-32 h-32 object-cover mb-6"
           />
-          <h2 className="text-center text-xl font-semibold mb-2">
-            <Link to="/Mypage">John joong-hoon</Link>
+          <h2 className="text-xl font-semibold mb-2">
+            <Link to="/mypage" className="text-gray-800">
+              {nickname}
+            </Link>
           </h2>
-          <p className="text-center text-gray-600 mb-4">John@example.com</p>
-          <Link to="/EditProfile">
+          <p className="text-gray-600 mb-4">{email}</p>
+          <Link to="/editprofile" className="w-full">
             <button
               onClick={handleEditProfile}
-              className="w-full py-2 mb-2 bg-blue-500 text-white rounded"
+              className="bg-indigo-500 text-white py-2 w-full rounded-md mb-2 hover:bg-indigo-700 transition duration-200"
             >
               Edit Profile
             </button>
           </Link>
-          <Link to="/TimetableManage">
+          <Link to="/timetablemanage" className="w-full">
             <button
               onClick={handleManageTimetable}
-              className="w-full py-2 bg-purple-500 text-white rounded"
+              className="bg-purple-500 text-white py-2 w-full rounded-md hover:bg-purple-700 transition duration-200"
             >
               Timetable Management
             </button>
@@ -177,6 +182,23 @@ const Lecture = () => {
                         </option>
                       ))}
                     </select>
+                  </div>
+                  <div className="form-group">
+                    <label
+                      htmlFor={`year-${lectureIndex}`}
+                      className="block font-medium"
+                    >
+                      학년:
+                    </label>
+                    <input
+                      type="number"
+                      id={`year-${lectureIndex}`}
+                      name="year"
+                      value={lecture.lectureTime}
+                      onChange={(e) => handleLectureChange(lectureIndex, e)}
+                      placeholder="학년"
+                      className="mt-1 p-2 border rounded w-full"
+                    />
                   </div>
                 </div>
                 {lecture.sections.map((section, sectionIndex) => (
