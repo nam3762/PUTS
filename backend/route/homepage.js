@@ -12,10 +12,10 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const mysql = require("mysql");
 // MySQL 연결 설정
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "0000",
-  database: "puts",
+  host: "puts.cjes4q80oazf.us-east-2.rds.amazonaws.com",
+  user: "admin",
+  password: "12341234",
+  database: "PUTS",
 });
 
 connection.connect((err) => {
