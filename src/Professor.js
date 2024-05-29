@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { FormContext } from "./FormContext";
 import userImage from "./public/d.jpg";
 import "tailwindcss/tailwind.css";
@@ -25,10 +26,22 @@ const Professor = () => {
     ]
   );
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setFormData({ ...formData, professors });
-    navigate("/Classroom");
+    
+    try {
+      const response = await axios.post("http://localhost:4000/create/ProfessorProcess", {
+        professors: professors,
+      });
+
+      sessionStorage.setItem("professors", response.data.professors);
+
+      console.log(sessionStorage.getItem("professors"));
+  
+      navigate("/Classroom");
+    } catch (error) {
+      console.log("실패")
+    }
   };
 
   const handleProfessorChange = (index, event) => {
@@ -81,7 +94,9 @@ const Professor = () => {
     setProfessors(newProfessors);
   };
 
-  const addProfessor = () => {
+  const addProfessor = (event) => {
+    event.preventDefault();
+
     setProfessors([
       ...professors,
       { professorName: "", isProfessor: true, offTimes: [], hopeTimes: [] },
@@ -144,7 +159,7 @@ const Professor = () => {
                 className="mb-6 p-4 border-2 border-green-400 rounded"
               >
                 <div className="mb-4">
-                  <label
+                  <label 
                     htmlFor={`professorName-${index}`}
                     className="block font-medium"
                   >

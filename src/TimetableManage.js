@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { FormContext } from "./FormContext";
 import userImage from "./public/d.jpg";
 
@@ -10,9 +11,27 @@ const TimetableManage = () => {
   const { formData, setFormData } = useContext(FormContext);
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    navigate("/Professor");
+
+    const { timetableName, timetableDescription } = formData;
+    
+    try {
+      const response = await axios.post("http://localhost:4000/create/TimetableManageProcess", {
+        timetableName,
+        timetableDescription,
+      });
+
+      sessionStorage.setItem("timetableName", response.data.timetableName);
+      sessionStorage.setItem("timetableDescription", response.data.timetableDescription);
+
+      console.log(sessionStorage.getItem("timetableName"));
+      console.log(sessionStorage.getItem("timetableDescription"));
+  
+      navigate("/Professor");
+    } catch (error) {
+      console.log("실패")
+    }
   };
 
   const handleChange = (e) => {

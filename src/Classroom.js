@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { FormContext } from "./FormContext";
 import userImage from "./public/d.jpg";
@@ -19,10 +20,22 @@ const Classroom = () => {
     ]
   );
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setFormData({ ...formData, classrooms });
-    navigate("/ClassroomGroup");
+    
+    try {
+      const response = await axios.post("http://localhost:4000/create/ClassroomProcess", {
+        classrooms: classrooms,
+      });
+
+      sessionStorage.setItem("classrooms", response.data.classrooms);
+
+      console.log(sessionStorage.getItem("classrooms"));
+  
+      navigate("/ClassroomGroup");
+    } catch (error) {
+      console.log("실패")
+    }
   };
 
   const handleClassroomChange = (index, event) => {

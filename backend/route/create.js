@@ -9,15 +9,50 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/FixedLecture", (req, res) => {});
+router.post("/FixedLectureProcess", (req, res) => {
 
-router.get("/TimetableManage", (req, res) => {});
+});
 
-router.get("/Professor", (req, res) => {});
+router.post("/TimetableManageProcess", (req, res) => {
+    const { timetableName, timetableDescription } = req.body;
 
-router.get("/Classroom", (req, res) => {});
+    console.log(req.body);
+    res.status(200).json({ 
+        message: "데이터 처리 성공", 
+        timetableName: timetableName,
+        timetableDescription: timetableDescription
+    });
+});
 
-router.get("/ClassroomGroup", (req, res) => {});
+router.post("/ProfessorProcess", (req, res) => {
+    const { professors } = req.body;
 
-router.get("/Lecture", (req, res) => {});
+    professors.forEach((professor, index) => {
+        console.log(`교수 ${index + 1}:`, professor);
+    });
+    res.status(200).json({ 
+        message: "데이터 처리 성공", 
+        professors: professors,
+    });
+});
+
+router.post("/ClassroomProcess", (req, res) => {
+    const { classrooms } = req.body;
+
+    classrooms.forEach((classroom, index) => {
+        console.log(`강의실 ${index + 1}:`, classroom);
+    });
+    res.status(200).json({ 
+        message: "데이터 처리 성공", 
+        classrooms: classrooms,
+    });
+});
+
+router.post("/ClassroomGroupProcess", (req, res) => {
+
+});
+
+router.post("/LectureProcess", (req, res) => {
+
+});
 module.exports = router;

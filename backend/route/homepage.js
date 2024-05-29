@@ -26,10 +26,6 @@ connection.connect((err) => {
   console.log("MySQL 연결 성공");
 });
 
-router.get("/", (req, res) => {});
-
-router.get("/Login", (req, res) => {});
-
 router.post("/loginProcess", (req, res) => {
   const { email, password } = req.body;
 
