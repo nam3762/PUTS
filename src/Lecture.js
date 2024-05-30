@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FormContext } from "./FormContext";
 import userImage from "./public/d.jpg";
@@ -18,13 +19,27 @@ const Lecture = () => {
     setGroupOptions([formData.groupName]);
   }, [formData.groupName]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setFormData({ ...formData, lectures });
-    console.log(formData); // 최종 제출 데이터 확인
-    // 여기서 백엔드로 데이터를 전송하는 로직을 추가합니다.
-    // 예: axios.post('/api/submit', formData)
-    navigate("/FinishInsert");
+  
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/create/LectureProcess",
+        { 
+          lectures,
+        }
+      );
+  
+      sessionStorage.setItem(
+        "lectures",
+        JSON.stringify(response.data.lectures)
+      );
+  
+      navigate("/FinishInsert");
+    } catch (error) {
+      console.error("폼 데이터 제출 실패", error); // 오류 로그
+    }
   };
 
   const handleLectureChange = (index, event) => {

@@ -38,6 +38,7 @@ router.post("/ProfessorProcess", (req, res) => {
 
 router.post("/ClassroomProcess", (req, res) => {
     const { classrooms } = req.body;
+    console.log("ㅇㅇ");
 
     classrooms.forEach((classroom, index) => {
         console.log(`강의실 ${index + 1}:`, classroom);
@@ -49,10 +50,26 @@ router.post("/ClassroomProcess", (req, res) => {
 });
 
 router.post("/ClassroomGroupProcess", (req, res) => {
+    const { groupInfo } = req.body;
 
+    groupInfo.forEach((groupInfo, index) => {
+        console.log(`그룹 ${index + 1}:`, groupInfo);
+    });
+    res.status(200).json({ 
+        message: "데이터 처리 성공", 
+        groupInfo: groupInfo,
+    });
 });
 
 router.post("/LectureProcess", (req, res) => {
+    const { lectures } = req.body;
 
+    lectures.forEach((lectures, index) => {
+        console.log(`강의 ${index + 1}:`, lectures);
+    });
+    res.status(200).json({ 
+        message: "데이터 처리 성공", 
+        lectures: lectures,
+    });
 });
 module.exports = router;

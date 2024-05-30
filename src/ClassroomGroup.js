@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { FormContext } from "./FormContext";
 import userImage from "./public/d.jpg";
@@ -22,10 +23,27 @@ const ClassroomGroup = () => {
     new Array(initialGroupInfo.length).fill("")
   );
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setFormData({ ...formData, groups: groupInfo });
-    navigate("/Lecture");
+  
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/create/ClassroomGroupProcess",
+        { 
+          groupInfo,
+        }
+      );
+  
+      sessionStorage.setItem(
+        "groupInfo",
+        JSON.stringify(response.data.groupInfo)
+      );
+  
+      navigate("/Lecture");
+    } catch (error) {
+      console.error("폼 데이터 제출 실패", error); // 오류 로그
+    }
   };
 
   const handleGroupChange = (index, event) => {
