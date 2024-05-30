@@ -22,19 +22,25 @@ const Classroom = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    try {
-      const response = await axios.post("http://localhost:4000/create/ClassroomProcess", {
-        classrooms: classrooms,
-      });
 
-      sessionStorage.setItem("classrooms", response.data.classrooms);
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/create/ClassroomProcess",
+        {
+          classrooms: classrooms,
+        }
+      );
+
+      sessionStorage.setItem(
+        "classrooms",
+        JSON.stringify(response.data.classrooms)
+      );
 
       console.log(sessionStorage.getItem("classrooms"));
-  
+
       navigate("/ClassroomGroup");
     } catch (error) {
-      console.log("실패")
+      console.log("실패");
     }
   };
 

@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
   host: "puts.cjes4q80oazf.us-east-2.rds.amazonaws.com",
   user: "admin",
   password: "12341234",
-  database: "PUTS",
+  database: "puts",
 });
 
 connection.connect((err) => {

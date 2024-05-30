@@ -9,15 +9,69 @@ const ClassroomGroup = () => {
 
   const { formData, setFormData } = useContext(FormContext);
   const navigate = useNavigate();
-  const [groupInfo, setGroupInfo] = useState({
-    groupName: formData.groupName,
-    groupDescription: formData.groupDescription,
-  });
+  const initialGroupInfo = formData.groups || [
+    {
+      groupName: "",
+      groupDescription: "",
+      classrooms: [],
+    },
+  ];
+
+  const [groupInfo, setGroupInfo] = useState(initialGroupInfo);
+  const [selectedClassrooms, setSelectedClassrooms] = useState(
+    new Array(initialGroupInfo.length).fill("")
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setFormData({ ...formData, ...groupInfo });
+    setFormData({ ...formData, groups: groupInfo });
     navigate("/Lecture");
+  };
+
+  const handleGroupChange = (index, event) => {
+    const { name, value } = event.target;
+    const newGroups = [...groupInfo];
+    newGroups[index][name] = value;
+    setGroupInfo(newGroups);
+  };
+
+  const addGroup = () => {
+    setGroupInfo([
+      ...groupInfo,
+      { groupName: "", groupDescription: "", classrooms: [] },
+    ]);
+    setSelectedClassrooms([...selectedClassrooms, ""]);
+  };
+
+  const removeGroup = (index) => {
+    const newGroups = [...groupInfo];
+    newGroups.splice(index, 1);
+    setGroupInfo(newGroups);
+    const newSelectedClassrooms = [...selectedClassrooms];
+    newSelectedClassrooms.splice(index, 1);
+    setSelectedClassrooms(newSelectedClassrooms);
+  };
+
+  const addClassroomToGroup = (groupIndex, selectedClassroom) => {
+    const newGroups = [...groupInfo];
+    newGroups[groupIndex].classrooms.push(selectedClassroom);
+    setGroupInfo(newGroups);
+    const newSelectedClassrooms = [...selectedClassrooms];
+    newSelectedClassrooms[groupIndex] = "";
+    setSelectedClassrooms(newSelectedClassrooms);
+  };
+
+  const removeClassroomFromGroup = (groupIndex, classroomIndex) => {
+    const newGroups = [...groupInfo];
+    newGroups[groupIndex].classrooms.splice(classroomIndex, 1);
+    setGroupInfo(newGroups);
+  };
+
+  const handleClassroomChange = (groupIndex, classroomIndex, event) => {
+    const { name, value } = event.target;
+    const newGroups = [...groupInfo];
+    newGroups[groupIndex].classrooms[classroomIndex][name] = value;
+    setGroupInfo(newGroups);
   };
 
   const handleEditProfile = () => {
@@ -27,6 +81,9 @@ const ClassroomGroup = () => {
   const handleManageTimetable = () => {
     console.log("Timetable Management clicked");
   };
+
+  const storedClassrooms =
+    JSON.parse(sessionStorage.getItem("classrooms")) || [];
 
   return (
     <div className="flex flex-col items-center">
@@ -64,39 +121,126 @@ const ClassroomGroup = () => {
           <h2 className="text-2xl font-bold mb-4">STEP 4</h2>
           <h2 className="text-xl font-semibold mb-6">강의실 그룹 정보 입력</h2>
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label htmlFor="groupName" className="block font-medium">
-                그룹 이름:
-              </label>
-              <input
-                type="text"
-                id="groupName"
-                name="groupName"
-                value={groupInfo.groupName}
-                onChange={(e) =>
-                  setGroupInfo({ ...groupInfo, groupName: e.target.value })
-                }
-                className="mt-1 p-2 border rounded w-full"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="groupDescription" className="block font-medium">
-                그룹 설명:
-              </label>
-              <input
-                type="text"
-                id="groupDescription"
-                name="groupDescription"
-                value={groupInfo.groupDescription}
-                onChange={(e) =>
-                  setGroupInfo({
-                    ...groupInfo,
-                    groupDescription: e.target.value,
-                  })
-                }
-                className="mt-1 p-2 border rounded w-full"
-              />
-            </div>
+            {groupInfo.map((group, groupIndex) => (
+              <div
+                key={groupIndex}
+                className="mb-6 p-4 border-2 border-blue-400 rounded"
+              >
+                <div className="mb-4">
+                  <label
+                    htmlFor={`groupName-${groupIndex}`}
+                    className="block font-medium"
+                  >
+                    그룹 이름:
+                  </label>
+                  <input
+                    type="text"
+                    id={`groupName-${groupIndex}`}
+                    name="groupName"
+                    value={group.groupName}
+                    onChange={(e) => handleGroupChange(groupIndex, e)}
+                    className="mt-1 p-2 border rounded w-full"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor={`groupDescription-${groupIndex}`}
+                    className="block font-medium"
+                  >
+                    그룹 설명:
+                  </label>
+                  <input
+                    type="text"
+                    id={`groupDescription-${groupIndex}`}
+                    name="groupDescription"
+                    value={group.groupDescription}
+                    onChange={(e) => handleGroupChange(groupIndex, e)}
+                    className="mt-1 p-2 border rounded w-full"
+                  />
+                </div>
+                {group.classrooms.map((classroom, classroomIndex) => (
+                  <div key={classroomIndex} className="mb-4">
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <label className="block font-medium">건물명:</label>
+                        <input
+                          type="text"
+                          value={classroom.buildingName}
+                          className="mt-1 p-2 border rounded w-full"
+                          readOnly
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-medium">
+                          강의실 번호:
+                        </label>
+                        <input
+                          type="text"
+                          value={classroom.classroomID}
+                          className="mt-1 p-2 border rounded w-full"
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        removeClassroomFromGroup(groupIndex, classroomIndex)
+                      }
+                      className="py-2 px-4 bg-red-500 text-white rounded"
+                    >
+                      강의실 삭제
+                    </button>
+                  </div>
+                ))}
+                <div className="mb-4">
+                  <label className="block font-medium">강의실 추가:</label>
+                  <select
+                    value={selectedClassrooms[groupIndex]}
+                    onChange={(e) => {
+                      const selectedClassroom = storedClassrooms.find(
+                        (classroom) => classroom.classroomID === e.target.value
+                      );
+                      if (selectedClassroom) {
+                        addClassroomToGroup(groupIndex, selectedClassroom);
+                      }
+                    }}
+                    className="mt-1 p-2 border rounded w-full"
+                  >
+                    <option value="">강의실 선택</option>
+                    {storedClassrooms
+                      .filter(
+                        (classroom) =>
+                          !group.classrooms.some(
+                            (selected) =>
+                              selected.classroomID === classroom.classroomID
+                          )
+                      )
+                      .map((classroom, index) => (
+                        <option key={index} value={classroom.classroomID}>
+                          {`${classroom.buildingName}-${classroom.classroomID}`}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                {groupInfo.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeGroup(groupIndex)}
+                    className="py-2 px-4 bg-red-500 text-white rounded"
+                  >
+                    그룹 삭제
+                  </button>
+                )}
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addGroup}
+              className="py-2 px-4 bg-blue-500 text-white rounded mb-4"
+            >
+              그룹 추가
+            </button>
             <button
               type="submit"
               className="py-2 px-4 bg-green-500 text-white rounded"
