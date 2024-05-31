@@ -11,31 +11,37 @@ const Lecture = () => {
   const { formData, setFormData } = useContext(FormContext);
   const navigate = useNavigate();
 
-  const [lectures, setLectures] = useState(formData.lectures);
+  const [lectures, setLectures] = useState(
+    formData.lectures.map((lecture) => ({
+      ...lecture,
+      groupNames: lecture.groupNames || [], // groupNames가 정의되지 않은 경우 빈 배열로 초기화
+    }))
+  );
   const [groupOptions, setGroupOptions] = useState([]);
 
   useEffect(() => {
     // STEP 4에서 입력된 강의실 그룹 이름을 드롭다운 메뉴에 전달
-    setGroupOptions([formData.groupName]);
-  }, [formData.groupName]);
+    const groups = formData.groups || []; // formData.groups가 정의되지 않은 경우 빈 배열로 초기화
+    setGroupOptions(groups.map((group) => group.groupName));
+  }, [formData.groups]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setFormData({ ...formData, lectures });
-  
+
     try {
       const response = await axios.post(
         "http://localhost:4000/create/LectureProcess",
-        { 
+        {
           lectures,
         }
       );
-  
+
       sessionStorage.setItem(
         "lectures",
         JSON.stringify(response.data.lectures)
       );
-  
+
       navigate("/FinishInsert");
     } catch (error) {
       console.error("폼 데이터 제출 실패", error); // 오류 로그
@@ -52,6 +58,19 @@ const Lecture = () => {
     const newLectures = [...lectures];
     newLectures[lectureIndex].sections[sectionIndex][event.target.name] =
       event.target.value;
+    setLectures(newLectures);
+  };
+
+  const handleGroupCheckboxChange = (lectureIndex, groupName) => {
+    const newLectures = [...lectures];
+    const groupNames = newLectures[lectureIndex].groupNames || [];
+    if (groupNames.includes(groupName)) {
+      newLectures[lectureIndex].groupNames = groupNames.filter(
+        (name) => name !== groupName
+      );
+    } else {
+      newLectures[lectureIndex].groupNames = [...groupNames, groupName];
+    }
     setLectures(newLectures);
   };
 
@@ -79,7 +98,8 @@ const Lecture = () => {
       {
         lectureName: "",
         lectureTime: "",
-        groupName: "",
+        lectureYear: "",
+        groupNames: [],
         sections: [{ division: "", sectionTime: "", enrollment: "" }],
       },
     ]);
@@ -179,27 +199,6 @@ const Lecture = () => {
                   </div>
                   <div className="form-group">
                     <label
-                      htmlFor={`groupName-${lectureIndex}`}
-                      className="block font-medium"
-                    >
-                      강의실 그룹:
-                    </label>
-                    <select
-                      id={`groupName-${lectureIndex}`}
-                      name="groupName"
-                      value={lecture.groupName}
-                      onChange={(e) => handleLectureChange(lectureIndex, e)}
-                      className="mt-1 p-2 border rounded w-full"
-                    >
-                      {groupOptions.map((group, idx) => (
-                        <option key={idx} value={group}>
-                          {group}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label
                       htmlFor={`year-${lectureIndex}`}
                       className="block font-medium"
                     >
@@ -209,11 +208,33 @@ const Lecture = () => {
                       type="number"
                       id={`year-${lectureIndex}`}
                       name="year"
-                      value={lecture.lectureTime}
+                      value={lecture.lectureYear}
                       onChange={(e) => handleLectureChange(lectureIndex, e)}
                       placeholder="학년"
                       className="mt-1 p-2 border rounded w-full"
                     />
+                  </div>
+                  <div className="form-group md:col-span-3">
+                    <label className="block font-medium">강의실 그룹:</label>
+                    <div className="flex flex-wrap">
+                      {groupOptions.map((group, idx) => (
+                        <div key={idx} className="mr-4 mb-2">
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="groupNames"
+                              value={group}
+                              checked={lecture.groupNames.includes(group)}
+                              onChange={() =>
+                                handleGroupCheckboxChange(lectureIndex, group)
+                              }
+                              className="mr-2"
+                            />
+                            {group}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
                 {lecture.sections.map((section, sectionIndex) => (
