@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import userImage from "./public/d.jpg"; // Update the path as necessary
+import userImage from "./public/d.jpg";
 
 function MyPage() {
   const email = localStorage.getItem("email");
@@ -35,7 +35,7 @@ function MyPage() {
               onClick={handleEditProfile}
               className="bg-indigo-500 text-white py-2 w-full rounded-md mb-2 hover:bg-indigo-700 transition duration-200"
             >
-              Edit Profile
+              개인 정보 수정
             </button>
           </Link>
           <Link to="/timetablemanage" className="w-full">
@@ -43,7 +43,7 @@ function MyPage() {
               onClick={handleManageTimetable}
               className="bg-purple-500 text-white py-2 w-full rounded-md hover:bg-purple-700 transition duration-200"
             >
-              Timetable Management
+              시간표 관리
             </button>
           </Link>
         </aside>
@@ -52,10 +52,10 @@ function MyPage() {
             <h2 className="text-2xl font-semibold">2023-1학기</h2>
             <div>
               <button className="bg-green-500 text-white py-2 px-4 rounded-md mr-2 hover:bg-green-700 transition duration-200">
-                UPDATE
+                수정
               </button>
               <button className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-200">
-                DELETE
+                삭제
               </button>
             </div>
           </div>

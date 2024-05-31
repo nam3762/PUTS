@@ -15,22 +15,28 @@ const TimetableManage = () => {
     event.preventDefault();
 
     const { timetableName, timetableDescription } = formData;
-    
+
     try {
-      const response = await axios.post("http://localhost:4000/create/TimetableManageProcess", {
-        timetableName,
-        timetableDescription,
-      });
+      const response = await axios.post(
+        "http://localhost:4000/create/TimetableManageProcess",
+        {
+          timetableName,
+          timetableDescription,
+        }
+      );
 
       sessionStorage.setItem("timetableName", response.data.timetableName);
-      sessionStorage.setItem("timetableDescription", response.data.timetableDescription);
+      sessionStorage.setItem(
+        "timetableDescription",
+        response.data.timetableDescription
+      );
 
       console.log(sessionStorage.getItem("timetableName"));
       console.log(sessionStorage.getItem("timetableDescription"));
-  
+
       navigate("/Professor");
     } catch (error) {
-      console.log("실패")
+      console.log("실패");
     }
   };
 
@@ -66,7 +72,7 @@ const TimetableManage = () => {
               onClick={handleEditProfile}
               className="bg-indigo-500 text-white py-2 w-full rounded-md mb-2 hover:bg-indigo-700 transition duration-200"
             >
-              Edit Profile
+              개인 정보 수정
             </button>
           </Link>
           <Link to="/timetablemanage" className="w-full">
@@ -74,7 +80,7 @@ const TimetableManage = () => {
               onClick={handleManageTimetable}
               className="bg-purple-500 text-white py-2 w-full rounded-md hover:bg-purple-700 transition duration-200"
             >
-              Timetable Management
+              시간표 관리
             </button>
           </Link>
         </aside>

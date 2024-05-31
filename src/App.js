@@ -15,6 +15,8 @@ import FinishInsert from "./FinishInsert";
 import FirstPage from "./Firstpage";
 import LoginPage from "./Login";
 import { FormProvider } from "./FormContext";
+import FixedLecture from "./FixedLecture";
+import ModifyTimetable from "./ModifyTimetable";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,6 +53,8 @@ function App() {
           <Route path="/FinishInsert" element={<FinishInsert />} />
           <Route path="/Professor" element={<Professor />} />
           <Route path="/Firstpage" element={<FirstPage />} />
+          <Route path="/Fixedlecture" element={<FixedLecture />} />
+          <Route path="/ModifyTimetable" element={<ModifyTimetable />} />
           <Route path="/Login" element={<LoginPage onLogin={handleLogin} />} />
           {/* 추가 경로 정의 가능 */}
         </Routes>

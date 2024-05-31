@@ -28,19 +28,22 @@ const Professor = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     try {
-      const response = await axios.post("http://localhost:4000/create/ProfessorProcess", {
-        professors: professors,
-      });
+      const response = await axios.post(
+        "http://localhost:4000/create/ProfessorProcess",
+        {
+          professors: professors,
+        }
+      );
 
       sessionStorage.setItem("professors", response.data.professors);
 
       console.log(sessionStorage.getItem("professors"));
-  
+
       navigate("/Classroom");
     } catch (error) {
-      console.log("실패")
+      console.log("실패");
     }
   };
 
@@ -137,7 +140,7 @@ const Professor = () => {
               onClick={handleEditProfile}
               className="bg-indigo-500 text-white py-2 w-full rounded-md mb-2 hover:bg-indigo-700 transition duration-200"
             >
-              Edit Profile
+              개인 정보 수정
             </button>
           </Link>
           <Link to="/timetablemanage" className="w-full">
@@ -145,7 +148,7 @@ const Professor = () => {
               onClick={handleManageTimetable}
               className="bg-purple-500 text-white py-2 w-full rounded-md hover:bg-purple-700 transition duration-200"
             >
-              Timetable Management
+              시간표 관리
             </button>
           </Link>
         </aside>
@@ -159,7 +162,7 @@ const Professor = () => {
                 className="mb-6 p-4 border-2 border-green-400 rounded"
               >
                 <div className="mb-4">
-                  <label 
+                  <label
                     htmlFor={`professorName-${index}`}
                     className="block font-medium"
                   >
@@ -183,14 +186,14 @@ const Professor = () => {
                       onChange={(e) => handleProfessorChange(index, e)}
                       className="mr-2"
                     />
-                    교수
+                    교수 여부 (미체크시 강사)
                   </label>
                 </div>
                 <div className="flex">
                   <div className="w-1/2 pr-2">
                     <fieldset className="mb-4">
-                      <legend className="block font-medium mb-2">
-                        Off-time:
+                      <legend className="block font-medium mb-2 bg-red-500 rounded-md p-1 text-white">
+                        강의 불가능한 시간
                       </legend>
                       <div className="grid grid-cols-5 gap-2">
                         {weekdays.map((day, dayIndex) => (
@@ -216,7 +219,8 @@ const Professor = () => {
                                 onClick={() =>
                                   toggleCell(index, "offTimes", day, period)
                                 }
-                                className={`w-full h-12 flex items-center justify-center cursor-pointer border rounded ${
+                                className={`w-full h-12 flex items-center justify-center cursor-pointer border rounded 
+                                hover:bg-red-400 transition duration-200 ${
                                   professor.offTimes.some(
                                     (t) => t.day === day && t.period === period
                                   )
@@ -234,8 +238,8 @@ const Professor = () => {
                   </div>
                   <div className="w-1/2 pl-2">
                     <fieldset className="mb-4">
-                      <legend className="block font-medium mb-2">
-                        Hope-time:
+                      <legend className="block font-medium mb-2 bg-green-500 rounded-md p-1 text-white">
+                        선호 시간
                       </legend>
                       <div className="grid grid-cols-5 gap-2">
                         {weekdays.map((day, dayIndex) => (
@@ -261,7 +265,8 @@ const Professor = () => {
                                 onClick={() =>
                                   toggleCell(index, "hopeTimes", day, period)
                                 }
-                                className={`w-full h-12 flex items-center justify-center cursor-pointer border rounded ${
+                                className={`w-full h-12 flex items-center justify-center cursor-pointer border rounded 
+                                hover:bg-green-400 transition duration-200 ${
                                   professor.hopeTimes.some(
                                     (t) => t.day === day && t.period === period
                                   )

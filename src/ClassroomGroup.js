@@ -26,20 +26,20 @@ const ClassroomGroup = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setFormData({ ...formData, groups: groupInfo });
-  
+
     try {
       const response = await axios.post(
         "http://localhost:4000/create/ClassroomGroupProcess",
-        { 
+        {
           groupInfo,
         }
       );
-  
+
       sessionStorage.setItem(
         "groupInfo",
         JSON.stringify(response.data.groupInfo)
       );
-  
+
       navigate("/Lecture");
     } catch (error) {
       console.error("폼 데이터 제출 실패", error); // 오류 로그
@@ -123,7 +123,7 @@ const ClassroomGroup = () => {
               onClick={handleEditProfile}
               className="bg-indigo-500 text-white py-2 w-full rounded-md mb-2 hover:bg-indigo-700 transition duration-200"
             >
-              Edit Profile
+              개인 정보 수정
             </button>
           </Link>
           <Link to="/timetablemanage" className="w-full">
@@ -131,7 +131,7 @@ const ClassroomGroup = () => {
               onClick={handleManageTimetable}
               className="bg-purple-500 text-white py-2 w-full rounded-md hover:bg-purple-700 transition duration-200"
             >
-              Timetable Management
+              시간표 관리
             </button>
           </Link>
         </aside>

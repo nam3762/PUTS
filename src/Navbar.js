@@ -22,7 +22,10 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
         <div className="flex items-center justify-center">
           <nav className="flex items-center gap-8 p-0">
             <span className="text-xl hidden md:block">
-              <Link to="/firstpage">Temp page</Link>
+              <Link to="/FixedLecture">♥</Link>
+            </span>
+            <span className="text-xl hidden md:block">
+              <Link to="/ModifyTimetable">♡</Link>
             </span>
             {isLoggedIn ? (
               <span className="text-xl hidden md:block">

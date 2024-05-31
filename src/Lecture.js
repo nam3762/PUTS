@@ -141,7 +141,7 @@ const Lecture = () => {
               onClick={handleEditProfile}
               className="bg-indigo-500 text-white py-2 w-full rounded-md mb-2 hover:bg-indigo-700 transition duration-200"
             >
-              Edit Profile
+              개인 정보 수정
             </button>
           </Link>
           <Link to="/timetablemanage" className="w-full">
@@ -149,13 +149,13 @@ const Lecture = () => {
               onClick={handleManageTimetable}
               className="bg-purple-500 text-white py-2 w-full rounded-md hover:bg-purple-700 transition duration-200"
             >
-              Timetable Management
+              시간표 관리
             </button>
           </Link>
         </aside>
         <div className="flex-grow p-6">
           <h2 className="text-2xl font-bold mb-4">STEP 5</h2>
-          <h2 className="text-xl font-semibold mb-6">강의 정보 입력</h2>
+          <h2 className="text-xl font-semibold mb-6">교과목 정보 입력</h2>
           <form onSubmit={handleSubmit}>
             {lectures.map((lecture, lectureIndex) => (
               <div
@@ -168,7 +168,7 @@ const Lecture = () => {
                       htmlFor={`lectureName-${lectureIndex}`}
                       className="block font-medium"
                     >
-                      강의명:
+                      교과목명:
                     </label>
                     <input
                       type="text"
