@@ -1,0 +1,38 @@
+Evaluation Details:
+- Professor P007 did not lecture at least 2 days: -5 points
+- Professor P014 did not lecture at least 2 days: -5 points
+- Professor P015 did not lecture at least 2 days: -5 points
+- Professor P016 did not lecture at least 2 days: -5 points
+- Professor P017 did not lecture at least 2 days: -5 points
+- Professor P018 did not lecture at least 2 days: -5 points
+- Professor P019 did not lecture at least 2 days: -5 points
+- Professor P020 did not lecture at least 2 days: -5 points
+- Professor P021 did not lecture at least 2 days: -5 points
+- Professor P022 did not lecture at least 2 days: -5 points
+- Professor P023 did not lecture at least 2 days: -5 points
+- Professor P024 did not lecture at least 2 days: -5 points
+- Professor P025 did not lecture at least 2 days: -5 points
+- Professor P026 did not lecture at least 2 days: -5 points
+- Professor P027 did not lecture at least 2 days: -5 points
+- Lecture SW002 at 1st period: -1 point
+- Lecture SW008 at 1st period: -1 point
+- Lecture SW013 at 1st period: -1 point
+- Preferred time slot for lecture SW013: +1 point
+- Lecture SW018 at 1st period: -1 point
+- Lecture SW011 at 1st period: -1 point
+- Lecture SW004 at 1st period: -1 point
+- Lecture SW003 at 1st period: -1 point
+- Lecture SW014 during lunch time (4th or 5th period): -5 points
+- Lecture SW010 during lunch time (4th or 5th period): -5 points
+- Lecture SW001 at 1st period: -1 point
+- Lecture SW006 during lunch time (4th or 5th period): -5 points
+- Lecture SW010 at 1st period: -1 point
+- Lecture SW007 during lunch time (4th or 5th period): -5 points
+- Lecture SW010 during lunch time (4th or 5th period): -5 points
+- Lecture SW004 during lunch time (4th or 5th period): -5 points
+- Preferred time slot for lecture SW016: +1 point
+- Lecture SW010 at 1st period: -1 point
+- Lecture SW022 at 1st period: -1 point
+- Lecture SW012 at 1st period: -1 point
+- Lecture SW006 during lunch time (4th or 5th period): -5 points
+- Lecture SW004 during lunch time (4th or 5th period): -5 points

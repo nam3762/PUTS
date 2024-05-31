@@ -1,0 +1,1193 @@
+{
+    "professor_schedules": {
+        "P001": {
+            "lectures": [
+                {
+                    "day": 2,
+                    "period": 1,
+                    "lecture": "SW008",
+                    "division": "A",
+                    "classroom": "505",
+                    "year": 2,
+                    "duration": 2
+                },
+                {
+                    "day": 1,
+                    "period": 6,
+                    "lecture": "SW021",
+                    "division": "A",
+                    "classroom": "106",
+                    "year": 4,
+                    "duration": 1
+                },
+                {
+                    "day": 3,
+                    "period": 7,
+                    "lecture": "SW021",
+                    "division": "A",
+                    "classroom": "102",
+                    "year": 4,
+                    "duration": 2
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 4,
+                    "period": 1
+                },
+                {
+                    "day": 4,
+                    "period": 2
+                },
+                {
+                    "day": 4,
+                    "period": 3
+                },
+                {
+                    "day": 4,
+                    "period": 4
+                },
+                {
+                    "day": 4,
+                    "period": 5
+                },
+                {
+                    "day": 4,
+                    "period": 6
+                },
+                {
+                    "day": 4,
+                    "period": 7
+                },
+                {
+                    "day": 4,
+                    "period": 8
+                },
+                {
+                    "day": 4,
+                    "period": 9
+                },
+                {
+                    "day": 5,
+                    "period": 1
+                },
+                {
+                    "day": 5,
+                    "period": 2
+                },
+                {
+                    "day": 5,
+                    "period": 3
+                },
+                {
+                    "day": 5,
+                    "period": 4
+                },
+                {
+                    "day": 5,
+                    "period": 5
+                },
+                {
+                    "day": 5,
+                    "period": 6
+                },
+                {
+                    "day": 5,
+                    "period": 7
+                },
+                {
+                    "day": 5,
+                    "period": 8
+                },
+                {
+                    "day": 5,
+                    "period": 9
+                }
+            ]
+        },
+        "P002": {
+            "lectures": [
+                {
+                    "day": 5,
+                    "period": 1,
+                    "lecture": "SW011",
+                    "division": "A",
+                    "classroom": "106",
+                    "year": 3,
+                    "duration": 2
+                },
+                {
+                    "day": 2,
+                    "period": 8,
+                    "lecture": "SW011",
+                    "division": "A",
+                    "classroom": "102",
+                    "year": 3,
+                    "duration": 1
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 3,
+                    "period": 3
+                },
+                {
+                    "day": 5,
+                    "period": 6
+                }
+            ]
+        },
+        "P003": {
+            "lectures": [
+                {
+                    "day": 1,
+                    "period": 1,
+                    "lecture": "SW002",
+                    "division": "A",
+                    "classroom": "505",
+                    "year": 1,
+                    "duration": 2
+                },
+                {
+                    "day": 4,
+                    "period": 8,
+                    "lecture": "SW022",
+                    "division": "A",
+                    "classroom": "102",
+                    "year": 4,
+                    "duration": 4
+                },
+                {
+                    "day": 4,
+                    "period": 6,
+                    "lecture": "SW006",
+                    "division": "A",
+                    "classroom": "204",
+                    "year": 2,
+                    "duration": 2
+                },
+                {
+                    "day": 2,
+                    "period": 5,
+                    "lecture": "SW006",
+                    "division": "A",
+                    "classroom": "204",
+                    "year": 2,
+                    "duration": 2
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 1,
+                    "period": 1
+                },
+                {
+                    "day": 1,
+                    "period": 2
+                },
+                {
+                    "day": 1,
+                    "period": 3
+                },
+                {
+                    "day": 1,
+                    "period": 4
+                },
+                {
+                    "day": 1,
+                    "period": 5
+                },
+                {
+                    "day": 1,
+                    "period": 6
+                },
+                {
+                    "day": 1,
+                    "period": 7
+                },
+                {
+                    "day": 1,
+                    "period": 8
+                },
+                {
+                    "day": 1,
+                    "period": 9
+                },
+                {
+                    "day": 1,
+                    "period": 1
+                },
+                {
+                    "day": 1,
+                    "period": 2
+                },
+                {
+                    "day": 1,
+                    "period": 3
+                },
+                {
+                    "day": 1,
+                    "period": 4
+                },
+                {
+                    "day": 1,
+                    "period": 5
+                },
+                {
+                    "day": 1,
+                    "period": 6
+                },
+                {
+                    "day": 1,
+                    "period": 7
+                },
+                {
+                    "day": 1,
+                    "period": 8
+                },
+                {
+                    "day": 1,
+                    "period": 9
+                }
+            ]
+        },
+        "P004": {
+            "lectures": [
+                {
+                    "day": 4,
+                    "period": 1,
+                    "lecture": "SW018",
+                    "division": "A",
+                    "classroom": "505",
+                    "year": 4,
+                    "duration": 2
+                },
+                {
+                    "day": 4,
+                    "period": 6,
+                    "lecture": "SW014",
+                    "division": "A",
+                    "classroom": "201",
+                    "year": 3,
+                    "duration": 2
+                },
+                {
+                    "day": 1,
+                    "period": 3,
+                    "lecture": "SW014",
+                    "division": "A",
+                    "classroom": "206",
+                    "year": 3,
+                    "duration": 2
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 4,
+                    "period": 4
+                },
+                {
+                    "day": 2,
+                    "period": 1
+                }
+            ]
+        },
+        "P005": {
+            "lectures": [
+                {
+                    "day": 1,
+                    "period": 8,
+                    "lecture": "SW017",
+                    "division": "A",
+                    "classroom": "103",
+                    "year": 3,
+                    "duration": 1
+                },
+                {
+                    "day": 3,
+                    "period": 2,
+                    "lecture": "SW017",
+                    "division": "A",
+                    "classroom": "103",
+                    "year": 3,
+                    "duration": 2
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 1,
+                    "period": 5
+                },
+                {
+                    "day": 2,
+                    "period": 2
+                },
+                {
+                    "day": 4,
+                    "period": 9
+                }
+            ]
+        },
+        "P006": {
+            "lectures": [
+                {
+                    "day": 2,
+                    "period": 7,
+                    "lecture": "SW011",
+                    "division": "B",
+                    "classroom": "106",
+                    "year": 3,
+                    "duration": 2
+                },
+                {
+                    "day": 4,
+                    "period": 8,
+                    "lecture": "SW011",
+                    "division": "B",
+                    "classroom": "103",
+                    "year": 3,
+                    "duration": 1
+                },
+                {
+                    "day": 3,
+                    "period": 1,
+                    "lecture": "SW022",
+                    "division": "B",
+                    "classroom": "201",
+                    "year": 4,
+                    "duration": 4
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 3,
+                    "period": 5
+                },
+                {
+                    "day": 5,
+                    "period": 1
+                },
+                {
+                    "day": 4,
+                    "period": 7
+                }
+            ]
+        },
+        "P007": {
+            "lectures": [],
+            "off_times": [
+                {
+                    "day": 1,
+                    "period": 2
+                },
+                {
+                    "day": 3,
+                    "period": 6
+                }
+            ]
+        },
+        "P008": {
+            "lectures": [
+                {
+                    "day": 5,
+                    "period": 9,
+                    "lecture": "SW012",
+                    "division": "A",
+                    "classroom": "106",
+                    "year": 3,
+                    "duration": 2
+                },
+                {
+                    "day": 1,
+                    "period": 1,
+                    "lecture": "SW012",
+                    "division": "A",
+                    "classroom": "104",
+                    "year": 3,
+                    "duration": 1
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 5,
+                    "period": 3
+                },
+                {
+                    "day": 1,
+                    "period": 8
+                }
+            ]
+        },
+        "P009": {
+            "lectures": [
+                {
+                    "day": 1,
+                    "period": 1,
+                    "lecture": "SW003",
+                    "division": "A",
+                    "classroom": "103",
+                    "year": 2,
+                    "duration": 1
+                },
+                {
+                    "day": 2,
+                    "period": 2,
+                    "lecture": "SW007",
+                    "division": "A",
+                    "classroom": "106",
+                    "year": 2,
+                    "duration": 2
+                },
+                {
+                    "day": 2,
+                    "period": 9,
+                    "lecture": "SW003",
+                    "division": "A",
+                    "classroom": "102",
+                    "year": 2,
+                    "duration": 2
+                },
+                {
+                    "day": 5,
+                    "period": 4,
+                    "lecture": "SW007",
+                    "division": "A",
+                    "classroom": "103",
+                    "year": 2,
+                    "duration": 1
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 4,
+                    "period": 2
+                },
+                {
+                    "day": 2,
+                    "period": 6
+                },
+                {
+                    "day": 1,
+                    "period": 9
+                }
+            ]
+        },
+        "P010": {
+            "lectures": [
+                {
+                    "day": 3,
+                    "period": 7,
+                    "lecture": "SW010",
+                    "division": "A",
+                    "classroom": "104",
+                    "year": 3,
+                    "duration": 2
+                },
+                {
+                    "day": 3,
+                    "period": 4,
+                    "lecture": "SW010",
+                    "division": "B",
+                    "classroom": "104",
+                    "year": 3,
+                    "duration": 1
+                },
+                {
+                    "day": 2,
+                    "period": 1,
+                    "lecture": "SW010",
+                    "division": "A",
+                    "classroom": "102",
+                    "year": 3,
+                    "duration": 1
+                },
+                {
+                    "day": 4,
+                    "period": 9,
+                    "lecture": "SW010",
+                    "division": "B",
+                    "classroom": "103",
+                    "year": 3,
+                    "duration": 2
+                },
+                {
+                    "day": 4,
+                    "period": 4,
+                    "lecture": "SW004",
+                    "division": "A",
+                    "classroom": "106",
+                    "year": 2,
+                    "duration": 1
+                },
+                {
+                    "day": 1,
+                    "period": 9,
+                    "lecture": "SW004",
+                    "division": "A",
+                    "classroom": "103",
+                    "year": 2,
+                    "duration": 2
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 3,
+                    "period": 1
+                },
+                {
+                    "day": 5,
+                    "period": 4
+                },
+                {
+                    "day": 2,
+                    "period": 8
+                }
+            ]
+        },
+        "P011": {
+            "lectures": [
+                {
+                    "day": 5,
+                    "period": 6,
+                    "lecture": "SW003",
+                    "division": "B",
+                    "classroom": "102",
+                    "year": 2,
+                    "duration": 2
+                },
+                {
+                    "day": 2,
+                    "period": 9,
+                    "lecture": "SW011",
+                    "division": "C",
+                    "classroom": "106",
+                    "year": 3,
+                    "duration": 2
+                },
+                {
+                    "day": 1,
+                    "period": 7,
+                    "lecture": "SW011",
+                    "division": "C",
+                    "classroom": "103",
+                    "year": 3,
+                    "duration": 1
+                },
+                {
+                    "day": 3,
+                    "period": 2,
+                    "lecture": "SW003",
+                    "division": "B",
+                    "classroom": "104",
+                    "year": 2,
+                    "duration": 1
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 4,
+                    "period": 5
+                },
+                {
+                    "day": 1,
+                    "period": 3
+                },
+                {
+                    "day": 3,
+                    "period": 9
+                }
+            ]
+        },
+        "P012": {
+            "lectures": [
+                {
+                    "day": 3,
+                    "period": 1,
+                    "lecture": "SW013",
+                    "division": "A",
+                    "classroom": "505",
+                    "year": 3,
+                    "duration": 2
+                },
+                {
+                    "day": 2,
+                    "period": 6,
+                    "lecture": "SW021",
+                    "division": "B",
+                    "classroom": "101",
+                    "year": 4,
+                    "duration": 3
+                },
+                {
+                    "day": 4,
+                    "period": 3,
+                    "lecture": "SW016",
+                    "division": "A",
+                    "classroom": "101",
+                    "year": 3,
+                    "duration": 3
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 2,
+                    "period": 3
+                },
+                {
+                    "day": 4,
+                    "period": 6
+                },
+                {
+                    "day": 5,
+                    "period": 8
+                }
+            ]
+        },
+        "P013": {
+            "lectures": [
+                {
+                    "day": 2,
+                    "period": 7,
+                    "lecture": "SW003",
+                    "division": "C",
+                    "classroom": "104",
+                    "year": 2,
+                    "duration": 2
+                },
+                {
+                    "day": 5,
+                    "period": 5,
+                    "lecture": "SW010",
+                    "division": "C",
+                    "classroom": "104",
+                    "year": 3,
+                    "duration": 1
+                },
+                {
+                    "day": 4,
+                    "period": 3,
+                    "lecture": "SW004",
+                    "division": "B",
+                    "classroom": "103",
+                    "year": 2,
+                    "duration": 1
+                },
+                {
+                    "day": 4,
+                    "period": 1,
+                    "lecture": "SW010",
+                    "division": "C",
+                    "classroom": "101",
+                    "year": 3,
+                    "duration": 2
+                },
+                {
+                    "day": 5,
+                    "period": 3,
+                    "lecture": "SW005",
+                    "division": "A",
+                    "classroom": "101",
+                    "year": 2,
+                    "duration": 1
+                },
+                {
+                    "day": 1,
+                    "period": 2,
+                    "lecture": "SW005",
+                    "division": "A",
+                    "classroom": "106",
+                    "year": 2,
+                    "duration": 2
+                },
+                {
+                    "day": 5,
+                    "period": 8,
+                    "lecture": "SW003",
+                    "division": "C",
+                    "classroom": "104",
+                    "year": 2,
+                    "duration": 1
+                },
+                {
+                    "day": 1,
+                    "period": 5,
+                    "lecture": "SW004",
+                    "division": "B",
+                    "classroom": "101",
+                    "year": 2,
+                    "duration": 2
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 1,
+                    "period": 4
+                },
+                {
+                    "day": 3,
+                    "period": 2
+                },
+                {
+                    "day": 5,
+                    "period": 9
+                }
+            ]
+        },
+        "P014": {
+            "lectures": [
+                {
+                    "day": 4,
+                    "period": 8,
+                    "lecture": "SW001",
+                    "division": "A",
+                    "classroom": "104",
+                    "year": 1,
+                    "duration": 1
+                },
+                {
+                    "day": 5,
+                    "period": 1,
+                    "lecture": "SW001",
+                    "division": "C",
+                    "classroom": "102",
+                    "year": 1,
+                    "duration": 2
+                },
+                {
+                    "day": 3,
+                    "period": 8,
+                    "lecture": "SW001",
+                    "division": "B",
+                    "classroom": "101",
+                    "year": 1,
+                    "duration": 1
+                },
+                {
+                    "day": 2,
+                    "period": 2,
+                    "lecture": "SW001",
+                    "division": "B",
+                    "classroom": "104",
+                    "year": 1,
+                    "duration": 2
+                },
+                {
+                    "day": 3,
+                    "period": 3,
+                    "lecture": "SW001",
+                    "division": "A",
+                    "classroom": "106",
+                    "year": 1,
+                    "duration": 2
+                },
+                {
+                    "day": 3,
+                    "period": 7,
+                    "lecture": "SW001",
+                    "division": "C",
+                    "classroom": "101",
+                    "year": 1,
+                    "duration": 1
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 4,
+                    "period": 3
+                },
+                {
+                    "day": 2,
+                    "period": 7
+                },
+                {
+                    "day": 1,
+                    "period": 6
+                }
+            ]
+        },
+        "P015": {
+            "lectures": [
+                {
+                    "day": 4,
+                    "period": 1,
+                    "lecture": "SW004",
+                    "division": "C",
+                    "classroom": "106",
+                    "year": 2,
+                    "duration": 3
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 3,
+                    "period": 4
+                },
+                {
+                    "day": 5,
+                    "period": 2
+                },
+                {
+                    "day": 1,
+                    "period": 7
+                }
+            ]
+        },
+        "P016": {
+            "lectures": [
+                {
+                    "day": 1,
+                    "period": 4,
+                    "lecture": "SW014",
+                    "division": "B",
+                    "classroom": "204",
+                    "year": 3,
+                    "duration": 2
+                },
+                {
+                    "day": 5,
+                    "period": 9,
+                    "lecture": "SW020",
+                    "division": "A",
+                    "classroom": "204",
+                    "year": 4,
+                    "duration": 2
+                },
+                {
+                    "day": 5,
+                    "period": 7,
+                    "lecture": "SW014",
+                    "division": "B",
+                    "classroom": "204",
+                    "year": 3,
+                    "duration": 2
+                },
+                {
+                    "day": 4,
+                    "period": 6,
+                    "lecture": "SW020",
+                    "division": "A",
+                    "classroom": "205",
+                    "year": 4,
+                    "duration": 2
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 2,
+                    "period": 5
+                },
+                {
+                    "day": 4,
+                    "period": 1
+                },
+                {
+                    "day": 1,
+                    "period": 8
+                }
+            ]
+        },
+        "P017": {
+            "lectures": [
+                {
+                    "day": 1,
+                    "period": 7,
+                    "lecture": "SW019",
+                    "division": "A",
+                    "classroom": "201",
+                    "year": 4,
+                    "duration": 4
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 5,
+                    "period": 4
+                },
+                {
+                    "day": 3,
+                    "period": 8
+                },
+                {
+                    "day": 2,
+                    "period": 2
+                }
+            ]
+        },
+        "P018": {
+            "lectures": [
+                {
+                    "day": 4,
+                    "period": 9,
+                    "lecture": "SW006",
+                    "division": "B",
+                    "classroom": "205",
+                    "year": 2,
+                    "duration": 2
+                },
+                {
+                    "day": 2,
+                    "period": 5,
+                    "lecture": "SW006",
+                    "division": "C",
+                    "classroom": "205",
+                    "year": 2,
+                    "duration": 2
+                },
+                {
+                    "day": 3,
+                    "period": 3,
+                    "lecture": "SW006",
+                    "division": "C",
+                    "classroom": "204",
+                    "year": 2,
+                    "duration": 2
+                },
+                {
+                    "day": 5,
+                    "period": 9,
+                    "lecture": "SW006",
+                    "division": "B",
+                    "classroom": "201",
+                    "year": 2,
+                    "duration": 2
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 1,
+                    "period": 5
+                },
+                {
+                    "day": 4,
+                    "period": 7
+                },
+                {
+                    "day": 3,
+                    "period": 1
+                }
+            ]
+        },
+        "P019": {
+            "lectures": [
+                {
+                    "day": 3,
+                    "period": 6,
+                    "lecture": "SW009",
+                    "division": "B",
+                    "classroom": "206",
+                    "year": 2,
+                    "duration": 4
+                },
+                {
+                    "day": 1,
+                    "period": 9,
+                    "lecture": "SW015",
+                    "division": "B",
+                    "classroom": "205",
+                    "year": 3,
+                    "duration": 4
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 2,
+                    "period": 4
+                },
+                {
+                    "day": 5,
+                    "period": 6
+                },
+                {
+                    "day": 4,
+                    "period": 9
+                }
+            ]
+        },
+        "P020": {
+            "lectures": [
+                {
+                    "day": 3,
+                    "period": 9,
+                    "lecture": "SW023",
+                    "division": "A",
+                    "classroom": "104",
+                    "year": 4,
+                    "duration": 3
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 3,
+                    "period": 5
+                },
+                {
+                    "day": 1,
+                    "period": 2
+                },
+                {
+                    "day": 2,
+                    "period": 7
+                }
+            ]
+        },
+        "P021": {
+            "lectures": [
+                {
+                    "day": 1,
+                    "period": 7,
+                    "lecture": "SW007",
+                    "division": "B",
+                    "classroom": "104",
+                    "year": 2,
+                    "duration": 2
+                },
+                {
+                    "day": 5,
+                    "period": 2,
+                    "lecture": "SW007",
+                    "division": "B",
+                    "classroom": "101",
+                    "year": 2,
+                    "duration": 1
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 4,
+                    "period": 6
+                },
+                {
+                    "day": 2,
+                    "period": 1
+                },
+                {
+                    "day": 5,
+                    "period": 8
+                }
+            ]
+        },
+        "P022": {
+            "lectures": [],
+            "off_times": [
+                {
+                    "day": 1,
+                    "period": 3
+                },
+                {
+                    "day": 3,
+                    "period": 7
+                },
+                {
+                    "day": 4,
+                    "period": 2
+                }
+            ]
+        },
+        "P023": {
+            "lectures": [
+                {
+                    "day": 2,
+                    "period": 3,
+                    "lecture": "SW015",
+                    "division": "A",
+                    "classroom": "206",
+                    "year": 3,
+                    "duration": 4
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 5,
+                    "period": 5
+                },
+                {
+                    "day": 2,
+                    "period": 8
+                },
+                {
+                    "day": 1,
+                    "period": 9
+                }
+            ]
+        },
+        "P024": {
+            "lectures": [],
+            "off_times": [
+                {
+                    "day": 3,
+                    "period": 2
+                },
+                {
+                    "day": 4,
+                    "period": 4
+                },
+                {
+                    "day": 2,
+                    "period": 6
+                }
+            ]
+        },
+        "P025": {
+            "lectures": [],
+            "off_times": [
+                {
+                    "day": 1,
+                    "period": 1
+                },
+                {
+                    "day": 5,
+                    "period": 3
+                },
+                {
+                    "day": 3,
+                    "period": 9
+                }
+            ]
+        },
+        "P026": {
+            "lectures": [],
+            "off_times": [
+                {
+                    "day": 2,
+                    "period": 5
+                },
+                {
+                    "day": 4,
+                    "period": 7
+                },
+                {
+                    "day": 1,
+                    "period": 8
+                }
+            ]
+        },
+        "P027": {
+            "lectures": [
+                {
+                    "day": 3,
+                    "period": 8,
+                    "lecture": "SW009",
+                    "division": "A",
+                    "classroom": "205",
+                    "year": 2,
+                    "duration": 4
+                }
+            ],
+            "off_times": [
+                {
+                    "day": 3,
+                    "period": 6
+                },
+                {
+                    "day": 5,
+                    "period": 2
+                },
+                {
+                    "day": 4,
+                    "period": 8
+                }
+            ]
+        }
+    },
+    "evaluation_details": "- Professor P007 did not lecture at least 2 days: -5 points\n- Professor P014 did not lecture at least 2 days: -5 points\n- Professor P015 did not lecture at least 2 days: -5 points\n- Professor P016 did not lecture at least 2 days: -5 points\n- Professor P017 did not lecture at least 2 days: -5 points\n- Professor P018 did not lecture at least 2 days: -5 points\n- Professor P019 did not lecture at least 2 days: -5 points\n- Professor P020 did not lecture at least 2 days: -5 points\n- Professor P021 did not lecture at least 2 days: -5 points\n- Professor P022 did not lecture at least 2 days: -5 points\n- Professor P023 did not lecture at least 2 days: -5 points\n- Professor P024 did not lecture at least 2 days: -5 points\n- Professor P025 did not lecture at least 2 days: -5 points\n- Professor P026 did not lecture at least 2 days: -5 points\n- Professor P027 did not lecture at least 2 days: -5 points\n- Lecture SW002 at 1st period: -1 point\n- Lecture SW008 at 1st period: -1 point\n- Lecture SW013 at 1st period: -1 point\n- Preferred time slot for lecture SW013: +1 point\n- Lecture SW018 at 1st period: -1 point\n- Lecture SW011 at 1st period: -1 point\n- Lecture SW004 at 1st period: -1 point\n- Lecture SW003 at 1st period: -1 point\n- Lecture SW014 during lunch time (4th or 5th period): -5 points\n- Lecture SW010 during lunch time (4th or 5th period): -5 points\n- Lecture SW001 at 1st period: -1 point\n- Lecture SW006 during lunch time (4th or 5th period): -5 points\n- Lecture SW010 at 1st period: -1 point\n- Lecture SW007 during lunch time (4th or 5th period): -5 points\n- Lecture SW010 during lunch time (4th or 5th period): -5 points\n- Lecture SW004 during lunch time (4th or 5th period): -5 points\n- Preferred time slot for lecture SW016: +1 point\n- Lecture SW010 at 1st period: -1 point\n- Lecture SW022 at 1st period: -1 point\n- Lecture SW012 at 1st period: -1 point\n- Lecture SW006 during lunch time (4th or 5th period): -5 points\n- Lecture SW004 during lunch time (4th or 5th period): -5 points\n"
+}
