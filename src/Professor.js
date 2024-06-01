@@ -6,7 +6,20 @@ import userImage from "./public/d.jpg";
 import "tailwindcss/tailwind.css";
 
 const weekdays = ["월요일", "화요일", "수요일", "목요일", "금요일"];
-const periods = Array.from({ length: 9 }, (_, i) => `${i + 1}교시`);
+const periodLabels = Array.from({ length: 9 }, (_, i) => `${i + 1}교시`);
+
+const dayMapping = {
+  월요일: 1,
+  화요일: 2,
+  수요일: 3,
+  목요일: 4,
+  금요일: 5,
+};
+
+const periodMapping = periodLabels.reduce((acc, label, index) => {
+  acc[label] = index + 1;
+  return acc;
+}, {});
 
 const Professor = () => {
   const email = localStorage.getItem("email");
@@ -29,11 +42,23 @@ const Professor = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const mappedProfessors = professors.map((professor) => ({
+      ...professor,
+      offTimes: professor.offTimes.map((time) => ({
+        day: dayMapping[time.day],
+        period: parseInt(time.period.replace("교시", ""), 10),
+      })),
+      hopeTimes: professor.hopeTimes.map((time) => ({
+        day: dayMapping[time.day],
+        period: parseInt(time.period.replace("교시", ""), 10),
+      })),
+    }));
+
     try {
       const response = await axios.post(
         "http://localhost:4000/create/ProfessorProcess",
         {
-          professors: professors,
+          professors: mappedProfessors,
         }
       );
 
@@ -79,7 +104,7 @@ const Professor = () => {
   const toggleAllDay = (index, timeType, day, checked) => {
     const newProfessors = [...professors];
     if (checked) {
-      periods.forEach((period) => {
+      periodLabels.forEach((period) => {
         const time = { day, period };
         if (
           !newProfessors[index][timeType].some(
@@ -213,7 +238,7 @@ const Professor = () => {
                               />
                               <span className="font-semibold">{day}</span>
                             </div>
-                            {periods.map((period, periodIndex) => (
+                            {periodLabels.map((period, periodIndex) => (
                               <div
                                 key={periodIndex}
                                 onClick={() =>
@@ -259,7 +284,7 @@ const Professor = () => {
                               />
                               <span className="font-semibold">{day}</span>
                             </div>
-                            {periods.map((period, periodIndex) => (
+                            {periodLabels.map((period, periodIndex) => (
                               <div
                                 key={periodIndex}
                                 onClick={() =>
