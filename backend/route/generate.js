@@ -31,8 +31,13 @@ router.post("/FinishInsertProcess", async (req, res) => {
         const highestInputNoDoc = await collection.findOne({}, { sort: { input_no: -1 } });
         const nextInputNo = highestInputNoDoc ? highestInputNoDoc.input_no + 1 : 1;
 
-        // 현재 유저에게 input 번호 추가
+        // classroom에 group 필드 추가
+        const parsedClassrooms = JSON.parse(classrooms);
+        const classroomGroups = JSON.parse(groupInfo);
 
+        parsedClassrooms.forEach(classroom => {
+            classroom.group = classroomGroups.map(group => group.groupName);
+        });
 
         // 새로운 입력 생성
         const newInput = {
@@ -41,7 +46,7 @@ router.post("/FinishInsertProcess", async (req, res) => {
             introduce: timetableDescription,
             date: new Date(),
             professor: JSON.parse(professors),
-            classroom: JSON.parse(classrooms),
+            classroom: parsedClassrooms,
             lecture: JSON.parse(lectures)
         };
         await collection.insertOne(newInput);
