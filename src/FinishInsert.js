@@ -16,14 +16,14 @@ function FinishInsert() {
       const timetableDescription = sessionStorage.getItem(
         "timetableDescription"
       );
-      const professors = JSON.parse(sessionStorage.getItem("professors")) || [];
-      const classrooms = JSON.parse(sessionStorage.getItem("classrooms")) || [];
-      const groupInfo = JSON.parse(sessionStorage.getItem("groupInfo")) || [];
-      const lectures = JSON.parse(sessionStorage.getItem("lectures")) || [];
+      const professors = sessionStorage.getItem("professors") || [];
+      const classrooms = sessionStorage.getItem("classrooms") || [];
+      const groupInfo = sessionStorage.getItem("groupInfo") || [];
+      const lectures = sessionStorage.getItem("lectures") || [];
 
       try {
         const response = await axios.post(
-          "http://localhost:4000/create/CompleteProcess",
+          "http://localhost:4000/generate/FinishInsertProcess",
           {
             timetableName,
             timetableDescription,
