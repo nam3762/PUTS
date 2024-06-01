@@ -16,7 +16,6 @@ function FinishInsert() {
       const timetableDescription = sessionStorage.getItem(
         "timetableDescription"
       );
-<<<<<<< HEAD
 
       // 문자열을 배열로 변환
       const professors = sessionStorage.getItem("professors")
@@ -31,12 +30,6 @@ function FinishInsert() {
       const lectures = sessionStorage.getItem("lectures")
         ? sessionStorage.getItem("lectures").split(",")
         : [];
-=======
-      const professors = sessionStorage.getItem("professors") || [];
-      const classrooms = sessionStorage.getItem("classrooms") || [];
-      const groupInfo = sessionStorage.getItem("groupInfo") || [];
-      const lectures = sessionStorage.getItem("lectures") || [];
->>>>>>> 18911ff4955b856cfa122a5284698439d88444d3
 
       try {
         const response = await axios.post(
