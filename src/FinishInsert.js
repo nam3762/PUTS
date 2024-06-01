@@ -1,9 +1,6 @@
-import React from "react";
-import "./Mainpage.css";
-import "./TimetableManage.css";
-import { Link } from "react-router-dom";
-import "./Mypage.css"; // Ensure the CSS file path is correct
-import timetableImage from "./public/timetable.jpg"; // Update the path as necessary
+import React, { useEffect } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import userImage from "./public/d.jpg";
@@ -11,8 +8,42 @@ import userImage from "./public/d.jpg";
 function FinishInsert() {
   const email = localStorage.getItem("email");
   const nickname = localStorage.getItem("nickname");
+  const navigate = useNavigate();
 
-  // Example functionality for handling button clicks
+  useEffect(() => {
+    const sendAllData = async () => {
+      const timetableName = sessionStorage.getItem("timetableName");
+      const timetableDescription = sessionStorage.getItem(
+        "timetableDescription"
+      );
+      const professors = JSON.parse(sessionStorage.getItem("professors")) || [];
+      const classrooms = JSON.parse(sessionStorage.getItem("classrooms")) || [];
+      const groupInfo = JSON.parse(sessionStorage.getItem("groupInfo")) || [];
+      const lectures = JSON.parse(sessionStorage.getItem("lectures")) || [];
+
+      try {
+        const response = await axios.post(
+          "http://localhost:4000/create/CompleteProcess",
+          {
+            timetableName,
+            timetableDescription,
+            professors,
+            classrooms,
+            groupInfo,
+            lectures,
+          }
+        );
+
+        console.log("데이터 전송 성공", response.data);
+        // 필요한 경우 response.data를 사용하여 추가 작업을 수행합니다.
+      } catch (error) {
+        console.error("데이터 전송 실패", error);
+      }
+    };
+
+    sendAllData();
+  }, []);
+
   const handleEditProfile = () => {
     console.log("Edit Profile clicked");
   };

@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FormContext } from "./FormContext";
 import userImage from "./public/d.jpg";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 const Lecture = () => {
   const email = localStorage.getItem("email");
@@ -14,7 +16,8 @@ const Lecture = () => {
   const [lectures, setLectures] = useState(
     formData.lectures.map((lecture) => ({
       ...lecture,
-      groupNames: lecture.groupNames || [], // groupNames가 정의되지 않은 경우 빈 배열로 초기화
+      group: lecture.group || "", // group이 정의되지 않은 경우 빈 문자열로 초기화
+      major_required: lecture.major_required || false, // major_required가 정의되지 않은 경우 false로 초기화
     }))
   );
   const [groupOptions, setGroupOptions] = useState([]);
@@ -50,27 +53,21 @@ const Lecture = () => {
 
   const handleLectureChange = (index, event) => {
     const newLectures = [...lectures];
-    newLectures[index][event.target.name] = event.target.value;
+    const { name, value, type, checked } = event.target;
+    newLectures[index][name] = type === "checkbox" ? checked : value;
     setLectures(newLectures);
   };
 
   const handleSectionChange = (lectureIndex, sectionIndex, event) => {
     const newLectures = [...lectures];
-    newLectures[lectureIndex].sections[sectionIndex][event.target.name] =
-      event.target.value;
+    const { name, value } = event.target;
+    newLectures[lectureIndex].sections[sectionIndex][name] = value;
     setLectures(newLectures);
   };
 
-  const handleGroupCheckboxChange = (lectureIndex, groupName) => {
+  const handleGroupRadioChange = (lectureIndex, group) => {
     const newLectures = [...lectures];
-    const groupNames = newLectures[lectureIndex].groupNames || [];
-    if (groupNames.includes(groupName)) {
-      newLectures[lectureIndex].groupNames = groupNames.filter(
-        (name) => name !== groupName
-      );
-    } else {
-      newLectures[lectureIndex].groupNames = [...groupNames, groupName];
-    }
+    newLectures[lectureIndex].group = group;
     setLectures(newLectures);
   };
 
@@ -79,7 +76,7 @@ const Lecture = () => {
     newLectures[lectureIndex].sections.push({
       division: "",
       sectionTime: "",
-      enrollment: "",
+      capacity: "",
     });
     setLectures(newLectures);
   };
@@ -96,11 +93,12 @@ const Lecture = () => {
     setLectures([
       ...lectures,
       {
-        lectureName: "",
-        lectureTime: "",
-        lectureYear: "",
-        groupNames: [],
-        sections: [{ division: "", sectionTime: "", enrollment: "" }],
+        name: "",
+        code: "",
+        year: "",
+        group: "",
+        major_required: false,
+        sections: [{ division: "", sectionTime: "", capacity: "" }],
       },
     ]);
   };
@@ -165,35 +163,35 @@ const Lecture = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   <div className="form-group">
                     <label
-                      htmlFor={`lectureName-${lectureIndex}`}
+                      htmlFor={`name-${lectureIndex}`}
                       className="block font-medium"
                     >
                       교과목명:
                     </label>
                     <input
                       type="text"
-                      id={`lectureName-${lectureIndex}`}
-                      name="lectureName"
-                      value={lecture.lectureName}
+                      id={`name-${lectureIndex}`}
+                      name="name"
+                      value={lecture.name}
                       onChange={(e) => handleLectureChange(lectureIndex, e)}
-                      placeholder="강의명"
+                      placeholder="교과목명"
                       className="mt-1 p-2 border rounded w-full"
                     />
                   </div>
                   <div className="form-group">
                     <label
-                      htmlFor={`lectureTime-${lectureIndex}`}
+                      htmlFor={`code-${lectureIndex}`}
                       className="block font-medium"
                     >
-                      강의 시간:
+                      교과목 코드:
                     </label>
                     <input
-                      type="number"
-                      id={`lectureTime-${lectureIndex}`}
-                      name="lectureTime"
-                      value={lecture.lectureTime}
+                      type="text"
+                      id={`code-${lectureIndex}`}
+                      name="code"
+                      value={lecture.code}
                       onChange={(e) => handleLectureChange(lectureIndex, e)}
-                      placeholder="강의 시간"
+                      placeholder="교과목 코드"
                       className="mt-1 p-2 border rounded w-full"
                     />
                   </div>
@@ -208,25 +206,27 @@ const Lecture = () => {
                       type="number"
                       id={`year-${lectureIndex}`}
                       name="year"
-                      value={lecture.lectureYear}
+                      value={lecture.year}
                       onChange={(e) => handleLectureChange(lectureIndex, e)}
                       placeholder="학년"
                       className="mt-1 p-2 border rounded w-full"
                     />
                   </div>
-                  <div className="form-group md:col-span-3">
-                    <label className="block font-medium">강의실 그룹:</label>
-                    <div className="flex flex-wrap">
+                  <div className="form-group md:col-span-3 flex items-center mb-2">
+                    <label className="block font-medium mr-4">
+                      강의실 그룹:
+                    </label>
+                    <div className="flex flex-wrap mr-4">
                       {groupOptions.map((group, idx) => (
-                        <div key={idx} className="mr-4 mb-2">
+                        <div key={idx} className="mr-4">
                           <label>
                             <input
-                              type="checkbox"
-                              name="groupNames"
+                              type="radio"
+                              name={`group-${lectureIndex}`}
                               value={group}
-                              checked={lecture.groupNames.includes(group)}
+                              checked={lecture.group === group}
                               onChange={() =>
-                                handleGroupCheckboxChange(lectureIndex, group)
+                                handleGroupRadioChange(lectureIndex, group)
                               }
                               className="mr-2"
                             />
@@ -235,6 +235,16 @@ const Lecture = () => {
                         </div>
                       ))}
                     </div>
+                    <label className="block font-medium">
+                      <input
+                        type="checkbox"
+                        name="major_required"
+                        checked={lecture.major_required}
+                        onChange={(e) => handleLectureChange(lectureIndex, e)}
+                        className="mr-2"
+                      />
+                      전공 필수
+                    </label>
                   </div>
                 </div>
                 {lecture.sections.map((section, sectionIndex) => (
@@ -261,15 +271,23 @@ const Lecture = () => {
                         className="mt-1 p-2 border rounded w-full"
                       />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group relative">
                       <label
                         htmlFor={`sectionTime-${lectureIndex}-${sectionIndex}`}
-                        className="block font-medium"
+                        className="block font-medium flex items-center"
                       >
                         섹션 시간:
+                        <span
+                          className="ml-2 text-rose-500 cursor-pointer border border-black w-4 h-4 rounded-full flex items-center justify-center text-xs"
+                          data-tooltip-id={`tooltip-${lectureIndex}-${sectionIndex}`}
+                          data-tooltip-content="총 강의시간이 아닌 몇 시간씩 나누어 강의할지를 의미함"
+                        >
+                          ?
+                        </span>
                       </label>
+                      <Tooltip id={`tooltip-${lectureIndex}-${sectionIndex}`} />
                       <input
-                        type="number"
+                        type="text"
                         id={`sectionTime-${lectureIndex}-${sectionIndex}`}
                         name="sectionTime"
                         value={section.sectionTime}
@@ -282,16 +300,16 @@ const Lecture = () => {
                     </div>
                     <div className="form-group">
                       <label
-                        htmlFor={`enrollment-${lectureIndex}-${sectionIndex}`}
+                        htmlFor={`capacity-${lectureIndex}-${sectionIndex}`}
                         className="block font-medium"
                       >
                         수강 인원:
                       </label>
                       <input
                         type="number"
-                        id={`enrollment-${lectureIndex}-${sectionIndex}`}
-                        name="enrollment"
-                        value={section.enrollment}
+                        id={`capacity-${lectureIndex}-${sectionIndex}`}
+                        name="capacity"
+                        value={section.capacity}
                         onChange={(e) =>
                           handleSectionChange(lectureIndex, sectionIndex, e)
                         }
