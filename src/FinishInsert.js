@@ -16,20 +16,10 @@ function FinishInsert() {
       const timetableDescription = sessionStorage.getItem(
         "timetableDescription"
       );
-
-      // 문자열을 배열로 변환
-      const professors = sessionStorage.getItem("professors")
-        ? sessionStorage.getItem("professors").split(",")
-        : [];
-      const classrooms = sessionStorage.getItem("classrooms")
-        ? sessionStorage.getItem("classrooms").split(",")
-        : [];
-      const groupInfo = sessionStorage.getItem("groupInfo")
-        ? sessionStorage.getItem("groupInfo").split(",")
-        : [];
-      const lectures = sessionStorage.getItem("lectures")
-        ? sessionStorage.getItem("lectures").split(",")
-        : [];
+      const professors = sessionStorage.getItem("professors");
+      const classrooms = sessionStorage.getItem("classrooms");
+      const groupInfo = sessionStorage.getItem("groupInfo");
+      const lectures = sessionStorage.getItem("lectures");
 
       try {
         const response = await axios.post(
@@ -51,7 +41,6 @@ function FinishInsert() {
       }
     };
 
-    // useEffect의 빈 배열 의존성 설정으로 한 번만 실행되도록 보장
     sendAllData();
   }, []);
 

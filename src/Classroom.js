@@ -23,20 +23,20 @@ const Classroom = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    sessionStorage.setItem(
+      "classrooms",
+      JSON.stringify(classrooms, null,2)
+    );
+    const Data = sessionStorage.getItem("classrooms");
+    console.log(Data);
+
     try {
       const response = await axios.post(
         "http://localhost:4000/create/ClassroomProcess",
         {
-          classrooms: classrooms,
+          classrooms: Data,
         }
       );
-
-      sessionStorage.setItem(
-        "classrooms",
-        JSON.stringify(response.data.classrooms)
-      );
-
-      console.log(sessionStorage.getItem("classrooms"));
 
       navigate("/ClassroomGroup");
     } catch (error) {

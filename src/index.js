@@ -9,6 +9,8 @@ const container = document.getElementById("root");
 const root = createRoot(container);
 
 // App 컴포넌트를 렌더링합니다.
-root.render(<App />);
+root.render(
+    <App />
+);
 
 reportWebVitals();

@@ -15,16 +15,22 @@ const Lecture = () => {
 
   const [lectures, setLectures] = useState(
     formData.lectures.map((lecture) => ({
-      ...lecture,
-      group: lecture.group || "", // group이 정의되지 않은 경우 빈 문자열로 초기화
-      major_required: lecture.major_required || false, // major_required가 정의되지 않은 경우 false로 초기화
+      name: lecture.name || "",
+      code: lecture.code || "",
+      year: lecture.year || "",
+      group: lecture.group || "",
+      major_required: lecture.major_required || false,
+      sections: lecture.sections.map((section) => ({
+        division: section.division || "",
+        sectionTime: section.sectionTime || "",
+        capacity: section.capacity || "",
+      })),
     }))
   );
   const [groupOptions, setGroupOptions] = useState([]);
 
   useEffect(() => {
-    // STEP 4에서 입력된 강의실 그룹 이름을 드롭다운 메뉴에 전달
-    const groups = formData.groups || []; // formData.groups가 정의되지 않은 경우 빈 배열로 초기화
+    const groups = formData.groups || [];
     setGroupOptions(groups.map((group) => group.groupName));
   }, [formData.groups]);
 
@@ -47,7 +53,7 @@ const Lecture = () => {
 
       navigate("/FinishInsert");
     } catch (error) {
-      console.error("폼 데이터 제출 실패", error); // 오류 로그
+      console.error("폼 데이터 제출 실패", error);
     }
   };
 
