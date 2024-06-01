@@ -16,14 +16,24 @@ function FinishInsert() {
       const timetableDescription = sessionStorage.getItem(
         "timetableDescription"
       );
-      const professors = JSON.parse(sessionStorage.getItem("professors")) || [];
-      const classrooms = JSON.parse(sessionStorage.getItem("classrooms")) || [];
-      const groupInfo = JSON.parse(sessionStorage.getItem("groupInfo")) || [];
-      const lectures = JSON.parse(sessionStorage.getItem("lectures")) || [];
+
+      // 문자열을 배열로 변환
+      const professors = sessionStorage.getItem("professors")
+        ? sessionStorage.getItem("professors").split(",")
+        : [];
+      const classrooms = sessionStorage.getItem("classrooms")
+        ? sessionStorage.getItem("classrooms").split(",")
+        : [];
+      const groupInfo = sessionStorage.getItem("groupInfo")
+        ? sessionStorage.getItem("groupInfo").split(",")
+        : [];
+      const lectures = sessionStorage.getItem("lectures")
+        ? sessionStorage.getItem("lectures").split(",")
+        : [];
 
       try {
         const response = await axios.post(
-          "http://localhost:4000/create/CompleteProcess",
+          "http://localhost:4000/generate/FinishInsertProcess",
           {
             timetableName,
             timetableDescription,
@@ -41,6 +51,7 @@ function FinishInsert() {
       }
     };
 
+    // useEffect의 빈 배열 의존성 설정으로 한 번만 실행되도록 보장
     sendAllData();
   }, []);
 
