@@ -32,6 +32,7 @@ const Professor = () => {
     formData.professors || [
       {
         professorName: "",
+        professorCode: "", // 추가된 코드 필드
         isProfessor: true,
         offTimes: [],
         hopeTimes: [],
@@ -57,13 +58,13 @@ const Professor = () => {
     try {
       sessionStorage.setItem(
         "professors",
-        JSON.stringify(mappedProfessors,null,2)
+        JSON.stringify(mappedProfessors, null, 2)
       );
       const Data = sessionStorage.getItem("professors");
       console.log(Data);
 
       const response = await axios.post(
-        "http://localhost:4000/create/ProfessorProcess",  
+        "http://localhost:4000/create/ProfessorProcess",
         {
           professors: Data,
         }
@@ -130,7 +131,13 @@ const Professor = () => {
 
     setProfessors([
       ...professors,
-      { professorName: "", isProfessor: true, offTimes: [], hopeTimes: [] },
+      {
+        professorName: "",
+        professorCode: "", // 추가된 코드 필드
+        isProfessor: true,
+        offTimes: [],
+        hopeTimes: [],
+      },
     ]);
   };
 
@@ -189,21 +196,39 @@ const Professor = () => {
                 key={index}
                 className="mb-6 p-4 border-2 border-green-400 rounded"
               >
-                <div className="mb-4">
-                  <label
-                    htmlFor={`professorName-${index}`}
-                    className="block font-medium"
-                  >
-                    이름:
-                  </label>
-                  <input
-                    type="text"
-                    id={`professorName-${index}`}
-                    name="professorName"
-                    value={professor.professorName}
-                    onChange={(e) => handleProfessorChange(index, e)}
-                    className="mt-1 p-2 border rounded w-full"
-                  />
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label
+                      htmlFor={`professorName-${index}`}
+                      className="block font-medium"
+                    >
+                      이름:
+                    </label>
+                    <input
+                      type="text"
+                      id={`professorName-${index}`}
+                      name="professorName"
+                      value={professor.professorName}
+                      onChange={(e) => handleProfessorChange(index, e)}
+                      className="mt-1 p-2 border rounded w-full"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor={`professorCode-${index}`}
+                      className="block font-medium"
+                    >
+                      교수 코드:
+                    </label>
+                    <input
+                      type="text"
+                      id={`professorCode-${index}`}
+                      name="professorCode"
+                      value={professor.professorCode}
+                      onChange={(e) => handleProfessorChange(index, e)}
+                      className="mt-1 p-2 border rounded w-full"
+                    />
+                  </div>
                 </div>
                 <div className="mb-4">
                   <label className="block font-medium mb-2">

@@ -13,7 +13,6 @@ const ClassroomGroup = () => {
   const initialGroupInfo = formData.groups || [
     {
       groupName: "",
-      groupDescription: "",
       classrooms: [],
     },
   ];
@@ -27,10 +26,7 @@ const ClassroomGroup = () => {
     event.preventDefault();
     setFormData({ ...formData, groups: groupInfo });
 
-    sessionStorage.setItem(
-      "groupInfo",
-      JSON.stringify(groupInfo, null,2)
-    );
+    sessionStorage.setItem("groupInfo", JSON.stringify(groupInfo, null, 2));
     const Data = sessionStorage.getItem("groupInfo");
     console.log(Data);
 
@@ -56,10 +52,7 @@ const ClassroomGroup = () => {
   };
 
   const addGroup = () => {
-    setGroupInfo([
-      ...groupInfo,
-      { groupName: "", groupDescription: "", classrooms: [] },
-    ]);
+    setGroupInfo([...groupInfo, { groupName: "", classrooms: [] }]);
     setSelectedClassrooms([...selectedClassrooms, ""]);
   };
 
@@ -84,13 +77,6 @@ const ClassroomGroup = () => {
   const removeClassroomFromGroup = (groupIndex, classroomIndex) => {
     const newGroups = [...groupInfo];
     newGroups[groupIndex].classrooms.splice(classroomIndex, 1);
-    setGroupInfo(newGroups);
-  };
-
-  const handleClassroomChange = (groupIndex, classroomIndex, event) => {
-    const { name, value } = event.target;
-    const newGroups = [...groupInfo];
-    newGroups[groupIndex].classrooms[classroomIndex][name] = value;
     setGroupInfo(newGroups);
   };
 
@@ -158,22 +144,6 @@ const ClassroomGroup = () => {
                     id={`groupName-${groupIndex}`}
                     name="groupName"
                     value={group.groupName}
-                    onChange={(e) => handleGroupChange(groupIndex, e)}
-                    className="mt-1 p-2 border rounded w-full"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    htmlFor={`groupDescription-${groupIndex}`}
-                    className="block font-medium"
-                  >
-                    그룹 설명:
-                  </label>
-                  <input
-                    type="text"
-                    id={`groupDescription-${groupIndex}`}
-                    name="groupDescription"
-                    value={group.groupDescription}
                     onChange={(e) => handleGroupChange(groupIndex, e)}
                     className="mt-1 p-2 border rounded w-full"
                   />

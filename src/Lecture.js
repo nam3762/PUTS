@@ -24,14 +24,21 @@ const Lecture = () => {
         division: section.division || "",
         sectionTime: section.sectionTime || "",
         capacity: section.capacity || "",
+        professorCode: section.professorCode || "", // 교수 코드 추가
       })),
     }))
   );
   const [groupOptions, setGroupOptions] = useState([]);
+  const [professors, setProfessors] = useState([]);
 
   useEffect(() => {
     const groups = formData.groups || [];
     setGroupOptions(groups.map((group) => group.groupName));
+
+    // 세션에서 교수 목록 가져오기
+    const storedProfessors =
+      JSON.parse(sessionStorage.getItem("professors")) || [];
+    setProfessors(storedProfessors);
   }, [formData.groups]);
 
   const handleSubmit = async (event) => {
@@ -61,13 +68,30 @@ const Lecture = () => {
     const newLectures = [...lectures];
     const { name, value, type, checked } = event.target;
     newLectures[index][name] = type === "checkbox" ? checked : value;
+    if (name === "year") {
+      newLectures[index][name] = parseInt(value, 10);
+    }
     setLectures(newLectures);
   };
 
   const handleSectionChange = (lectureIndex, sectionIndex, event) => {
     const newLectures = [...lectures];
     const { name, value } = event.target;
-    newLectures[lectureIndex].sections[sectionIndex][name] = value;
+    if (name === "sectionTime" || name === "capacity") {
+      newLectures[lectureIndex].sections[sectionIndex][name] = parseInt(
+        value,
+        10
+      );
+    } else {
+      newLectures[lectureIndex].sections[sectionIndex][name] = value;
+    }
+    setLectures(newLectures);
+  };
+
+  const handleProfessorChange = (lectureIndex, sectionIndex, event) => {
+    const newLectures = [...lectures];
+    newLectures[lectureIndex].sections[sectionIndex].professorCode =
+      event.target.value;
     setLectures(newLectures);
   };
 
@@ -83,6 +107,7 @@ const Lecture = () => {
       division: "",
       sectionTime: "",
       capacity: "",
+      professorCode: "", // 교수 코드 추가
     });
     setLectures(newLectures);
   };
@@ -104,7 +129,9 @@ const Lecture = () => {
         year: "",
         group: "",
         major_required: false,
-        sections: [{ division: "", sectionTime: "", capacity: "" }],
+        sections: [
+          { division: "", sectionTime: "", capacity: "", professorCode: "" },
+        ],
       },
     ]);
   };
@@ -322,6 +349,30 @@ const Lecture = () => {
                         placeholder="수강 인원"
                         className="mt-1 p-2 border rounded w-full"
                       />
+                    </div>
+                    <div className="form-group">
+                      <label
+                        htmlFor={`professor-${lectureIndex}-${sectionIndex}`}
+                        className="block font-medium"
+                      >
+                        교수:
+                      </label>
+                      <select
+                        id={`professor-${lectureIndex}-${sectionIndex}`}
+                        name="professor"
+                        value={section.professorCode}
+                        onChange={(e) =>
+                          handleProfessorChange(lectureIndex, sectionIndex, e)
+                        }
+                        className="mt-1 p-2 border rounded w-full"
+                      >
+                        <option value="">교수 선택</option>
+                        {professors.map((professor, idx) => (
+                          <option key={idx} value={professor.professorCode}>
+                            {professor.professorName}-{professor.professorCode}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     {lecture.sections.length > 1 && (
                       <button

@@ -23,10 +23,16 @@ const Classroom = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const classroomsWithIntCapacity = classrooms.map((classroom) => ({
+      ...classroom,
+      capacity: parseInt(classroom.capacity, 10),
+    }));
+
     sessionStorage.setItem(
       "classrooms",
-      JSON.stringify(classrooms, null,2)
+      JSON.stringify(classroomsWithIntCapacity, null, 2)
     );
+
     const Data = sessionStorage.getItem("classrooms");
     console.log(Data);
 
@@ -34,7 +40,7 @@ const Classroom = () => {
       const response = await axios.post(
         "http://localhost:4000/create/ClassroomProcess",
         {
-          classrooms: Data,
+          classrooms: classroomsWithIntCapacity,
         }
       );
 
@@ -47,7 +53,8 @@ const Classroom = () => {
   const handleClassroomChange = (index, event) => {
     const { name, value } = event.target;
     const newClassrooms = [...classrooms];
-    newClassrooms[index][name] = value;
+    newClassrooms[index][name] =
+      name === "capacity" ? parseInt(value, 10) : value;
     setClassrooms(newClassrooms);
   };
 
@@ -154,7 +161,7 @@ const Classroom = () => {
                       수용 인원:
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       id={`capacity-${index}`}
                       name="capacity"
                       value={classroom.capacity}
