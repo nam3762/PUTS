@@ -1,18 +1,38 @@
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 
-const MONGO_URI = process.env.MONGO_URI;
-
-const client = new MongoClient(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-
-let db;
-
-async function connectDB() {
+async function connectDB(client) {
+  let db;
   if (!db) {
     await client.connect();
-    db = client.db('Project').collection('puts'); // 대소문자 구분하여 'Project'로 설정
+    db = client.db('puts');
+    console.log("MongoDB 연결 성공");
   }
   return db;
 }
 
-module.exports = connectDB;
+async function closeConnection(client) {
+  await client.close();
+  console.log("MongoDB 연결 종료");
+}
+
+async function connectInput(db) {
+  return db.collection('input');
+}
+
+async function connectOutput(db) {
+  return db.collection('output');
+}
+
+async function connectUser(db) {
+  return db.collection('user');
+}
+
+module.exports = {
+  MongoClient,
+  connectDB,
+  closeConnection,
+  connectInput,
+  connectOutput,
+  connectUser
+};

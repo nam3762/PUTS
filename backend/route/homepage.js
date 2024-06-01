@@ -1,10 +1,16 @@
-// homepage.js 파일
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/user.js");
-const connectDB = require("../db.js");
+const { MongoClient } = require("mongodb");
+const {
+  connectDB,
+  closeConnection,
+  connectInput,
+  connectOutput,
+  connectUser
+} = require("../db.js");
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -22,8 +28,13 @@ router.post("/signupProcess", async (req, res) => {
   });
 
   try {
-    const db = await connectDB();
-    await db.insertOne(newUser);
+    const MONGO_URI = process.env.MONGO_URI;
+    const client = new MongoClient(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+    const db = await connectDB(client);
+    const collection = await connectUser(db);
+    await collection.insertOne(newUser);
+    await closeConnection(client);
     res.status(201).send("회원가입 성공");
   } catch (err) {
     console.error("쿼리 실패: ", err);
@@ -35,8 +46,12 @@ router.post("/loginProcess", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const db = await connectDB(); // MongoDB와 연결된 데이터베이스 가져오기
-    const user = await db.findOne({ email }); // 사용자 찾기
+    const MONGO_URI = process.env.MONGO_URI;
+    const client = new MongoClient(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+    const db = await connectDB(client);
+    const collection = await connectUser(db);
+    const user = await collection.findOne({ email }); // 사용자 찾기
 
     if (!user) {
       return res.status(401).send("Invalid email");
@@ -51,7 +66,7 @@ router.post("/loginProcess", async (req, res) => {
     const token = jwt.sign({ id: user.email }, SECRET_KEY, {
       // expiresIn: 600,
     });
-
+    await closeConnection(client);
     res.status(200).send({ auth: true, token, nickname: user.nickname });
   } catch (err) {
     console.error("쿼리 실패: ", err);

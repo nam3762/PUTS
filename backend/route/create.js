@@ -27,9 +27,7 @@ router.post("/TimetableManageProcess", (req, res) => {
 router.post("/ProfessorProcess", (req, res) => {
     const { professors } = req.body;
 
-    professors.forEach((professor, index) => {
-        console.log(`교수 ${index + 1}:`, professor);
-    });
+        console.log(professors);
     res.status(200).json({ 
         message: "데이터 처리 성공", 
         professors: professors,

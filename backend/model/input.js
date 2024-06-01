@@ -18,8 +18,8 @@ const ProfessorSchema = new mongoose.Schema({
 });
 
 const ClassroomSchema = new mongoose.Schema({
-  building: { type: String, required: true },
-  classroom_no: { type: String, required: true },
+  buildingName: { type: String, required: true },
+  classroomID: { type: String, required: true },
   capacity: { type: Number, required: true },
   group: { type: String, required: true }
 });
@@ -31,7 +31,6 @@ const LectureSchema = new mongoose.Schema({
   section: { type: Number, required: true },
   major_required: { type: Boolean, required: true },
   group: { type: String, required: true },
-  duration: { type: Number, required: true },
   capacity: { type: Number, required: true },
   year: { type: Number, required: true }
 });
