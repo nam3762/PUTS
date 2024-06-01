@@ -32,17 +32,19 @@ const Lecture = () => {
     event.preventDefault();
     setFormData({ ...formData, lectures });
 
+    sessionStorage.setItem(
+      "lectures",
+      JSON.stringify(lectures, null,2)
+    );
+    const Data = sessionStorage.getItem("lectures");
+    console.log(Data);
+
     try {
       const response = await axios.post(
         "http://localhost:4000/create/LectureProcess",
         {
-          lectures,
+          lectures: Data,
         }
-      );
-
-      sessionStorage.setItem(
-        "lectures",
-        JSON.stringify(response.data.lectures)
       );
 
       navigate("/FinishInsert");

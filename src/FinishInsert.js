@@ -13,13 +13,11 @@ function FinishInsert() {
   useEffect(() => {
     const sendAllData = async () => {
       const timetableName = sessionStorage.getItem("timetableName");
-      const timetableDescription = sessionStorage.getItem(
-        "timetableDescription"
-      );
-      const professors = sessionStorage.getItem("professors") || [];
-      const classrooms = sessionStorage.getItem("classrooms") || [];
-      const groupInfo = sessionStorage.getItem("groupInfo") || [];
-      const lectures = sessionStorage.getItem("lectures") || [];
+      const timetableDescription = sessionStorage.getItem("timetableDescription");
+      const professors = sessionStorage.getItem("professors");
+      const classrooms = sessionStorage.getItem("classrooms");
+      const groupInfo = sessionStorage.getItem("groupInfo");
+      const lectures = sessionStorage.getItem("lectures");
 
       try {
         const response = await axios.post(

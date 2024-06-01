@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const Input = require("../model/input.js");
 const { MongoClient } = require("mongodb");
 const {
   connectDB,
@@ -20,6 +19,8 @@ router.post("/FinishInsertProcess", async (req, res) => {
         lectures,
     } = req.body;
 
+    console.log(professors);
+
     try {
         const MONGO_URI = process.env.MONGO_URI;
         const client = new MongoClient(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -29,20 +30,20 @@ router.post("/FinishInsertProcess", async (req, res) => {
         const collection = await connectInput(db);
         const highestInputNoDoc = await collection.findOne({}, { sort: { input_no: -1 } });
         const nextInputNo = highestInputNoDoc ? highestInputNoDoc.input_no + 1 : 1;
-        console.log(nextInputNo);
 
         // 현재 유저에게 input 번호 추가
 
+
         // 새로운 입력 생성
-        const newInput = new Input({
+        const newInput = {
             input_no: nextInputNo,
             name: timetableName,
             introduce: timetableDescription,
             date: new Date(),
-            professor: professors,
-            classroom: classrooms,
-            lecture: lectures
-        });
+            professor: JSON.parse(professors),
+            classroom: JSON.parse(classrooms),
+            lecture: JSON.parse(lectures)
+        };
         await collection.insertOne(newInput);
         await closeConnection(client);
 

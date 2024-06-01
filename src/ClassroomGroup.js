@@ -27,17 +27,19 @@ const ClassroomGroup = () => {
     event.preventDefault();
     setFormData({ ...formData, groups: groupInfo });
 
+    sessionStorage.setItem(
+      "groupInfo",
+      JSON.stringify(groupInfo, null,2)
+    );
+    const Data = sessionStorage.getItem("groupInfo");
+    console.log(Data);
+
     try {
       const response = await axios.post(
         "http://localhost:4000/create/ClassroomGroupProcess",
         {
-          groupInfo,
+          groupInfo: groupInfo,
         }
-      );
-
-      sessionStorage.setItem(
-        "groupInfo",
-        JSON.stringify(response.data.groupInfo)
       );
 
       navigate("/Lecture");

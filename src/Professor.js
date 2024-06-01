@@ -55,16 +55,19 @@ const Professor = () => {
     }));
 
     try {
+      sessionStorage.setItem(
+        "professors",
+        JSON.stringify(mappedProfessors,null,2)
+      );
+      const Data = sessionStorage.getItem("professors");
+      console.log(Data);
+
       const response = await axios.post(
-        "http://localhost:4000/create/ProfessorProcess",
+        "http://localhost:4000/create/ProfessorProcess",  
         {
-          professors: mappedProfessors,
+          professors: Data,
         }
       );
-
-      sessionStorage.setItem("professors", response.data.professors);
-
-      console.log(sessionStorage.getItem("professors"));
 
       navigate("/Classroom");
     } catch (error) {
