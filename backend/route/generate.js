@@ -62,16 +62,14 @@ router.post("/FinishInsertProcess", async (req, res) => {
         await closeConnection(client);
 
         // 파이썬 알고리즘 코드 실행 (여기에 실행 코드 추가)
-
-
         // 세션 스토리지 전부 제거 (여기에 제거 코드 추가)
 
         // 데이터 처리 성공 응답 전송
-        res.status(201).send("데이터 처리 성공");
+        res.status(201).send("FinishInsertProcess 데이터 처리 성공");
     } catch (err) {
         // 에러 발생 시 에러 로그 출력 및 서버 에러 응답 전송
-        console.error("데이터 처리 실패: ", err);
-        res.status(500).send("서버 에러");
+        console.error("FinishInsertProcess 데이터 처리 실패: ", err);
+        res.status(500).send("FinishInsertProcess 서버 에러");
     }
 });
 

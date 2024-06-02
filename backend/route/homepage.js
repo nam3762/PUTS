@@ -41,10 +41,10 @@ router.post("/signupProcess", async (req, res) => {
 
     await collection.insertOne(newUser);
     await closeConnection(client);
-    res.status(201).send("회원가입 성공");
+    res.status(201).send("signupProcess 회원가입 성공");
   } catch (err) {
-    console.error("쿼리 실패: ", err);
-    res.status(500).send("서버 에러");
+    console.error("회원가입 실패: ", err);
+    res.status(500).send("signupProcess 서버 에러");
   }
 });
 
@@ -60,13 +60,13 @@ router.post("/loginProcess", async (req, res) => {
     const user = await collection.findOne({ email }); // 사용자 찾기
 
     if (!user) {
-      return res.status(401).send("Invalid email");
+      return res.status(401).send("loginProcess 이메일 오류");
     }
 
     const passwordIsValid = bcrypt.compareSync(password, user.password);
 
     if (!passwordIsValid) {
-      return res.status(401).send("Invalid password");
+      return res.status(401).send("loginProcess 비밀번호 오류");
     }
 
     const token = jwt.sign({ id: user.email }, SECRET_KEY, {
@@ -75,8 +75,8 @@ router.post("/loginProcess", async (req, res) => {
     await closeConnection(client);
     res.status(200).send({ auth: true, token, nickname: user.nickname });
   } catch (err) {
-    console.error("쿼리 실패: ", err);
-    res.status(500).send("서버 에러");
+    console.error(" loginProcess 실패: ", err);
+    res.status(500).send("loginProcess 서버 에러");
   }
 });
 
