@@ -13,21 +13,33 @@ const Lecture = () => {
   const { formData, setFormData } = useContext(FormContext);
   const navigate = useNavigate();
 
-  const [lectures, setLectures] = useState(
-    formData.lectures.map((lecture) => ({
-      name: lecture.name || "",
-      code: lecture.code || "",
-      year: lecture.year || "",
-      group: lecture.group || "",
-      major_required: lecture.major_required || false,
-      sections: lecture.sections.map((section) => ({
-        division: section.division || "",
-        sectionTime: section.sectionTime || "",
-        capacity: section.capacity || "",
-        professorCode: section.professorCode || "", // 교수 코드 추가
-      })),
-    }))
-  );
+  // formData.lectures가 undefined인 경우를 대비하여 기본값 설정
+  const initialLectures = formData.lectures
+    ? formData.lectures.map((lecture) => ({
+        name: lecture.name || "",
+        code: lecture.code || "",
+        year: lecture.year || "",
+        group: lecture.group || "",
+        major_required: lecture.major_required || false,
+        sections: lecture.sections
+          ? lecture.sections.map((section) => ({
+              division: section.division || "",
+              sectionTime: section.sectionTime || "",
+              capacity: section.capacity || "",
+              professorCode: section.professorCode || "",
+            }))
+          : [
+              {
+                division: "",
+                sectionTime: "",
+                capacity: "",
+                professorCode: "",
+              },
+            ],
+      }))
+    : [];
+
+  const [lectures, setLectures] = useState(initialLectures);
   const [groupOptions, setGroupOptions] = useState([]);
   const [professors, setProfessors] = useState([]);
 
@@ -57,7 +69,6 @@ const Lecture = () => {
         "lectures",
         JSON.stringify(response.data.lectures)
       );
-
       navigate("/FinishInsert");
     } catch (error) {
       console.error("폼 데이터 제출 실패", error);
