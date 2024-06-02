@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import userImage from "./public/d.jpg";
+import timetableImage from "./public/professor_schedules.png";
 
 function MyPage() {
   const email = localStorage.getItem("email");
@@ -49,7 +50,7 @@ function MyPage() {
         </aside>
         <section className="flex-1 p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">2023-1학기</h2>
+            <h2 className="text-2xl font-semibold">2024-1학기</h2>
             <div>
               <button className="bg-green-500 text-white py-2 px-4 rounded-md mr-2 hover:bg-green-700 transition duration-200">
                 수정
@@ -60,7 +61,12 @@ function MyPage() {
             </div>
           </div>
           <div>
-            <p className="text-gray-700">Timetable description</p>
+            <p className="text-gray-700">소프트웨어학과 전체 시간표</p>
+            <img
+              src={timetableImage}
+              alt="User"
+              className="object-cover my-6"
+            />
           </div>
         </section>
       </div>

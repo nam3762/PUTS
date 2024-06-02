@@ -52,6 +52,23 @@ function FinishInsert() {
     console.log("Timetable Management clicked");
   };
 
+  const downloadImage = async (url, filename) => {
+    try {
+      const response = await axios({
+        url,
+        method: "GET",
+        responseType: "blob",
+      });
+      const blob = new Blob([response.data], { type: "image/png" });
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+    } catch (error) {
+      console.error("이미지 다운로드 실패", error);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-50">
       <div className="flex flex-col md:flex-row max-w-5xl w-full bg-white shadow-lg mt-10">
@@ -104,9 +121,41 @@ function FinishInsert() {
             시간표 수정
           </Link>
           <br></br>
-          <Link to="/" className="text-green-500">
-            이미지 저장
-          </Link>
+          <div className="grid grid-cols-3">
+            <button
+              onClick={() =>
+                downloadImage(
+                  "https://i.postimg.cc/j5rYyKDh/image.png",
+                  "professor_image.png"
+                )
+              }
+              className="text-green-500"
+            >
+              이미지 저장(교수)
+            </button>
+            <button
+              onClick={() =>
+                downloadImage(
+                  "https://i.postimg.cc/Wb4LG51x/image.png",
+                  "year_image.png"
+                )
+              }
+              className="text-green-500"
+            >
+              이미지 저장(학년)
+            </button>
+            <button
+              onClick={() =>
+                downloadImage(
+                  "https://i.postimg.cc/SQdbYBkW/image.png",
+                  "classroom_image.png"
+                )
+              }
+              className="text-green-500"
+            >
+              이미지 저장(강의실)
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState("");
@@ -73,6 +73,12 @@ function Login({ onLogin }) {
             Login
           </button>
           {message && <p className="mt-4 text-red-500">{message}</p>}
+          <Link
+            to="/signup"
+            className="block mt-2 text-blue-500 justify-content ml-auto"
+          >
+            Sign up
+          </Link>
         </form>
       </div>
     </div>
