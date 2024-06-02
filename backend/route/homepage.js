@@ -33,6 +33,12 @@ router.post("/signupProcess", async (req, res) => {
 
     const db = await connectDB(client);
     const collection = await connectUser(db);
+    // email 중복 확인
+    const existingUser = await collection.findOne({ email });
+    if (existingUser) {
+        return res.status(400).json({ message: "해당 이메일은 이미 사용 중입니다." });
+    }
+
     await collection.insertOne(newUser);
     await closeConnection(client);
     res.status(201).send("회원가입 성공");

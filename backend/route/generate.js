@@ -11,6 +11,7 @@ const {
 
 router.post("/FinishInsertProcess", async (req, res) => {
     const { 
+        email,
         timetableName,
         timetableDescription,
         professors,
@@ -18,8 +19,6 @@ router.post("/FinishInsertProcess", async (req, res) => {
         groupInfo,
         lectures,
     } = req.body;
-
-    console.log(professors);
 
     try {
         const MONGO_URI = process.env.MONGO_URI;
@@ -36,7 +35,8 @@ router.post("/FinishInsertProcess", async (req, res) => {
         const classroomGroups = JSON.parse(groupInfo);
 
         parsedClassrooms.forEach(classroom => {
-            classroom.group = classroomGroups.map(group => group.groupName);
+            const groups = classroomGroups.filter(group => group.classroomID === classroom.classroomID);
+            classroom.group = groups.length > 0 ? groups.map(group => group.groupName) : null;
         });
 
         // 새로운 입력 생성
@@ -50,9 +50,20 @@ router.post("/FinishInsertProcess", async (req, res) => {
             lecture: JSON.parse(lectures)
         };
         await collection.insertOne(newInput);
+
+        console.log(email);
+        // 유저업데이트
+        const collection2 = await connectUser(db);
+        const user = await collection2.findOneAndUpdate(
+            { email: email },
+            { $push: { user_input_no: nextInputNo } },
+            { returnOriginal: false }
+            );
         await closeConnection(client);
 
         // 파이썬 알고리즘 코드 실행 (여기에 실행 코드 추가)
+
+
         // 세션 스토리지 전부 제거 (여기에 제거 코드 추가)
 
         // 데이터 처리 성공 응답 전송

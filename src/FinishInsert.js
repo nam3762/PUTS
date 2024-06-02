@@ -25,6 +25,7 @@ function FinishInsert() {
         const response = await axios.post(
           "http://localhost:4000/generate/FinishInsertProcess",
           {
+            email,
             timetableName,
             timetableDescription,
             professors,
@@ -35,7 +36,6 @@ function FinishInsert() {
         );
 
         console.log("데이터 전송 성공", response.data);
-        // 필요한 경우 response.data를 사용하여 추가 작업을 수행합니다.
       } catch (error) {
         console.error("데이터 전송 실패", error);
       }

@@ -15,14 +15,18 @@ function SignupPage() {
 
     try {
       await axios.post("http://localhost:4000/signupProcess", {
-        email,
-        nickname,
-        password,
+          email,
+          nickname,
+          password,
       });
       setMessage("회원가입 성공!");
       navigate("/login");
-    } catch (error) {
-      setMessage("회원가입 실패");
+    } catch (error) { 
+        if (error.response.status === 400) {
+            setMessage("해당 이메일은 이미 사용 중입니다.");
+        } else {
+            setMessage("회원가입 실패");
+        }
     }
   };
 
