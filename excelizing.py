@@ -317,6 +317,13 @@ def visualization(dataframes):
 
         for lecture in originalLectures:
             if lecture.batched[2] == building and lecture.batched[3] == classroomNo:
+                # 교원명 탐색
+                profName = None
+                for professor in originalProfessors:
+                    if professor.profCode == lecture.profCode:
+                        profName = professor.name
+                        break
+
                 day = lecture.batched[0]
                 period = lecture.batched[1]
                 duration = lecture.duration
@@ -324,7 +331,7 @@ def visualization(dataframes):
                 for d in range(duration):
                     lecture_column = get_column_letter(start_column + day * 13 + period + d)
                     lecture_cell = f"{lecture_column}{start_row}"
-                    sheet[lecture_cell] = f"{lecture.name}-{lecture.division}({professor.name})"
+                    sheet[lecture_cell] = f"{lecture.name}-{lecture.division}({profName})"
                     sheet[lecture_cell].alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
 
                     if lecture.lectureCode in color_dict:
@@ -415,7 +422,7 @@ currentschedule = backtracking.currentschedule
 option = dataLoading.option
 
 # 재실행 구문
-for i in range(option.result_number):  # 10번 반복
+for i in range(option.result_number):
     print(f"현재 {i+1}번째 시간표 제작중...")
 
     # 시간표 정렬
