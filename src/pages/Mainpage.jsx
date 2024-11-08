@@ -8,11 +8,11 @@ export default function Mainpage() {
         <div className="max-w-md mx-auto flex flex-col items-center">
           <img src={putsLogo} alt="PUTS Logo" className="h-36" />
           <p className="py-6 text-base-content">
-            The best timetable generator for <br></br>CBNU School of Computer
-            Science
+            대학교 업무 관련 업계 종사자를 위한 <br></br>
+            대학교 자동 시간표 스케쥴링 시스템
           </p>
           <Link to="/timetable" className="btn btn-primary">
-            Get Started
+            시간표 생성하기
           </Link>
         </div>
       </div>

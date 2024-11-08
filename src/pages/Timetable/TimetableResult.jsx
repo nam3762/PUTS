@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import usePreventBackNavigation from "../../hooks/usePreventBackNavigation";
 import { useFormContext } from "react-hook-form";
 import Form from "../../components/form/Form";
+import { v4 as uuidv4 } from "uuid";
 
 export default function TimetableResult() {
   const { watch, handleSubmit } = useFormContext();
@@ -22,6 +23,7 @@ export default function TimetableResult() {
   // State variables
   const [status, setStatus] = useState("initial"); // 'initial', 'processing', 'completed'
   const [timetableData, setTimetableData] = useState(null);
+  const [fileUrl, setFileUrl] = useState(""); // 추가: 파일 URL을 저장할 상태
   const ws = useRef(null);
 
   // Tab state
@@ -30,7 +32,7 @@ export default function TimetableResult() {
   // Day names mapping
   const dayNames = ["월", "화", "수", "목", "금"];
 
-  // Transform lectures to TPs function (unchanged)
+  // Transform lectures to TPs function
   const transformLecturesToTPs = (lectures, postgraduateLectures) => {
     const transformLecture = (lecture, isGradLecture = false) => {
       return lecture.divisionGroup.flatMap((division, divisionIndex) => {
@@ -99,10 +101,17 @@ export default function TimetableResult() {
   const handleFinalSubmit = async (data) => {
     setStatus("processing");
 
+    // 새로운 UUID 생성
+    const newId = uuidv4();
+
     // Remove unnecessary fields
     const sanitizedData = { ...data };
     delete sanitizedData.classroomGroups;
     delete sanitizedData.postgraduateLectures;
+    delete sanitizedData.timetable;
+
+    // 새로운 ID를 데이터에 설정
+    sanitizedData.id = newId;
 
     // Transform lectures
     const transformedData = {
@@ -117,7 +126,7 @@ export default function TimetableResult() {
 
     try {
       // Send data to backend
-      const response = await fetch("http://125.251.212.92:8000/timetables", {
+      const response = await fetch("https://125.251.212.92:443/timetables", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -132,11 +141,9 @@ export default function TimetableResult() {
       const result = await response.json();
       console.log("Successfully sent data to backend:", result);
 
-      const timetableID = watch("id");
-
       // Set up WebSocket connection
       ws.current = new WebSocket(
-        `ws://125.251.212.92:8000/ws/timetables/${timetableID}`
+        `wss://125.251.212.92:443/ws/timetables/${newId}`
       );
 
       ws.current.onopen = () => {
@@ -147,9 +154,11 @@ export default function TimetableResult() {
         const data = JSON.parse(event.data);
         console.log("Received data from WebSocket:", data);
 
-        // Update state
-        setTimetableData(data);
-        setStatus("completed");
+        if (data.status === "FileReady") {
+          // 파일 URL을 상태에 저장
+          setFileUrl(data.file_url);
+          setStatus("completed");
+        }
       };
 
       ws.current.onclose = () => {
@@ -203,10 +212,6 @@ export default function TimetableResult() {
                 <table className="table w-full">
                   <tbody>
                     <tr>
-                      <th>ID</th>
-                      <td>{timetableInfo.id}</td>
-                    </tr>
-                    <tr>
                       <th>이름</th>
                       <td>{timetableInfo.timetableName}</td>
                     </tr>
@@ -219,11 +224,11 @@ export default function TimetableResult() {
                       <td>{timetableInfo.timetableDescription}</td>
                     </tr>
                     <tr>
-                      <th>결과값 갯수</th>
+                      <th>생성할 시간표 개수</th>
                       <td>{timetableInfo.timetableResult}</td>
                     </tr>
                     <tr>
-                      <th>점심시간 제약조건</th>
+                      <th>점심시간 제약조건 설정 여부</th>
                       <td>
                         {timetableInfo.timetableLunchTimeConstraint
                           ? "예"
@@ -231,7 +236,7 @@ export default function TimetableResult() {
                       </td>
                     </tr>
                     <tr>
-                      <th>교원 주 4일 강의 제약조건</th>
+                      <th>교원 주 4일 강의 제약조건 설정 여부</th>
                       <td>
                         {timetableInfo.timetable4daysConstraint
                           ? "예"
@@ -248,7 +253,7 @@ export default function TimetableResult() {
         return (
           <div className="card bg-base-100 shadow-xl text-base-content">
             <div className="card-body">
-              <h2 className="card-title">교원 정보</h2>
+              <h2 className="card-title">교원 목록</h2>
               <div className="divider"></div>
               <div className="overflow-x-auto">
                 <table className="table w-full">
@@ -305,7 +310,7 @@ export default function TimetableResult() {
         return (
           <div className="card bg-base-100 shadow-xl  text-base-content">
             <div className="card-body">
-              <h2 className="card-title">강의실 정보</h2>
+              <h2 className="card-title">강의실 목록</h2>
               <div className="divider"></div>
               <div className="overflow-x-auto">
                 <table className="table w-full">
@@ -445,7 +450,7 @@ export default function TimetableResult() {
           <div className="tabs my-4">
             <a
               className={`tab tab-bordered ${
-                activeTab === "timetable" ? "tab-active" : ""
+                activeTab === "timetable" ? "tab-active underline" : ""
               }`}
               onClick={() => setActiveTab("timetable")}
             >
@@ -453,23 +458,23 @@ export default function TimetableResult() {
             </a>
             <a
               className={`tab tab-bordered ${
-                activeTab === "professors" ? "tab-active" : ""
+                activeTab === "professors" ? "tab-active underline" : ""
               }`}
               onClick={() => setActiveTab("professors")}
             >
-              교원 정보
+              교원 목록
             </a>
             <a
               className={`tab tab-bordered ${
-                activeTab === "classrooms" ? "tab-active" : ""
+                activeTab === "classrooms" ? "tab-active underline" : ""
               }`}
               onClick={() => setActiveTab("classrooms")}
             >
-              강의실 정보
+              강의실 목록
             </a>
             <a
               className={`tab tab-bordered ${
-                activeTab === "lectures" ? "tab-active" : ""
+                activeTab === "lectures" ? "tab-active underline" : ""
               }`}
               onClick={() => setActiveTab("lectures")}
             >
@@ -501,12 +506,18 @@ export default function TimetableResult() {
       )}
 
       {status === "completed" && (
-        <>
-          <div className="text-center">
-            <h1 className="text-lg font-semibold mb-4">시간표 제작 완료!</h1>
-            <button className="btn btn-success">Excel 파일로 저장하기</button>
-          </div>
-        </>
+        <div className="text-center text-base-content">
+          <h1 className="text-lg font-semibold mb-4">시간표 제작 완료!</h1>
+          <a
+            href={`https://125.251.212.92:443${fileUrl}`} // 파일 다운로드 URL
+            download // 다운로드 속성 추가
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-success"
+          >
+            Excel 파일로 저장하기
+          </a>
+        </div>
       )}
     </Form>
   );
