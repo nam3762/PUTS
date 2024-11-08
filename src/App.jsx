@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
-import { StepProvider } from "./context/StepContext";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Mainpage from "./pages/Mainpage";
@@ -133,13 +132,11 @@ function App() {
   return (
     <BrowserRouter>
       <FormProvider {...methods}>
-        <StepProvider>
-          <main className="flex items-center flex-col min-h-screen w-full font-sans">
-            <Navbar />
-            <Layout />
-            <Footer />
-          </main>
-        </StepProvider>
+        <main className="flex items-center flex-col min-h-screen w-full font-sans">
+          <Navbar />
+          <Layout />
+          <Footer />
+        </main>
       </FormProvider>
     </BrowserRouter>
   );

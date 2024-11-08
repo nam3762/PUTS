@@ -64,10 +64,10 @@ export default function PostgraduateLectures() {
     setIsModalOpen(false);
   };
 
-  // 강의 드롭다운 선택 옵션 생성
+  // 교과목 드롭다운 선택 옵션 생성
   const lectureOptions = lectureFields.map((lecture, index) => ({
     value: index,
-    label: `강의 ${index + 1}: ${
+    label: `교과목 ${index + 1}: ${
       lecture.postgraduateLectureName || "이름 없음"
     }`,
   }));
@@ -97,18 +97,18 @@ export default function PostgraduateLectures() {
 
   return (
     <Form
-      title="STEP 5: 대학원 강의 정보"
+      title="STEP 5: 대학원 교과목 정보"
       prev="/timetable/lectures"
       next="/timetable/timetablecustomizing"
     >
-      {/* 드롭다운을 이용한 강의 선택 */}
+      {/* 드롭다운을 이용한 교과목 선택 */}
       <Select
         style="select-bordered mt-0 mb-4"
         options={lectureOptions}
         onChange={(e) => handlePageChange(parseInt(e.target.value, 10))}
         value={currentIndex}
       >
-        강의 선택
+        교과목 선택
       </Select>
 
       {lectureFields.length > 0 && (
@@ -118,12 +118,12 @@ export default function PostgraduateLectures() {
         >
           {/* 레이아웃을 flex로 변경하여 좌/우 배치 */}
           <div className="flex">
-            {/* 왼쪽: 대학원 강의 정보 입력 (1/3 너비로 설정) */}
+            {/* 왼쪽: 대학원 교과목 정보 입력 (1/3 너비로 설정) */}
             <div className="w-1/3 space-y-4 p-4">
-              {/* 강의 번호와 야간 강의 토글 */}
+              {/* 교과목 번호와 야간 교과목 토글 */}
               <div className="flex justify-between items-center">
-                <kbd className="kbd kbd-sm max-w-24 font-sans font-semibold bg-base-content text-base-200 max-h-1 px-4">
-                  {currentIndex + 1}번 강의
+                <kbd className="kbd kbd-sm max-w-28 font-sans font-semibold bg-base-content text-base-200 max-h-1 px-4">
+                  {currentIndex + 1}번 교과목
                 </kbd>
                 <Controller
                   control={control}
@@ -135,7 +135,7 @@ export default function PostgraduateLectures() {
                       style="mt-4"
                       textStyle="mt-4"
                     >
-                      야간 강의
+                      야간 교과목
                     </Toggle>
                   )}
                 />
@@ -196,7 +196,7 @@ export default function PostgraduateLectures() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col w-full items-center">
                   <Tooltip>
-                    {`대학원 강의는 강의가 배치될 특정 강의실을 
+                    {`대학원 교과목는 교과목이 배치될 특정 강의실을 
                     체크박스 형태로 직접 선택할 수 있습니다.`}
                   </Tooltip>
                   <Button onClick={handleOpenModal} style="mt-2">
@@ -223,10 +223,10 @@ export default function PostgraduateLectures() {
                 </div>
               </div>
 
-              {/* 강의 추가 및 삭제 버튼 */}
+              {/* 교과목 추가 및 삭제 버튼 */}
               <div className="flex justify-between space-x-4">
                 <Button onClick={() => handleAddLecture()} style="my-8">
-                  강의 추가
+                  교과목 추가
                 </Button>
 
                 <Button
@@ -235,7 +235,7 @@ export default function PostgraduateLectures() {
                   } btn-error my-8`}
                   onClick={(event) => handleRemoveLecture(event, currentIndex)}
                 >
-                  강의 삭제
+                  교과목 삭제
                 </Button>
               </div>
             </div>
@@ -249,7 +249,7 @@ export default function PostgraduateLectures() {
                 control={control}
                 currentIndex={currentIndex}
                 fieldName="postgraduateLectures"
-                // 대학원 강의에서 사용될 고유 필드
+                // 대학원 교과목에서 사용될 고유 필드
               />
             </div>
           </div>

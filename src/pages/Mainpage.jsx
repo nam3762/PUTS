@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
-import { useStepState } from "../context/StepContext";
 import putsLogo from "../assets/PUTS2.png";
 
 export default function Mainpage() {
-  const { handleResetStep } = useStepState();
-
   return (
     <div className="flex flex-1 items-center justify-center bg-base-200 min-h-screen">
       <div className="text-center w-full">
@@ -14,11 +11,7 @@ export default function Mainpage() {
             The best timetable generator for <br></br>CBNU School of Computer
             Science
           </p>
-          <Link
-            to="/timetable"
-            className="btn btn-primary"
-            onClick={handleResetStep}
-          >
+          <Link to="/timetable" className="btn btn-primary">
             Get Started
           </Link>
         </div>

@@ -1,12 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useStepState } from "../context/StepContext";
 import ThemeToggle from "../themes/ThemeToggle";
 import putsLogoSquare from "../assets/puts_logo_square3.png";
 import { useState } from "react";
 import ModalConfirm from "./modal/modalConfirm";
 
 const Navbar = () => {
-  const { currentStep, setCurrentStep } = useStepState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nextPath, setNextPath] = useState("");
   const location = useLocation();
@@ -16,18 +14,12 @@ const Navbar = () => {
     location.pathname.startsWith("/timetable") &&
     location.pathname !== "/timetableinfo";
 
-  // 기존 handleStep 유지
-  function handleStep() {
-    setCurrentStep(0);
-  }
-
   // 로고 클릭 시 경로 이동을 처리하는 함수
   const handleLogoClick = () => {
     if (isTimetableRoute) {
       setNextPath("/"); // 로고 클릭 시 홈으로 이동하도록 설정
       setIsModalOpen(true); // 모달 열기
     } else {
-      handleStep(); // Step 초기화
       navigate("/"); // 바로 홈으로 이동
     }
   };
@@ -44,7 +36,6 @@ const Navbar = () => {
   const confirmNavigation = () => {
     setIsModalOpen(false);
     navigate(nextPath); // 저장된 경로로 이동
-    handleStep(); // Step 초기화
   };
 
   const cancelNavigation = () => {

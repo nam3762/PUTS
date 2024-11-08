@@ -3,7 +3,7 @@ export const defaultValues = {
   // 이 입력으로 여러 시간표가 생성될 수 있음.
 
   // 시간표 id (MongoDB에서 사용하는 _id와 다른 값이며 _id값을 이용하여 UUID를 생성한 값을 사용)
-  id: "33134",
+  id: "6666",
   // 시간표 이름
   timetableName: "2024-2",
   // 시간표 비밀번호 (시간표 id와 password로 식별)
@@ -203,7 +203,7 @@ export const defaultValues = {
       isGrad: false,
       divisionGroup: [
         {
-          divisionNumber: "",
+          divisionNumber: 0,
           sectionGroup: [
             {
               sectionTime: 2,
@@ -265,7 +265,7 @@ export const defaultValues = {
       isGrad: false,
       divisionGroup: [
         {
-          divisionNumber: "",
+          divisionNumber: 0,
           sectionGroup: [
             {
               sectionTime: 2,
@@ -328,7 +328,7 @@ export const defaultValues = {
       atNight: true,
       divisionGroup: [
         {
-          divisionNumber: "",
+          divisionNumber: 0,
           sectionGroup: [
             {
               sectionTime: 2,

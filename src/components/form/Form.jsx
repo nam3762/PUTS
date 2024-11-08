@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PrevNextButton from "../PrevNextButton";
 import { useFormContext } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useStepState } from "../../context/StepContext";
 
 export default function Form({
   title,
@@ -14,20 +13,17 @@ export default function Form({
 }) {
   const { handleSubmit } = useFormContext(); // React Hook Form에서 handleSubmit 가져오기
   const navigate = useNavigate(); // useNavigate 훅 사용하여 navigate 정의
-  const { handlePlusStep, handleMinusStep } = useStepState();
 
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
 
   const onSubmitNext = (data) => {
     // 데이터 유효성 검사가 완료되면 다음 페이지로 이동
-    handlePlusStep(); // 스텝 증가
     console.log("Form data submitted (Next):", data);
     navigate(next); // navigate를 통해 다음 페이지로 이동
   };
 
   const onSubmitPrev = () => {
     // 이전 페이지로 이동
-    handleMinusStep(); // 스텝 감소
     console.log("Previous step triggered");
     navigate(prev); // 이전 페이지로 이동
   };

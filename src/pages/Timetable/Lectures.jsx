@@ -25,17 +25,17 @@ export default function Lectures() {
     classroomGroupOptions,
     handleAddLecture,
     handleRemoveLecture,
-    handlePageChange, // 드롭다운에서 선택된 강의를 변경하는 함수
+    handlePageChange, // 드롭다운에서 선택된 교과목를 변경하는 함수
     handleGroupChange,
   ] = useLecture();
 
   const lectures = watch("lectures");
   const currentGroup = watch(`lectures.${currentIndex}.group`); // 현재 강의실 그룹 값 관찰
 
-  // 강의 드롭다운 선택 옵션 생성
+  // 교과목 드롭다운 선택 옵션 생성
   const lectureOptions = lectureFields.map((lecture, index) => ({
     value: index,
-    label: `강의 ${index + 1}: ${lecture.lectureName || "이름 없음"}`,
+    label: `교과목 ${index + 1}: ${lecture.lectureName || "이름 없음"}`,
   }));
 
   // 새로 고침, 뒤로 가기, 앞으로 가기 시 홈화면으로
@@ -51,7 +51,7 @@ export default function Lectures() {
     }
   }, [timetableName, navigate]);
 
-  // 선택된 강의실 그룹이 UI적으로 저장되도록 useEffect로 값 설정
+  // 선택된 교과목실 그룹이 UI적으로 저장되도록 useEffect로 값 설정
   useEffect(() => {
     if (currentGroup) {
       setValue(`lectures.${currentIndex}.group`, parseInt(currentGroup, 10));
@@ -60,22 +60,22 @@ export default function Lectures() {
 
   return (
     <Form
-      title="STEP 4: 강의 정보"
+      title="STEP 4: 교과목 정보"
       prev="/timetable/classrooms"
       next="/timetable/postgraduatelectures"
     >
       <div className="flex justify-between">
-        {/* 드롭다운을 이용한 강의 선택 */}
+        {/* 드롭다운을 이용한 교과목 선택 */}
         <Select
           style="select-bordered mt-0 mb-4"
           options={lectureOptions}
           onChange={(e) => handlePageChange(parseInt(e.target.value, 10))}
           value={currentIndex}
         >
-          강의 선택
+          교과목 선택
         </Select>
         <span className="my-2 label-text text-right text-xs text-base-content font-bold">
-          대학원(야간) 강의 입력은 다음 STEP에서 진행합니다.
+          대학원(야간) 교과목 입력은 다음 STEP에서 진행합니다.
         </span>
       </div>
 
@@ -86,12 +86,12 @@ export default function Lectures() {
         >
           {/* 레이아웃을 flex로 변경하여 좌/우 배치 */}
           <div className="flex">
-            {/* 왼쪽: 강의 정보 입력 (1:2 비율로 조정) */}
+            {/* 왼쪽: 교과목 정보 입력 (1:2 비율로 조정) */}
             <div className="w-1/3 space-y-4 p-4">
-              {/* 강의 번호 표시 */}
+              {/* 교과목 번호 표시 */}
               <div className="flex justify-between items-center ">
-                <kbd className="kbd kbd-sm max-w-24 font-sans font-semibold bg-base-content text-base-200 max-h-1 px-4">
-                  {currentIndex + 1}번 강의
+                <kbd className="kbd kbd-sm max-w-28 font-sans font-semibold bg-base-content text-base-200 max-h-1 px-4">
+                  {currentIndex + 1}번 교과목
                 </kbd>
                 <Controller
                   control={control}
@@ -150,14 +150,14 @@ export default function Lectures() {
                 </div>
               </div>
 
-              {/* 학년과 강의실 그룹 선택도 한 행에 두 개씩 배치 */}
+              {/* 학년과 교과목실 그룹 선택도 한 행에 두 개씩 배치 */}
               <div className="grid grid-cols-2 gap-4">
                 {/* 학년 */}
                 <div className="w-full">
                   <span className="label-text text-base-content font-bold">
                     학년
                   </span>
-                  <Tooltip>{`전 학년 가능한 강의의 경우 0으로 입력`}</Tooltip>
+                  <Tooltip>{`전 학년 가능한 교과목의 경우 0으로 입력`}</Tooltip>
                   <InputText
                     {...register(`lectures.${currentIndex}.year`, {
                       required: "학년을 입력해주세요.",
@@ -185,10 +185,10 @@ export default function Lectures() {
                   <Select
                     style="select-bordered"
                     {...register(`lectures.${currentIndex}.group`, {
-                      required: "강의실 그룹을 선택해주세요.",
+                      required: "교과목실 그룹을 선택해주세요.",
                       setValueAs: (value) => parseInt(value, 10), // 입력값을 int로 변환
                       validate: (value) =>
-                        value !== "" || "강의실 그룹을 선택해주세요.",
+                        value !== "" || "교과목실 그룹을 선택해주세요.",
                     })}
                     value={lectures[currentIndex].group} // 현재 group의 id 값을 설정
                     onChange={(e) =>
@@ -210,7 +210,7 @@ export default function Lectures() {
               {/* 하단 버튼들 */}
               <div className="flex justify-between space-x-4">
                 <Button onClick={() => handleAddLecture(false)} style="my-12">
-                  강의 추가
+                  교과목 추가
                 </Button>
 
                 <Button
@@ -219,7 +219,7 @@ export default function Lectures() {
                   } btn-error my-12`}
                   onClick={(event) => handleRemoveLecture(event, currentIndex)}
                 >
-                  강의 삭제
+                  교과목 삭제
                 </Button>
               </div>
             </div>
@@ -232,7 +232,7 @@ export default function Lectures() {
               <DivisionGroup
                 control={control}
                 currentIndex={currentIndex}
-                fieldName="lectures" // 일반 강의에서 사용될 고유 필드
+                fieldName="lectures" // 일반 교과목에서 사용될 고유 필드
               />
             </div>
           </div>
