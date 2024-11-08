@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import ThemeToggle from "../themes/ThemeToggle";
-import putsLogoSquare from "../assets/puts_logo_square3.png";
+import putsLogoSquare from "../assets/PUTS_logo.png";
 import { useState } from "react";
 import ModalConfirm from "./modal/modalConfirm";
 

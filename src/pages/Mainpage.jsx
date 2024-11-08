@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import putsLogo from "../assets/PUTS2.png";
+import putsLogo from "../assets/PUTS.png";
 
 export default function Mainpage() {
   return (
