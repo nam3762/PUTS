@@ -17,11 +17,14 @@ originalProfessors = dataLoading.professors
 originalLectures = dataPreprocessing.originalLectures
 option = dataLoading.option
 
-print("가능한 시간표 조합을 짜는중입니다...")
-
+for lecture in originalLectures:
+    lecture.available = list(lecture.available)
+    random.shuffle(lecture.available)
 random.shuffle(originalLectures)
 random.shuffle(originalClassrooms)
 random.shuffle(originalProfessors)
+
+print("시간표 조합을 생성 중입니다.")
 currentschedule = []
 def run_schedule():
     random.shuffle(originalLectures)  # 결과 랜덤
@@ -150,6 +153,8 @@ def run_schedule():
     
     # 특정 학년의 어느 날에 점심시간이 존재하는지(11시에서 15시 사이에 공백이 존재하는지)
     def isValid_lunch(day, period, duration, year, currentschedule):
+        if year == 0 or year == 5:
+            return True
         if option.isLunch:
             period_lists = [True for _ in hours]           # 빈 시간 목록
 
