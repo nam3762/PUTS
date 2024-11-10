@@ -39,8 +39,8 @@ export default function Professors() {
       professorCode: "",
       isProfessor: true,
       lectureCnt: 0,
-      offTimes: [],
-      hopeTimes: [],
+      offTimes: [], // 빈 배열로 초기화
+      hopeTimes: [], // 빈 배열로 초기화
     });
     setCurrentIndex(fields.length); // 새 교원을 추가한 후 그 교원으로 이동
   };
@@ -206,7 +206,7 @@ export default function Professors() {
                   name={`professors.${currentIndex}.offTimes`}
                   weekdays={weekdays}
                   periodLabels={periodLabels}
-                  value={field.value || {}}
+                  value={field.value || []}
                   onChange={(newValue) => field.onChange(newValue)}
                 />
               )}
@@ -223,7 +223,7 @@ export default function Professors() {
                   name={`professors.${currentIndex}.hopeTimes`}
                   weekdays={weekdays}
                   periodLabels={periodLabels}
-                  value={field.value || {}}
+                  value={field.value || []}
                   onChange={(newValue) => field.onChange(newValue)}
                 />
               )}

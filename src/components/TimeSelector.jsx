@@ -1,37 +1,49 @@
-import { forwardRef } from "react";
+import { forwardRef, useState, useEffect } from "react";
 
 const TimeSelector = forwardRef(function (
   { title, timeType, name, weekdays, periodLabels, value = [], onChange },
   ref
 ) {
-  // value가 배열인지 확인하고, 그렇지 않으면 빈 배열로 설정
-  const timeValues = Array.isArray(value) ? value : [];
+  // 선택된 시간들을 상태로 관리
+  const [selectedTimes, setSelectedTimes] = useState([]);
 
-  const toggleTime = (day, period) => {
-    const newValue = timeValues.some(
-      (t) => t.day === day && t.period === period
-    )
-      ? timeValues.filter((t) => !(t.day === day && t.period === period))
-      : [...timeValues, { day, period }];
-    onChange(newValue);
+  // value prop이 변경될 때마다 selectedTimes 상태를 업데이트
+  useEffect(() => {
+    setSelectedTimes(Array.isArray(value) ? value : []);
+  }, [value]);
+
+  const toggleTime = (dayIndex, periodIndex) => {
+    const exists = selectedTimes.some(
+      (t) => t[0] === dayIndex && t[1] === periodIndex
+    );
+    const newSelectedTimes = exists
+      ? selectedTimes.filter(
+          (t) => !(t[0] === dayIndex && t[1] === periodIndex)
+        )
+      : [...selectedTimes, [dayIndex, periodIndex]];
+    setSelectedTimes(newSelectedTimes);
+    onChange(newSelectedTimes); // 부모 컴포넌트로 변경된 값 전달
   };
 
-  const toggleAllDay = (day, checked) => {
-    const newValue = checked
+  const toggleAllDay = (dayIndex, checked) => {
+    const newSelectedTimes = checked
       ? [
-          ...timeValues.filter((t) => t.day !== day),
-          ...periodLabels.map((period) => ({ day, period })),
+          ...selectedTimes.filter((t) => t[0] !== dayIndex),
+          ...periodLabels.map((_, periodIndex) => [dayIndex, periodIndex]),
         ]
-      : timeValues.filter((t) => t.day !== day);
-    onChange(newValue);
+      : selectedTimes.filter((t) => t[0] !== dayIndex);
+    setSelectedTimes(newSelectedTimes);
+    onChange(newSelectedTimes); // 부모 컴포넌트로 변경된 값 전달
   };
 
-  const isTimeSelected = (day, period) => {
-    return timeValues.some((t) => t.day === day && t.period === period);
+  const isTimeSelected = (dayIndex, periodIndex) => {
+    return selectedTimes.some((t) => t[0] === dayIndex && t[1] === periodIndex);
   };
 
-  const isDayFullySelected = (day) => {
-    return periodLabels.every((period) => isTimeSelected(day, period));
+  const isDayFullySelected = (dayIndex) => {
+    return periodLabels.every((_, periodIndex) =>
+      isTimeSelected(dayIndex, periodIndex)
+    );
   };
 
   return (
@@ -44,8 +56,8 @@ const TimeSelector = forwardRef(function (
               <div className="flex items-center justify-center mb-2">
                 <input
                   type="checkbox"
-                  checked={isDayFullySelected(day)}
-                  onChange={(e) => toggleAllDay(day, e.target.checked)}
+                  checked={isDayFullySelected(dayIndex)}
+                  onChange={(e) => toggleAllDay(dayIndex, e.target.checked)}
                   className="checkbox mr-2"
                 />
                 <span className="font-semibold text-base-content text-sm">
@@ -55,13 +67,13 @@ const TimeSelector = forwardRef(function (
               {periodLabels.map((period, periodIndex) => (
                 <div
                   key={periodIndex}
-                  onClick={() => toggleTime(day, period)}
+                  onClick={() => toggleTime(dayIndex, periodIndex)}
                   className={`btn bg-base-100 w-full flex items-center justify-center cursor-pointer ${
                     timeType === "offTimes"
                       ? "hover:bg-error"
                       : "hover:bg-success"
                   } my-1 ${
-                    isTimeSelected(day, period)
+                    isTimeSelected(dayIndex, periodIndex)
                       ? `${timeType === "offTimes" ? "bg-error" : "bg-success"}`
                       : "bg-base-100"
                   }`}
