@@ -33,19 +33,14 @@ def run_backtracking(lectures, professors, option):
         duration = lecture.duration
 
         if (isValid_timeSpace(day, period, building, classroomNo, lecture_duration, currentschedule) and
-            isValid_prof(day, period, profCode, lecture_duration, currentschedule) and
-            isValid_TPGroup(day, period, isTPGroup, lectureCode, TP, currentschedule) and
-            isValid_MR(day, period, MR, lectureCode, TP, lecture_duration, currentschedule)
+        isValid_prof(day, period, profCode, lecture_duration, currentschedule) and
+        isValid_TPGroup(day, period, isTPGroup, lectureCode, TP, currentschedule) and
+        isValid_MR(day, period, MR, lectureCode, TP, lecture_duration, currentschedule) and
+        isValid_sameGrade(day, period, year, lectureCode, TP, lecture_duration, currentschedule) and
+        isValid_TP_DayDif(day, lectureCode, division, currentschedule) and
+        isValid_week(professor, profCode, day, currentschedule) and  # 수정된 부분
+        isValid_lunch(day, period, duration, year, currentschedule)
         ):
-        # if (isValid_timeSpace(day, period, building, classroomNo, lecture_duration, currentschedule) and
-        #     isValid_prof(day, period, profCode, lecture_duration, currentschedule) and
-        #     isValid_TPGroup(day, period, isTPGroup, lectureCode, TP, currentschedule) and
-        #     isValid_MR(day, period, MR, lectureCode, TP, lecture_duration, currentschedule) and
-        #     isValid_sameGrade(day, period, year, lectureCode, TP, lecture_duration, currentschedule) and
-        #     isValid_TP_DayDif(day, lectureCode, division, currentschedule) and
-        #     isValid_week(isprof, lectureCnt, profCode, day, currentschedule) and
-        #     isValid_lunch(day, period, duration, year, currentschedule)
-        # ):
             return True
         return False
 
@@ -128,16 +123,16 @@ def run_backtracking(lectures, professors, option):
         return True
 
     # 교수가 주당 4일 근무하는지 확인
-    def isValid_week(isprof, lectureCnt, profCode, day, currentschedule):
-        if option.isWeek:
-            if isprof and lectureCnt == 1:  # 교수의 남은 강의 수가 1개인 경우
-                day_lists = [False for _ in range(5)]  # 해당 날짜를 근무하는지
-                day_lists[day] = True  # 현재 강의의 대입을 가정
-                for scheduled in currentschedule:  # 이미 존재하던 강의 확인
+    def isValid_week(professor, profCode, day, currentschedule):
+        if option.isWeek and professor.weekConstraint:
+            if professor.isprof and professor.lectureCnt == 1:  # 교수의 남은 강의 수가 1개인 경우
+                day_lists = [False for _ in range(5)]  # 각 요일을 나타내는 리스트 초기화
+                day_lists[day] = True  # 현재 강의를 해당 요일에 배정한다고 가정
+                for scheduled in currentschedule:
                     if profCode == scheduled.profCode:
-                        day_lists[scheduled.batched[0]] = True
+                        day_lists[scheduled.batched[0]] = True  # 이미 배정된 요일 표시
                 cnt = sum(day_lists)
-                if cnt < 4:  # 주 4일이 안 되면 안 됨
+                if cnt < 4:  # 교수의 강의 요일이 4일 미만이면 False 반환
                     return False
         return True
 

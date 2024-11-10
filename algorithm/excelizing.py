@@ -1,251 +1,415 @@
 # excelizing.py
-# 실질적으로 시간표 생성하는 부분
 import pandas as pd
 from openpyxl import load_workbook
-from openpyxl.styles import Alignment, Border, Side, PatternFill
-import random
+from openpyxl.styles import Alignment, Border, Side, Font, PatternFill
+from openpyxl.utils import column_index_from_string, get_column_letter
 import os
 from datetime import datetime
 
-def generate_timetable(currentschedule, lectures, professors, classrooms):
-    def visualization(currentschedule, professors, classrooms):
-        def add_columns(title, rows, df):
-            new_row = pd.DataFrame([[''] * (df.shape[1])], columns=df.columns)
-            df = pd.concat([df, new_row], ignore_index=True)
-            return df
+def generate_timetable(currentschedule, lectures, professors, classrooms, file_path):
+    def visualization(currentschedule, lectures, professors, classrooms):
+        # 템플릿 로딩
+        file_path_template = "C:/Users/PC/Desktop/pymongo/algorithm/template.xlsx"
+        wb = load_workbook(filename=file_path_template)
+        row_height = 54.75  # 추가될 행의 높이
 
-        def add_profName(lecture_str, profCode, professors):
-            for professor in professors:
-                if professor.profCode == profCode:
-                    lecture_str += f"({professor.name})"
-                    break
-            return lecture_str
+        ## 학년명 레이블 추가
+        headers = ["교양", "1학년", "2학년", "3학년", "4학년", "대학원"]
+        start_column = column_index_from_string('E')
 
-        def batch_lecture(df, day, period, duration, lecture_str):
-            for j in range(duration):
-                current_period = period + j
-                if current_period < len(df.index):
-                    cell_value = df.iloc[current_period, day]
-                    if pd.isna(cell_value):
-                        df.iloc[current_period, day] = lecture_str
-                    else:
-                        df.iloc[current_period, day] = f"{cell_value}\n{lecture_str}"
+        # 색상환
+        color_list = ["BFBFBF","E6B8B7","FCD5B5","92CDDD","D7E4BC","FFFF66"]
+        batch_color_list = ["D9D9D9","F3DCDB","FCD5B5","C6DAF1","D7E4BC","FFFF66"]
+        batch_color_list_bold = ["D9D9D9","D99694","E46C0A","568ED4","77933C","FFFF66"]
+        color_dict = {}
 
-        # 강의 배치 정보 출력 (디버깅용)
-        for lecture in currentschedule:
-            print(f"{lecture.lectureCode} {lecture.division} {lecture.TP} "
-                  f"{lecture.batched[0]}날짜에, {lecture.batched[1]}부터 {lecture.batched[1] + lecture.duration}까지 "
-                  f"{lecture.batched[2]} 건물의 {lecture.batched[3]} 강의실")
+        # 강의별 색상 지정
+        for lecture in lectures:
+            lectureCode = lecture.lectureCode
+            year = lecture.year
+            baseColor = batch_color_list[year]
 
-        # 학년별-교수별-강의실별 순으로 시간표 제작
-        columns = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-        rows = [f'{h:02d}:00~{h+1:02d}:00' for h in range(9, 22)]
+            if lectureCode not in color_dict:
+                if lecture.MR:
+                    baseColor = batch_color_list_bold[year]
 
-        dataframes = []
-        titles = []
+                # color_dict에 새로운 색상 추가
+                color_dict[lectureCode] = baseColor
 
-        # 학년별 시간표: 1~4학년 (대학원 제외)
-        for i in range(1, 5):
-            df = pd.DataFrame(index=rows, columns=columns)  # 빈 데이터프레임 생성
+        for sheet in wb.worksheets:
+            # 기존 병합 해제 (병합 범위를 리스트로 복사하여 해제)
+            merged_ranges = list(sheet.merged_cells.ranges)
+            for merged_range in merged_ranges:
+                sheet.unmerge_cells(str(merged_range))
+            
+            # 맨 위에 새로운 행 추가
+            sheet.insert_rows(1)
 
-            # 학년별 강의 탐색
+            # 학년명 레이블과 색상 추가
+            for i, (header, color) in enumerate(zip(headers, color_list)):
+                col = start_column + i * 4  # 학년마다 4열 간격
+                
+                # 색상 추가 (각 레이블의 왼쪽 셀에 색상 채우기)
+                color_cell = sheet.cell(row=1, column=col - 2)
+                color_cell.fill = PatternFill(start_color=color, end_color=color, fill_type="solid")
+                
+                # 학년명 레이블 추가
+                label_cell = sheet.cell(row=1, column=col)
+                label_cell.value = header
+                label_cell.alignment = Alignment(horizontal="center", vertical="center")
+
+        ## 교원 시간표
+        sheet = wb.worksheets[0]
+        for cell in sheet[1]:
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+        start_row = 4
+        start_column = column_index_from_string('B')
+
+        for professor in professors:
+            sheet[f'A{start_row}'] = professor.name
+            sheet[f'A{start_row}'].alignment = Alignment(horizontal="center", vertical="center")
+
+            profCode = professor.profCode
+
+            for lecture in currentschedule:
+                if lecture.profCode == profCode:
+                    day = lecture.batched[0]
+                    period = lecture.batched[1]
+                    duration = lecture.duration
+
+                    for d in range(duration):
+                        lecture_column = get_column_letter(start_column + day * 13 + period + d)
+                        lecture_cell = f"{lecture_column}{start_row}"
+                        sheet[lecture_cell] = f"{lecture.name}-{lecture.division}({professor.name})"
+                        sheet[lecture_cell].alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+
+                        if lecture.lectureCode in color_dict:
+                            color = color_dict[lecture.lectureCode]
+                            sheet[lecture_cell].fill = PatternFill(start_color=color, end_color=color, fill_type="solid")
+
+            # 행 높이 설정
+            sheet.row_dimensions[start_row].height = row_height
+
+            # 헤더 종합
+            for i in range(5):
+                # 병합할 시작 및 끝 열 계산
+                col_start = 2 + i * 13
+                col_end = col_start + 13 - 1
+
+                # 열을 문자로 변환 후 병합
+                merge_range = f"{get_column_letter(col_start)}2:{get_column_letter(col_end)}2"
+                sheet.merge_cells(merge_range)
+
+                # 병합된 셀의 중앙 정렬 설정
+                cell = sheet.cell(row=2, column=col_start)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+            sheet[f'A{2}'].alignment = Alignment(horizontal="right", vertical="center")
+            sheet[f'A{3}'].alignment = Alignment(horizontal="center", vertical="center")
+
+            # 경계선 설정
+            sheet.cell(row=start_row, column=1).border = Border( # A열
+                    bottom=Side(style="thin"),
+                    right=Side(style="thin")
+                )
+            for col in range(2, sheet.max_column): # 밑줄
+                sheet.cell(row=start_row, column=col).border = Border(
+                    bottom=Side(style="thin")
+                )
+            for col in range(1, sheet.max_column + 1, 13): # 날짜줄
+                sheet.cell(row=start_row, column=col).border = Border(
+                    bottom=Side(style="thin"),
+                    right=Side(style="thin")
+                )
+            
+            # 폰트 설정
+            for col in range(2, sheet.max_column + 1):
+                sheet.cell(row=start_row, column=col).font = Font(size=8)
+
+            # 다음 행 이동
+            start_row += 1
+
+        # 교원 시간표 병합
+        max_row = sheet.max_row
+        max_col = sheet.max_column
+        for row in range(3, max_row + 1):
+            start_col = 2
+            while start_col < max_col:
+                cell = sheet.cell(row=row, column=start_col)
+                if cell.value:
+                    end_col = start_col
+                    while end_col + 1 <= max_col and sheet.cell(row=row, column=end_col + 1).value == cell.value:
+                        end_col += 1
+
+                    if end_col > start_col:
+                        sheet.merge_cells(start_row=row, start_column=start_col, end_row=row, end_column=end_col)
+
+                    start_col = end_col + 1
+                else:
+                    start_col += 1
+
+        ## 학년 시간표
+        sheet = wb.worksheets[1]
+
+        # 시트 전처리
+        for cell in sheet[1]:
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+        sheet[f'A{1}'].alignment = Alignment(horizontal="right", vertical="center")
+        sheet[f'A{2}'].alignment = Alignment(horizontal="center", vertical="center")
+        start_row = 4  # 학년별 시작 행
+        start_column = column_index_from_string('B')
+
+        for i in range(0, 6):
+            # 학년 또는 분류 제목 추가
+            if i == 0:
+                title = "교양"
+            elif i == 5:
+                title = "대학원"
+            else:
+                title = f"{i}학년"
+            
+            # 학년 이름을 첫 번째 열에 배치
+            sheet[f'A{start_row}'] = title
+            sheet[f'A{start_row}'].alignment = Alignment(horizontal="center", vertical="center")
+
+            current_row = start_row  # 현재 강의 배치를 위한 시작 행
+            max_row_grade = start_row  # 학년별 최대 행을 추적
+
             for lecture in currentschedule:
                 if lecture.year == i:
+                    # 교원명 탐색
+                    profName = None
+                    for professor in professors:
+                        if professor.profCode == lecture.profCode:
+                            profName = professor.name
+                            break
+
                     day = lecture.batched[0]
                     period = lecture.batched[1]
                     duration = lecture.duration
-                    lecture_str = f"{lecture.lectureCode} {lecture.name}"
-                    profCode = lecture.profCode
-                    if lecture.MR:
-                        lecture_str += "(전필)"
-                    lecture_str = add_profName(lecture_str, profCode, professors)  # 교수명 추가
-                    batch_lecture(df, day, period, duration, lecture_str)  # 강의 배치
 
-            df = df.fillna('')  # 빈 값 처리
-            title = f"{i}학년 시간표"  # 제목
-            df = add_columns(title, rows, df)  # 열 추가
-            dataframes.append(df)
-            titles.append(title)
+                    for d in range(duration):
+                        lecture_column = get_column_letter(start_column + day * 13 + period + d)
+                        lecture_cell = f"{lecture_column}{current_row}"
 
-        # 교수별 시간표
-        for professor in professors:
-            if not professor.isprof:
-                continue  # 전임교원만 포함
-            df = pd.DataFrame(index=rows, columns=columns)  # 빈 데이터프레임 생성
+                        # 셀에 값이 이미 있는 경우, 다음 행으로 이동
+                        while sheet[lecture_cell].value:
+                            # 경계선 설정
+                            sheet.cell(row=current_row, column=1).border = Border( # A열
+                                    bottom=Side(style="thin"),
+                                    right=Side(style="thin")
+                                )
+                            for col in range(2, sheet.max_column): # 밑줄
+                                sheet.cell(row=current_row, column=col).border = Border(
+                                    bottom=Side(style="thin")
+                                )
+                            for col in range(1, sheet.max_column + 1, 13): # 날짜줄
+                                sheet.cell(row=current_row, column=col).border = Border(
+                                    bottom=Side(style="thin"),
+                                    right=Side(style="thin")
+                                )
+                            current_row += 1
+                            sheet.row_dimensions[current_row].height = row_height
+                            lecture_cell = f"{lecture_column}{current_row}"
 
-            # 교수별 강의 탐색
-            for lecture in currentschedule:
-                if lecture.profCode == professor.profCode:
-                    day = lecture.batched[0]
-                    period = lecture.batched[1]
-                    duration = lecture.duration
-                    lecture_str = f"{lecture.lectureCode} {lecture.name}"
-                    if lecture.MR:
-                        lecture_str += "(전필)"
-                    lecture_str = add_profName(lecture_str, lecture.profCode, professors)  # 교수명 추가
-                    batch_lecture(df, day, period, duration, lecture_str)  # 강의 배치
+                            if lecture.lectureCode in color_dict:
+                                color = color_dict[lecture.lectureCode]
+                                sheet[lecture_cell].fill = PatternFill(start_color=color, end_color=color, fill_type="solid")
 
-            df = df.fillna('')  # 빈 값 처리
-            title = f"{professor.name} 전임교원 시간표"  # 제목
-            df = add_columns(title, rows, df)  # 열 추가
-            dataframes.append(df)
-            titles.append(title)
+                        # 셀이 비어 있는 경우 값을 할당
+                        sheet[lecture_cell] = f"{lecture.name}-{lecture.division}({profName})"
+                        sheet[lecture_cell].alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
 
-        # 강의실별 시간표
+                        if lecture.lectureCode in color_dict:
+                            color = color_dict[lecture.lectureCode]
+                            sheet[lecture_cell].fill = PatternFill(start_color=color, end_color=color, fill_type="solid")
+
+                    max_row_grade = max(max_row_grade, current_row)
+                    current_row = start_row
+
+            # 학년별 A열 병합
+            if max_row_grade > start_row:
+                sheet.merge_cells(start_row=start_row, start_column=1, end_row=max_row_grade, end_column=1)
+
+            # 행 높이 설정
+            sheet.row_dimensions[start_row].height = row_height
+
+            # 헤더 종합
+            for i in range(5):
+                # 병합할 시작 및 끝 열 계산
+                col_start = 2 + i * 13
+                col_end = col_start + 13 - 1
+
+                # 열을 문자로 변환 후 병합
+                merge_range = f"{get_column_letter(col_start)}2:{get_column_letter(col_end)}2"
+                sheet.merge_cells(merge_range)
+
+                # 병합된 셀의 중앙 정렬 설정
+                cell = sheet.cell(row=2, column=col_start)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+            sheet[f'A{2}'].alignment = Alignment(horizontal="right", vertical="center")
+            sheet[f'A{3}'].alignment = Alignment(horizontal="center", vertical="center")
+            
+            # 경계선 설정
+            for col in range(2, sheet.max_column): # 밑줄
+                sheet.cell(row=max_row_grade, column=col).border = Border(
+                    bottom=Side(style="thin")
+                )
+            for col in range(1, sheet.max_column + 1, 13): # 날짜줄
+                sheet.cell(row=max_row_grade, column=col).border = Border(
+                    bottom=Side(style="thin"),
+                    right=Side(style="thin")
+                )
+
+            # 폰트 설정
+            for row in range(4, max_row_grade + 1):
+                for col in range(2, sheet.max_column + 1):
+                    sheet.cell(row=row, column=col).font = Font(size=8)
+
+            # 다음 행 이동
+            start_row = max_row_grade + 1
+
+        # 모든 셀을 검토하며 같은 내용이 연속적으로 있는 경우 병합
+        max_row = sheet.max_row
+        max_col = sheet.max_column
+        for row in range(3, max_row + 1):  # 시작 행부터 마지막 행까지
+            start_col = 2  # 시작 열 (B열)
+            while start_col < max_col:
+                cell = sheet.cell(row=row, column=start_col)
+                if cell.value:
+                    # 같은 내용을 가진 셀의 범위를 탐색
+                    end_col = start_col
+                    while end_col + 1 <= max_col and sheet.cell(row=row, column=end_col + 1).value == cell.value:
+                        end_col += 1
+
+                    # 동일한 값을 가진 셀들을 병합
+                    if end_col > start_col:  # 범위가 2칸 이상인 경우에만 병합
+                        sheet.merge_cells(start_row=row, start_column=start_col, end_row=row, end_column=end_col)
+
+                    # 다음 병합 범위 탐색을 위해 start_col을 갱신
+                    start_col = end_col + 1
+                else:
+                    # 현재 셀이 비어있으면 다음 셀로 이동
+                    start_col += 1
+
+        ## 강의실 시간표
+        sheet = wb.worksheets[2]
+        for cell in sheet[1]:
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+        sheet[f'A{1}'].alignment = Alignment(horizontal="right", vertical="center")
+        sheet[f'A{2}'].alignment = Alignment(horizontal="center", vertical="center")
+
+        start_row = 4
+        start_column = column_index_from_string('C')
+
         for classroom in classrooms:
-            df = pd.DataFrame(index=rows, columns=columns)  # 빈 데이터프레임 생성
             building = classroom.building
             classroomNo = classroom.classroomNo
 
-            # 강의실별 강의 탐색
+            sheet[f'A{start_row}'] = building
+            sheet[f'A{start_row}'].alignment = Alignment(horizontal="center", vertical="center")
+            sheet[f'B{start_row}'] = classroomNo
+            sheet[f'B{start_row}'].alignment = Alignment(horizontal="center", vertical="center")
+
             for lecture in currentschedule:
-                lecture_building = lecture.batched[2]
-                lecture_classroomNo = lecture.batched[3]
-                if (lecture_building == building and lecture_classroomNo == classroomNo):
+                if lecture.batched[2] == building and lecture.batched[3] == classroomNo:
+                    # 교원명 탐색
+                    profName = None
+                    for professor in professors:
+                        if professor.profCode == lecture.profCode:
+                            profName = professor.name
+                            break
+
                     day = lecture.batched[0]
                     period = lecture.batched[1]
                     duration = lecture.duration
-                    lecture_str = f"{lecture.lectureCode} {lecture.name}"
-                    profCode = lecture.profCode
-                    if lecture.MR:
-                        lecture_str += "(전필)"
-                    lecture_str = add_profName(lecture_str, profCode, professors)  # 교수명 추가
-                    batch_lecture(df, day, period, duration, lecture_str)  # 강의 배치
 
-            df = df.fillna('')  # 빈 값 처리
-            title = f"{building} 건물의 {classroomNo} 강의실 시간표"  # 제목
-            df = add_columns(title, rows, df)  # 열 추가
-            dataframes.append(df)
-            titles.append(title)
+                    for d in range(duration):
+                        lecture_column = get_column_letter(start_column + day * 13 + period + d)
+                        lecture_cell = f"{lecture_column}{start_row}"
+                        sheet[lecture_cell] = f"{lecture.name}-{lecture.division}({profName})"
+                        sheet[lecture_cell].alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
 
-        return dataframes, titles
+                        if lecture.lectureCode in color_dict:
+                            color = color_dict[lecture.lectureCode]
+                            sheet[lecture_cell].fill = PatternFill(start_color=color, end_color=color, fill_type="solid")
 
-    def get_excelFile(dataframes, titles):
-        # 파일명(경로) 설정
-        current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-        file_path = f'./test/schedule_{current_time}.xlsx'
+            # 행 높이 설정
+            sheet.row_dimensions[start_row].height = row_height
 
-        # 디렉토리 경로가 없는 경우 생성
-        directory = os.path.dirname(file_path)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+            # 헤더 종합
+            for i in range(5):
+                # 병합할 시작 및 끝 열 계산
+                col_start = 3 + i * 13
+                col_end = col_start + 13 - 1
 
-        # 시간 범위 리스트 생성
-        rows = [f'{h:02d}:00~{h+1:02d}:00' for h in range(9, 22)]
+                # 열을 문자로 변환 후 병합
+                merge_range = f"{get_column_letter(col_start)}2:{get_column_letter(col_end)}2"
+                sheet.merge_cells(merge_range)
 
-        # ExcelWriter 객체 생성
-        with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
-            # 시작 위치 (행 번호)
-            start_row = 0
+                # 병합된 셀의 중앙 정렬 설정
+                cell = sheet.cell(row=2, column=col_start)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+            sheet.merge_cells("A2:B2")
+            sheet[f'A{2}'].alignment = Alignment(horizontal="right", vertical="center")
+            sheet[f'A{3}'].alignment = Alignment(horizontal="center", vertical="center")
+            sheet[f'B{3}'].alignment = Alignment(horizontal="center", vertical="center")
 
-            for title, df in zip(titles, dataframes):
-                # 시간 범위 열 추가
-                df_with_time = pd.DataFrame({'Time': rows[:len(df)]})
-                df_with_time = pd.concat([df_with_time, df], axis=1)
+            # 경계선 설정
+            sheet.cell(row=start_row, column=1).border = Border( # A열
+                    bottom=Side(style="thin"),
+                    right=Side(style="thin")
+                )
+            sheet.cell(row=start_row, column=2).border = Border( # B열
+                    bottom=Side(style="thin"),
+                    right=Side(style="thin")
+                )
+            for col in range(3, sheet.max_column): # 밑줄
+                sheet.cell(row=start_row, column=col).border = Border(
+                    bottom=Side(style="thin")
+                )
+            for col in range(2, sheet.max_column + 1, 13): # 날짜줄
+                sheet.cell(row=start_row, column=col).border = Border(
+                    bottom=Side(style="thin"),
+                    right=Side(style="thin")
+                )
+            
+            # 폰트 설정
+            for col in range(3, sheet.max_column + 1):
+                sheet.cell(row=start_row, column=col).font = Font(size=8)
 
-                # 데이터프레임을 엑셀 시트에 추가
-                df_with_time.to_excel(writer, sheet_name='MergedSheet', startrow=start_row, index=False)
+            # 다음 행 이동
+            start_row += 1
 
-                # 제목을 먼저 독립된 텍스트 행으로 추가
-                worksheet = writer.sheets['MergedSheet']  # 시트가 없을 때는 새로 만듦
-                worksheet.cell(row=start_row + 1, column=1).value = title  # title을 첫 번째 열에 추가
-
-                # 세로 방향으로 같은 문자열을 포함한 셀들을 병합
-                for col in range(2, df_with_time.shape[1] + 1):  # B열부터 시작
-                    start_row_merge = None
-                    for row in range(start_row + 2, start_row + 2 + len(df_with_time)):
-                        cell_value = worksheet.cell(row=row, column=col).value
-                        if cell_value:  # 셀이 비어있지 않은 경우
-                            if start_row_merge is None:
-                                start_row_merge = row  # 시작 행 저장
-                            elif worksheet.cell(row=start_row_merge, column=col).value != cell_value:
-                                if start_row_merge < row - 1:
-                                    worksheet.merge_cells(start_row=start_row_merge, start_column=col, end_row=row - 1, end_column=col)
-                                start_row_merge = row  # 새 시작 행으로 업데이트
-                        else:
-                            if start_row_merge is not None:
-                                if start_row_merge < row - 1:
-                                    worksheet.merge_cells(start_row=start_row_merge, start_column=col, end_row=row - 1, end_column=col)
-                                start_row_merge = None  # 시작 행 초기화
-
-                    # 마지막 남은 병합 처리
-                    if start_row_merge is not None and start_row_merge < start_row + 1 + len(df_with_time):
-                        worksheet.merge_cells(start_row=start_row_merge, start_column=col, end_row=start_row + 1 + len(df_with_time), end_column=col)
-
-                # 시간 범위 열에 경계선 적용
-                for row_idx in range(start_row + 2, start_row + 2 + len(df_with_time)):
-                    cell = worksheet.cell(row=row_idx, column=1)  # 'Time' 열에 해당하는 셀
-                    cell.border = Border(left=Side(style='thin'),
-                                         right=Side(style='thin'),
-                                         top=Side(style='thin'),
-                                         bottom=Side(style='thin'))
-
-                # 표 경계선 생성
-                # 가로 경계선
-                for col_idx in range(1, df_with_time.shape[1] + 1):  # 열의 개수만큼 반복
-                    cell = worksheet.cell(row=start_row + 2 + len(df_with_time) - 1, column=col_idx)
-                    cell.border = Border(top=Side(style='thin'))  # 아래쪽 경계선만 적용
-
-                # 세로 경계선
-                for row_idx in range(start_row + 2, start_row + 2 + len(df_with_time)):
-                    cell = worksheet.cell(row=row_idx, column=df_with_time.shape[1])
-                    cell.border = Border(right=Side(style='thin'))
-
-                # 다음 데이터프레임이 들어갈 위치를 조정 (빈 행 추가)
-                start_row += len(df_with_time) + 2  # 데이터프레임의 행 수 + 1 (빈 행) + 1 (추가 빈 행)
-
-        # 파일 로드
-        wb = load_workbook(file_path)
-        ws = wb['MergedSheet']
-
-        # 각 셀의 내용을 기반으로 같은 색으로 채우기
-        colors = {}
-        for row in ws.iter_rows(min_row=1, min_col=1, max_col=ws.max_column):
-            for cell in row:
+        # 강의실 시간표 병합
+        max_row = sheet.max_row
+        max_col = sheet.max_column
+        for row in range(3, max_row + 1):
+            start_col = 3
+            while start_col < max_col:
+                cell = sheet.cell(row=row, column=start_col)
                 if cell.value:
-                    if cell.value not in colors:
-                        colors[cell.value] = f"{random.randint(150, 255):02X}{random.randint(150, 255):02X}{random.randint(150, 255):02X}"
-                    cell.fill = PatternFill(start_color=colors[cell.value], end_color=colors[cell.value], fill_type="solid")
+                    end_col = start_col
+                    while end_col + 1 <= max_col and sheet.cell(row=row, column=end_col + 1).value == cell.value:
+                        end_col += 1
 
-        # 모든 셀을 중앙 정렬
-        for row in ws.iter_rows():
-            for cell in row:
-                cell.alignment = Alignment(horizontal='center', vertical='center')
+                    if end_col > start_col:
+                        sheet.merge_cells(start_row=row, start_column=start_col, end_row=row, end_column=end_col)
 
-        # 교시 정렬
-        for row in range(1, ws.max_row + 1):
-            ws[f"A{row}"].alignment = Alignment(horizontal='right', vertical='top')
-
-        # 교시 색상 변경
-        period_fill = PatternFill(start_color="E6E6E6", end_color="E6E6E6", fill_type="solid")
-        for row in range(1, ws.max_row + 1):
-            ws[f"A{row}"].fill = period_fill
-            if ws[f"A{row}"].value is None:  # 비어있는 셀 확인
-                ws[f"A{row}"].fill = PatternFill(start_color="FFFFFF", end_color="FFFFFF", fill_type="solid")
-
-        # 요일 색상 변경
-        day_fill = PatternFill(start_color="E6E6E6", end_color="E6E6E6", fill_type="solid")
-        for row in range(1, ws.max_row + 1):
-            if ws[f"A{row}"].value and "시간표" in ws[f"A{row}"].value:
-                for col in range(1, ws.max_column + 1):  # 모든 열을 반복
-                    ws.cell(row=row, column=col).fill = day_fill
-
-        # 타이틀 색상 변경
-        title_fill = PatternFill(start_color="FFDD00", end_color="FFDD00", fill_type="solid")
-        for row in range(1, ws.max_row + 1):
-            if ws[f"A{row}"].value and "시간표" in ws[f"A{row}"].value:
-                ws[f"A{row}"].fill = title_fill  # A열에 있는 셀만 색상 변경
-
-        wb.save(file_path)
-        return file_path  # 파일 경로를 반환
+                    start_col = end_col + 1
+                else:
+                    start_col += 1
+        
+        return wb
 
     # 시간표 정렬
     currentschedule.sort(key=lambda x: (x.lectureCode, x.division, x.TP))
     professors = sorted(professors, key=lambda professor: not professor.isprof)
 
     # 시간표 생성 및 저장
-    dataframes, titles = visualization(currentschedule, professors, classrooms)
-    file_path = get_excelFile(dataframes, titles)
+    wb = visualization(currentschedule, lectures, professors, classrooms)
+
+    # 파일 저장
+    wb.save(file_path)
     print("시간표 생성 및 엑셀 파일 저장이 완료되었습니다.")
 
     return file_path

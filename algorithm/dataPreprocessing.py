@@ -1,5 +1,4 @@
 # dataPreprocessing.py
-
 import json
 import algorithm.common as common
 from datetime import datetime
@@ -49,10 +48,17 @@ def get_lecturesByTime(lectures, professors):
         for professor in professors:
             if professor.profCode == lecture.profCode:
                 exist = True
-                # 교수의 'free' 배열 크기 검증
+                # 교수의 'free' 배열 크기 검증 및 출력
+                # 해당 부분은 디버깅 시에만 활성화
+                """
+                print(f"교수 '{professor.name}'의 가능한 시간 (free 배열):")
+                for day in range(5):
+                    print(f"  Day {day}: {professor.free[day]}")
+                """
                 if len(professor.free) != 5 or any(len(day) != 13 for day in professor.free):
                     print(f"교수 '{professor.name}'의 'free' 배열 크기가 올바르지 않습니다.")
                     raise Exception("0x004")
+
                 # 해당 강의의 교수 쉬는날에 의거하여 제거
                 for day in range(5):
                     for period in range(13):

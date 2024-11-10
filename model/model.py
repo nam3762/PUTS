@@ -1,4 +1,3 @@
-# model.py
 from pydantic import BaseModel
 from typing import List, Optional
 
@@ -16,8 +15,8 @@ class Professor(BaseModel):
     professorName: str
     isProfessor: Optional[bool] = False
     lectureCnt: Optional[int] = 0
-    offTimes: Optional[List[List[bool]]] = []
-    hopeTimes: Optional[List[List[bool]]] = []
+    offTimes: Optional[List[List[int]]] = []  # 빈 리스트로 수정
+    hopeTimes: Optional[List[List[int]]] = []  # 빈 리스트로 수정
 
 # 강의 모델
 class Lecture(BaseModel):
@@ -36,16 +35,16 @@ class Lecture(BaseModel):
     gradClassrooms: Optional[List[str]] = []
     atNight: Optional[bool] = False
     isFixedTime: Optional[bool] = False
-    FixedTime: Optional[List[int]] = []
+    FixedTime: Optional[List[List[int]]] = []  # 빈 리스트로 수정
     isFixedSpace: Optional[bool] = False
-    FixedSpace: Optional[List[str]] = []
+    FixedSpace: Optional[List[str]] = []  # 빈 리스트로 수정
     available: Optional[List] = []
     batched: Optional[List] = []
 
 # 시간표 모델
 class Timetable(BaseModel):
     id: str  # 시간표 ID
-    timetableName: str # 시간표 이름
+    timetableName: str  # 시간표 이름
     password: str  # 비밀번호
     timetableDescription: Optional[str] = None  # 설명
     lectures: List[Lecture] = []  # 강의 목록
