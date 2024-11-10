@@ -52,7 +52,8 @@ export default function TimetableResult() {
               lectureCode: isGradLecture
                 ? lecture.postgraduateLectureCode
                 : lecture.lectureCode,
-              year: lecture.year || 1,
+              // 미입력 강의 or 대학원 강의는 5로 처리
+              year: lecture.year || 5,
               group: lecture.group || 1,
               professorCode: division.professor || "",
               capacity: division.capacity || 0,
@@ -276,11 +277,13 @@ export default function TimetableResult() {
                   <tbody>
                     {professors.map((professor, index) => (
                       <tr key={index}>
-                        <th>{index + 1}</th>
-                        <td>{professor.professorName}</td>
-                        <td>{professor.professorCode}</td>
-                        <td>{professor.isProfessor ? "전임교원" : "강사"}</td>
-                        <td>
+                        <th className="max-w-xs">{index + 1}</th>
+                        <td className="max-w-xs">{professor.professorName}</td>
+                        <td className="max-w-xs">{professor.professorCode}</td>
+                        <td className="max-w-xs">
+                          {professor.isProfessor ? "전임교원" : "강사"}
+                        </td>
+                        <td className="max-w-xs">
                           {professor.offTimes && professor.offTimes.length > 0
                             ? professor.offTimes
                                 .map(
@@ -292,12 +295,12 @@ export default function TimetableResult() {
                                 .join(", ")
                             : "없음"}
                         </td>
-                        <td>
+                        <td className="max-w-xs">
                           {professor.hopeTimes && professor.hopeTimes.length > 0
                             ? professor.hopeTimes
                                 .map(
                                   (time) =>
-                                    `${dayNames[time[0]]}요일, ${
+                                    `${dayNames[time[0]]}요일 ${
                                       time[1] + 1
                                     }교시`
                                 )
