@@ -54,7 +54,8 @@ export default function TimetableResult() {
                 : lecture.lectureCode,
               // 미입력 강의 or 대학원 강의는 5로 처리
               year: lecture.year || 5,
-              group: lecture.group || 1,
+              // 이론: 0
+              group: lecture.group || 0,
               professorCode: division.professor || "",
               capacity: division.capacity || 0,
               majorRequired: lecture.majorRequired || false,
