@@ -38,7 +38,7 @@ def run_backtracking(lectures, professors, option):
         isValid_MR(day, period, MR, lectureCode, TP, lecture_duration, currentschedule) and
         isValid_sameGrade(day, period, year, lectureCode, TP, lecture_duration, currentschedule) and
         isValid_TP_DayDif(day, lectureCode, division, currentschedule) and
-        isValid_week(professor, profCode, day, currentschedule) and  # 수정된 부분
+        isValid_week(professor, day, currentschedule) and  # 수정된 부분
         isValid_lunch(day, period, duration, year, currentschedule)
         ):
             return True
@@ -122,19 +122,28 @@ def run_backtracking(lectures, professors, option):
                     return False
         return True
 
-    # 교수가 주당 4일 근무하는지 확인
-    def isValid_week(professor, profCode, day, currentschedule):
+    # 교수가 주당 4일 근무하는지
+    def isValid_week(professor, day, currentschedule):
         if option.isWeek and professor.weekConstraint:
-            if professor.isprof and professor.lectureCnt == 1:  # 교수의 남은 강의 수가 1개인 경우
-                day_lists = [False for _ in range(5)]  # 각 요일을 나타내는 리스트 초기화
-                day_lists[day] = True  # 현재 강의를 해당 요일에 배정한다고 가정
-                for scheduled in currentschedule:
-                    if profCode == scheduled.profCode:
-                        day_lists[scheduled.batched[0]] = True  # 이미 배정된 요일 표시
-                cnt = sum(day_lists)
-                if cnt < 4:  # 교수의 강의 요일이 4일 미만이면 False 반환
-                    return False
-        return True
+            # 주 4일 근무 제약 조건 적용 대상인 경우
+            day_lists = [False for _ in range(5)]
+            day_lists[day] = True  # 현재 강의를 해당 요일에 배정한다고 가정
+            for scheduled in currentschedule:
+                if professor.profCode == scheduled.profCode:
+                    day_lists[scheduled.batched[0]] = True  # 이미 배정된 요일 표시
+            cnt = sum(day_lists)
+            remaining_lectures = professor.lectureCnt - 1  # 현재 강의를 배정한다고 가정하여 남은 강의 수 계산
+            possible_days = 5 - cnt  # 남은 가능한 요일 수
+
+            if cnt + remaining_lectures < 4:
+                # 남은 강의를 모두 다른 요일에 배정해도 총 4일을 채울 수 없는 경우
+                return False
+
+            if remaining_lectures > possible_days:
+                # 남은 강의를 배정할 수 있는 요일이 부족한 경우
+                return False
+        return True  # 제약 조건 미적용 또는 만족하는 경우
+
 
     # 특정 학년의 어느 날에 점심시간이 존재하는지 확인
     def isValid_lunch(day, period, duration, year, currentschedule):

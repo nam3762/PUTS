@@ -35,7 +35,7 @@ class Professor:
         self.lectureCnt = lectureCnt    # 강의 개수
         self.free = free if free is not None else [[False] * 13 for _ in range(5)]  # 기본값으로 모든 시간이 가능함
         self.hope = hope if hope is not None else [[False] * 13 for _ in range(5)]  # 기본값으로 희망 시간이 없음
-        self.weekConstraint = True      # 주 4일 근무 제약 조건 적용 여부 (추가된 속성)
+        self.weekConstraint = False  # 주 4일 근무 제약 조건 적용 여부
 
     def __str__(self):
         return json.dumps(vars(self), indent=2, ensure_ascii=False)
@@ -97,20 +97,23 @@ def load_and_map_data(timetable_id):
     professors = []
     for professor_data in timetable_data.get('professors', []):
         # 'offTimes'와 'hopeTimes' 배열 크기를 확인하고 맞추기
-        def expand_schedule(schedule):
-            # 모든 시간이 가능한 상태로 초기화
+        def expand_schedule(schedule_indices):
             expanded_schedule = [[False for _ in range(13)] for _ in range(5)]
-            if schedule:
-                for time_slot in schedule:
-                    if isinstance(time_slot, list) and len(time_slot) == 2:
-                        day, period = time_slot
-                        if 0 <= day < 5 and 0 <= period < 13:
-                            expanded_schedule[day][period] = True  # 해당 시간대를 불가능으로 설정
+            for day, period in schedule_indices:
+                if 0 <= day < 5 and 0 <= period < 13:
+                    expanded_schedule[day][period] = True
+                else:
+                    raise ValueError(f"Invalid day or period index: {day}, {period}")
             return expanded_schedule
 
-        free = expand_schedule(professor_data.get('offTimes'))
-        hope = expand_schedule(professor_data.get('hopeTimes'))
+        # 'offTimes'와 'hopeTimes' 가져오기
+        off_times_indices = professor_data.get('offTimes', [])
+        hope_times_indices = professor_data.get('hopeTimes', [])
 
+        # 이미 인덱스의 리스트이므로 변환 없이 바로 사용
+        free = expand_schedule(off_times_indices)
+        hope = expand_schedule(hope_times_indices)
+        
         professor = Professor(
             profCode=professor_data['professorCode'],
             name=professor_data['professorName'],
@@ -156,13 +159,16 @@ def load_and_map_data(timetable_id):
 
     # 각 교수의 강의 수 계산 및 주 4일 근무 제약 조건 조정
     for professor in professors:
-        # 해당 교수의 강의 수 계산
-        professor.lectureCnt = sum(1 for lecture in lectures if lecture.profCode == professor.profCode)
-        # 강의 수가 4개 미만인 경우 주 4일 근무 제약 조건 비활성화
-        if professor.isprof and professor.lectureCnt < 4:
-            professor.weekConstraint = False  # 추가된 속성 사용
+        # 해당 교수의 총 강의 수 계산
+        lecture_count = sum(1 for lecture in lectures if lecture.profCode == professor.profCode)
+        professor.totalLectureCnt = lecture_count
+        professor.lectureCnt = lecture_count  # 남은 강의 수 초기화
+
+        # 주 4일 근무 제약 조건 설정
+        if professor.isprof and professor.totalLectureCnt >= 4:
+            professor.weekConstraint = True  # 교수이며 강의 수가 4개 이상인 경우 제약 조건 적용
         else:
-            professor.weekConstraint = True
+            professor.weekConstraint = False  # 그 외의 경우 제약 조건 미적용
 
     return lectures, professors, classrooms, option
 
