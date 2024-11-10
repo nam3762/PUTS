@@ -1,212 +1,70 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// 더미 데이터
-const data = [
-  {
-    id: 100963,
-    timetableName: "2023-2학기",
-    timetableDescription: "소프트웨어학과 2023년도 2학기 시간표",
-    password: "1234",
-  },
-  {
-    id: 100874,
-    timetableName: "2024-1학기",
-    timetableDescription: "소웨 2024-1학기",
-    password: "1234",
-  },
-  {
-    id: 100356,
-    timetableName: "2024-2학기",
-    timetableDescription: "소프트웨어학과 2024년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100357,
-    timetableName: "2025-1학기",
-    timetableDescription: "소프트웨어학과 2025년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100358,
-    timetableName: "2025-2학기",
-    timetableDescription: "소프트웨어학과 2025년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100359,
-    timetableName: "2026-1학기",
-    timetableDescription: "소프트웨어학과 2026년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100360,
-    timetableName: "2026-2학기",
-    timetableDescription: "소프트웨어학과 2026년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100361,
-    timetableName: "2027-1학기",
-    timetableDescription: "소프트웨어학과 2027년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100362,
-    timetableName: "2027-2학기",
-    timetableDescription: "소프트웨어학과 2027년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100363,
-    timetableName: "2028-1학기",
-    timetableDescription: "소프트웨어학과 2028년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100364,
-    timetableName: "2028-2학기",
-    timetableDescription: "소프트웨어학과 2028년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100365,
-    timetableName: "2029-1학기",
-    timetableDescription: "소프트웨어학과 2029년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100366,
-    timetableName: "2029-2학기",
-    timetableDescription: "소프트웨어학과 2029년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100367,
-    timetableName: "2030-1학기",
-    timetableDescription: "소프트웨어학과 2030년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100368,
-    timetableName: "2030-2학기",
-    timetableDescription: "소프트웨어학과 2030년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100369,
-    timetableName: "2031-1학기",
-    timetableDescription: "소프트웨어학과 2031년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100370,
-    timetableName: "2031-2학기",
-    timetableDescription: "소프트웨어학과 2031년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100371,
-    timetableName: "2032-1학기",
-    timetableDescription: "소프트웨어학과 2032년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100372,
-    timetableName: "2032-2학기",
-    timetableDescription: "소프트웨어학과 2032년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100373,
-    timetableName: "2033-1학기",
-    timetableDescription: "소프트웨어학과 2033년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100374,
-    timetableName: "2033-2학기",
-    timetableDescription: "소프트웨어학과 2033년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100375,
-    timetableName: "2034-1학기",
-    timetableDescription: "소프트웨어학과 2034년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100376,
-    timetableName: "2034-2학기",
-    timetableDescription: "소프트웨어학과 2034년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100377,
-    timetableName: "2035-1학기",
-    timetableDescription: "소프트웨어학과 2035년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100378,
-    timetableName: "2035-2학기",
-    timetableDescription: "소프트웨어학과 2035년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100379,
-    timetableName: "2036-1학기",
-    timetableDescription: "소프트웨어학과 2036년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100380,
-    timetableName: "2036-2학기",
-    timetableDescription: "소프트웨어학과 2036년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100381,
-    timetableName: "2037-1학기",
-    timetableDescription: "소프트웨어학과 2037년 1학기",
-    password: "1234",
-  },
-  {
-    id: 100382,
-    timetableName: "2037-2학기",
-    timetableDescription: "소프트웨어학과 2037년 2학기",
-    password: "1234",
-  },
-  {
-    id: 100383,
-    timetableName: "2038-1학기",
-    timetableDescription: "소프트웨어학과 2038년 1학기",
-    password: "1234",
-  },
-];
 export default function SearchPage() {
-  const searchRef = useRef(""); // useRef로 검색 값을 관리
+  const searchRef = useRef(""); // 검색 값을 관리
   const [selectedItem, setSelectedItem] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [passwordInput, setPasswordInput] = useState(""); // 입력된 비밀번호를 관리
   const [passwordError, setPasswordError] = useState(false); // 비밀번호 오류 여부
-  const [filteredData, setFilteredData] = useState(data); // 초기 데이터로 설정
+  const [filteredData, setFilteredData] = useState([]); // 필터된 데이터를 저장
+  const [data, setData] = useState([]); // 백엔드에서 불러온 전체 데이터를 저장
+  const [loading, setLoading] = useState(true); // 로딩 상태 관리
+  const [error, setError] = useState(null); // 에러 상태 관리
   const navigate = useNavigate(); // 페이지 이동을 위한 navigate 함수
 
   // 페이지네이션 관련 상태
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const itemsPerPage = 5; // 한 페이지에 보여줄 데이터 수
 
-  // 검색 필터링 함수: ID 또는 이름으로 검색 가능
-  const handleSearchChange = () => {
-    const searchTerm = searchRef.current.value.toLowerCase(); // 검색어를 소문자로 변환
-    const filtered = data.filter(
-      (item) =>
-        item.timetableName.toLowerCase().includes(searchTerm) || // 이름으로 검색
-        item.id.toString().includes(searchTerm) // ID로 검색
-    );
-    setFilteredData(filtered); // 필터된 데이터를 상태로 설정
-    setCurrentPage(1); // 검색 시 페이지를 첫 번째 페이지로 리셋
+  // 컴포넌트 마운트 시 데이터 불러오기
+  useEffect(() => {
+    fetchAllTimetables();
+  }, []);
+
+  const fetchAllTimetables = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("http://125.251.212.92:8000/timetables");
+      if (!response.ok) {
+        throw new Error("데이터를 불러오는데 실패했습니다.");
+      }
+      const result = await response.json();
+      setData(result);
+      setFilteredData(result);
+      setCurrentPage(1);
+      setError(null);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
+  // 검색 버튼 클릭 시 호출되는 함수
+  const handleSearch = () => {
+    const searchTerm = searchRef.current.value.trim().toLowerCase();
+    if (searchTerm === "") {
+      // 검색어가 없으면 모든 시간표를 불러옴
+      setFilteredData(data);
+      setError(null);
+    } else {
+      // 검색어로 ID 및 이름에서 부분 검색
+      const filtered = data.filter(
+        (item) =>
+          item.id.toString().includes(searchTerm) ||
+          (item.timetableName || "").toLowerCase().includes(searchTerm)
+      );
+      if (filtered.length > 0) {
+        setFilteredData(filtered);
+        setError(null);
+      } else {
+        setFilteredData([]);
+        setError("검색 결과가 없습니다.");
+      }
+    }
+    setCurrentPage(1); // 검색 후 페이지를 첫 페이지로 초기화
   };
 
   // 모달 열기
@@ -248,6 +106,24 @@ export default function SearchPage() {
   // 총 페이지 수 계산
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
+  // 로딩 중일 때
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">로딩 중...</div>
+      </div>
+    );
+  }
+
+  // 데이터 로딩 에러 발생 시
+  if (error && data.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center text-red-500">{error}</div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-1 justify-center">
       <div className="flex flex-col justify-center items-center mx-auto w-full max-w-4xl p-5">
@@ -256,13 +132,25 @@ export default function SearchPage() {
         </h1>
 
         {/* 검색 입력 필드 */}
-        <input
-          type="text"
-          ref={searchRef} // useRef로 input 값을 참조
-          placeholder="시간표 ID 또는 이름"
-          className="input input-bordered w-full max-w-xs mb-5 text-base-content"
-          onChange={handleSearchChange} // 입력 변화 시 필터링 함수 실행
-        />
+        <div className="flex items-center mb-5">
+          <input
+            type="text"
+            ref={searchRef} // useRef로 input 값을 참조
+            placeholder="시간표 ID 또는 이름을 입력하세요"
+            className="input input-bordered w-full max-w-xs text-base-content"
+          />
+          <button
+            className="btn btn-primary ml-2"
+            onClick={handleSearch} // 검색 버튼 클릭 시
+          >
+            검색
+          </button>
+        </div>
+
+        {/* 에러 메시지 (검색 결과 없음 등) */}
+        {error && data.length > 0 && (
+          <div className="text-center text-red-500 mb-4">{error}</div>
+        )}
 
         {/* 목록 테이블 */}
         <table className="table w-full text-center">
@@ -274,66 +162,79 @@ export default function SearchPage() {
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((item) => (
-              <tr key={item.id} className="text-base-content">
-                <td className="border-b border-b-content">{item.id}</td>
-                <td className="border-b border-b-content">
-                  {item.timetableName}
-                </td>
-                <td className="border-b border-b-content">
-                  <link
-                    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-                    rel="stylesheet"
-                  ></link>
-                  <button
-                    className="btn btn-ghost"
-                    onClick={() => openModal(item)}
-                  >
-                    <span class="material-icons" style={{ fontSize: "1.2rem" }}>
-                      lock
-                    </span>
-                  </button>
+            {currentItems.length > 0 ? (
+              currentItems.map((item) => (
+                <tr key={item.id} className="text-base-content">
+                  <td className="border-b border-b-content">{item.id}</td>
+                  <td className="border-b border-b-content">
+                    {item.timetableName || "이름 없음"}
+                  </td>
+                  <td className="border-b border-b-content">
+                    <link
+                      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                      rel="stylesheet"
+                    ></link>
+                    <button
+                      className="btn btn-ghost"
+                      onClick={() => openModal(item)}
+                    >
+                      <span
+                        className="material-icons"
+                        style={{ fontSize: "1.2rem" }}
+                      >
+                        lock
+                      </span>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="3" className="text-base-content">
+                  검색 결과가 없습니다.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
 
         {/* 페이지네이션 */}
-        <div className="mt-4">
-          <div className="join">
-            {/* 이전 페이지 버튼 */}
-            <button
-              className="join-item btn"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            >
-              «
-            </button>
-            {/* 페이지 번호 */}
-            {[...Array(totalPages)].map((_, index) => (
+        {filteredData.length > 0 && (
+          <div className="mt-4">
+            <div className="join">
+              {/* 이전 페이지 버튼 */}
               <button
-                key={index}
-                className={`join-item btn ${
-                  currentPage === index + 1 ? "btn-active btn-primary" : ""
-                }`}
-                onClick={() => setCurrentPage(index + 1)}
+                className="join-item btn"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               >
-                {index + 1}
+                «
               </button>
-            ))}
-            {/* 다음 페이지 버튼 */}
-            <button
-              className="join-item btn"
-              disabled={currentPage === totalPages}
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-            >
-              »
-            </button>
+              {/* 페이지 번호 */}
+              {[...Array(totalPages)].map((_, index) => (
+                <button
+                  key={index}
+                  className={`join-item btn ${
+                    currentPage === index + 1 ? "btn-active btn-primary" : ""
+                  }`}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              {/* 다음 페이지 버튼 */}
+              <button
+                className="join-item btn"
+                disabled={currentPage === totalPages}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+              >
+                »
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* 비밀번호 입력 모달 */}
         {modalOpen && (

@@ -8,7 +8,6 @@ import TimetableGenerator from "./pages/Timetable/TimetableGenerator";
 import Professors from "./pages/Timetable/Professors";
 import HorizontalDivider from "./components/HorizontalDivider";
 import Classrooms from "./pages/Timetable/Classrooms";
-import ClassroomGroups from "./pages/Timetable/ClassroomGroups";
 import Lectures from "./pages/Timetable/Lectures";
 import PostgraduateLectures from "./pages/Timetable/PostgraduateLectures";
 import AutoScroll from "./components/AutoScroll";
@@ -73,15 +72,6 @@ function Layout() {
             <>
               <AutoScroll />
               <Classrooms />
-            </>
-          }
-        ></Route>
-        <Route
-          path="/timetable/classroomgroups"
-          element={
-            <>
-              <AutoScroll />
-              <ClassroomGroups />
             </>
           }
         ></Route>

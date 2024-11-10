@@ -24,7 +24,7 @@ export default function TimetableResult() {
   const [status, setStatus] = useState("initial"); // 'initial', 'processing', 'completed'
   const [timetableData, setTimetableData] = useState(null);
   const [fileUrl, setFileUrl] = useState(""); // 추가: 파일 URL을 저장할 상태
-  const ws = useRef(null);
+  const intervalId = useRef(null);
 
   // Tab state
   const [activeTab, setActiveTab] = useState("timetable"); // 'timetable', 'professors', 'classrooms', 'lectures'
@@ -126,7 +126,7 @@ export default function TimetableResult() {
 
     try {
       // Send data to backend
-      const response = await fetch("https://125.251.212.92:443/timetables", {
+      const response = await fetch("https://125.251.212.92/timetables", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -141,33 +141,39 @@ export default function TimetableResult() {
       const result = await response.json();
       console.log("Successfully sent data to backend:", result);
 
-      // Set up WebSocket connection
-      ws.current = new WebSocket(
-        `wss://125.251.212.92:443/ws/timetables/${newId}`
-      );
-
-      ws.current.onopen = () => {
-        console.log("WebSocket connection opened");
-      };
-
-      ws.current.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        console.log("Received data from WebSocket:", data);
-
-        if (data.status === "FileReady") {
-          // 파일 URL을 상태에 저장
-          setFileUrl(data.file_url);
-          setStatus("completed");
+      // Start polling
+      const pollStatus = async () => {
+        try {
+          const response = await fetch(
+            `https://125.251.212.92/timetables/${newId}/status`
+          );
+          if (!response.ok) {
+            throw new Error("Failed to fetch status");
+          }
+          const data = await response.json();
+          console.log("Polling status:", data);
+          if (data.status === "Ready") {
+            setFileUrl(data.file_url);
+            setStatus("completed");
+            // Stop polling
+            if (intervalId.current) {
+              clearInterval(intervalId.current);
+              intervalId.current = null;
+            }
+          } else if (data.status === "Processing") {
+            // Do nothing, continue polling
+          } else {
+            // Handle other possible statuses if any
+            console.warn("Unknown status:", data.status);
+          }
+        } catch (error) {
+          console.error("Error polling status:", error);
         }
       };
 
-      ws.current.onclose = () => {
-        console.log("WebSocket connection closed");
-      };
-
-      ws.current.onerror = (error) => {
-        console.error("WebSocket error:", error);
-      };
+      // Start polling every 10 seconds
+      pollStatus(); // First call immediately
+      intervalId.current = setInterval(pollStatus, 10000);
     } catch (error) {
       console.error("Error sending data to backend:", error);
       setStatus("initial"); // Reset to initial state on error
@@ -177,8 +183,8 @@ export default function TimetableResult() {
   // Component unmount cleanup
   useEffect(() => {
     return () => {
-      if (ws.current) {
-        ws.current.close();
+      if (intervalId.current) {
+        clearInterval(intervalId.current);
       }
     };
   }, []);
@@ -195,8 +201,8 @@ export default function TimetableResult() {
     password: watch("password") || "",
     timetableDescription: watch("timetableDescription") || "",
     timetableResult: watch("timetableResult") || "",
-    timetableLunchTimeConstraint: watch("timetableLunchTimeConstraint"),
-    timetable4daysConstraint: watch("timetable4daysConstraint"),
+    timetableLunchTimeConstraint: watch("timetableLunchTimeConstraint") || "",
+    timetable4daysConstraint: watch("timetable4daysConstraint") || "",
   };
 
   // Tab content rendering
@@ -509,7 +515,7 @@ export default function TimetableResult() {
         <div className="text-center text-base-content">
           <h1 className="text-lg font-semibold mb-4">시간표 제작 완료!</h1>
           <a
-            href={`https://125.251.212.92:443${fileUrl}`} // 파일 다운로드 URL
+            href={`${fileUrl}`} // 파일 다운로드 URL
             download // 다운로드 속성 추가
             target="_blank"
             rel="noopener noreferrer"
