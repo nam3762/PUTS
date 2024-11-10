@@ -251,11 +251,7 @@ export default function PostgraduateLectures() {
               {/* 강의실 선택 버튼과 선택된 강의실 목록 */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col w-full items-center">
-                  <Tooltip>
-                    {`대학원 교과목는 교과목이 배치될 특정 강의실을 
-                    체크박스 형태로 직접 선택할 수 있습니다.`}
-                  </Tooltip>
-                  <Button onClick={handleOpenModal} style="mt-2">
+                  <Button onClick={handleOpenModal} style="btn-primary mt-10">
                     강의실 선택
                   </Button>
                 </div>
