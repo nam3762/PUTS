@@ -14,9 +14,17 @@ export default function TimetableGenerator() {
   } = useFormContext();
 
   const helpContent = (
-    <div>
-      <p>시간표 이름과 비밀번호를 설정하면 시간표에 접근할 수 있습니다.</p>
-      <p>시간표 설명에는 시간표에 대한 간단한 설명을 적어주세요.</p>
+    <div className="flex flex-col gap-4 text-sm">
+      <p>
+        <span className="font-bold">
+          1. 시간표 이름과 비밀번호를 설정하면 추후 시간표에 접근할 수 있습니다.
+        </span>
+      </p>
+      <p>
+        <span className="font-bold">
+          2. 시간표 설명에는 시간표에 대한 간단한 설명을 적어주세요.
+        </span>
+      </p>
     </div>
   );
 

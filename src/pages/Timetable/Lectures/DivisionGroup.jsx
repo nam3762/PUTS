@@ -145,7 +145,7 @@ const DivisionGroup = forwardRef(function (
             </span>
             <Tooltip>
               {`한번 강의할 때 몇 시간 강의할지 결정합니다.
-                총 4시간 강의일 때 → (0, 4) or (1, 3) or (2, 2)
+                총 4시간 강의일 때 → (4, 0) or (3, 1) or (2, 2)
                 ※ 미 입력 칸은 0으로 처리합니다.
 
                 그룹화 체크 시
@@ -259,10 +259,6 @@ const DivisionGroup = forwardRef(function (
             <span className="label-text text-base-content font-bold">
               수강 인원
             </span>
-            <Tooltip>
-              {`수강 인원과 강의실 수용 인원에 맞춰
-                강의를 효율적으로 배정합니다.`}
-            </Tooltip>
             <InputText
               {...register(
                 `${fieldName}.${currentIndex}.divisionGroup.${activeDivisionIndex}.capacity`, // fieldName 동적 설정

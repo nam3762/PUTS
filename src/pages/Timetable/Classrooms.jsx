@@ -65,11 +65,54 @@ export default function Classrooms() {
     setValue(`classrooms.${currentIndex}.${field}`, value);
   };
 
+  const helpContent = (
+    <div className="flex flex-col gap-4 text-sm">
+      <p>
+        <span className="font-bold">
+          1. 건물 이름과 강의실 번호를 설정합니다.
+        </span>
+        <p className="indent-2">• 건물 이름 - "S4-1", 강의실 번호 - "101"</p>
+      </p>
+      <p>
+        <span className="font-bold">
+          2. 대학원 강의 여부를 구분하기 위해 체크를 진행합니다.
+        </span>
+        <p className="indent-2">• 일반 강의만 가능 - 일반 강의 ✓ </p>
+        <p className="indent-2">• 대학원 강의만 가능 - 대학원 강의 ✓</p>
+        <p className="indent-2">• 둘 다 가능 - 일반 + 대학원 ✓</p>
+      </p>
+      <p>
+        <span className="font-bold">
+          3. 강의실의 용도를 구분하기 위해 체크를 진행합니다.
+        </span>
+        <p className="indent-2">
+          • 같은 그룹 내의 강의실을 그룹으로 묶어 추후 강의에 강의실 그룹을
+          배정합니다.
+        </p>
+        <p className="indent-2">
+          • 상관 없음에 지정되면 모든 강의실 그룹에 포함됩니다.
+        </p>
+        <p className="indent-2">• 이론 강의 - 이론 ✓ </p>
+        <p className="indent-2">• 실습 강의 - 실습 ✓</p>
+        <p className="indent-2">• 대형 강의 - 대형 ✓</p>
+        <p className="indent-2">• 기타 강의 - 기타 ✓</p>
+        <p className="indent-2">• 상관 없음 - 상관 없음 ✓</p>
+      </p>
+      <p>
+        <span className="font-bold">
+          4. 드롭다운 메뉴로 입력한 강의실을 이동할 수 있으며, 추가/삭제가
+          가능합니다.
+        </span>
+      </p>
+    </div>
+  );
+
   return (
     <Form
       title="STEP 3: 강의실 정보"
       prev="/timetable/professors"
       next="/timetable/lectures"
+      helpContent={helpContent}
     >
       <Select
         style="select-bordered mt-0 mb-4"

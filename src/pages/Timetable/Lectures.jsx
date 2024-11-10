@@ -58,11 +58,71 @@ export default function Lectures() {
     }
   }, [currentGroup, currentIndex, setValue]);
 
+  const helpContent = (
+    <div className="flex flex-col gap-4 text-sm">
+      <p>
+        <span className="font-bold">
+          1. 교과목명과 교과목 코드를 설정합니다.
+        </span>
+        <p className="indent-2">
+          • 교과목명 - "자료구조", 교과목 코드 - "5111091"
+        </p>
+      </p>
+      <p>
+        <span className="font-bold">
+          2. 전공 필수 여부를 설정하기 위해 체크를 진행합니다.
+        </span>
+      </p>
+      <p>
+        <span className="font-bold">3. 교과목 수강 학년을 설정합니다.</span>
+        <p className="indent-2">
+          • 같은 학년의 교과목끼리는 중복되는 시간이 없도록 자동적으로
+          배치합니다.
+        </p>
+      </p>
+      <p>
+        <span className="font-bold">4. 강의실 그룹을 설정합니다.</span>
+        <p className="indent-2">
+          • 강의실 그룹에 포함된 강의실로만 교과목을 배치합니다.
+        </p>
+      </p>
+      <p>
+        <span className="font-bold">
+          5. 드롭다운 메뉴로 입력한 교과목을 이동할 수 있으며, 추가/삭제가
+          가능합니다.
+        </span>
+      </p>
+      <p>
+        <span className="font-bold">
+          6. 각 교과목에 대해 분반을 설정합니다.
+        </span>
+        <p className="indent-2">
+          • 분반 번호는 자동으로 시스템에서 관리합니다.
+        </p>
+        <p className="indent-2">
+          • 강의 시간 분리 1/2는 한 번 강의할 때의 강의 시간을 나타냅니다.
+        </p>
+        <p className="indent-2">
+          • 강의 시간 분리 그룹화 체크를 하면, 다른 분반을 같은 시간에
+          배정합니다. (캡스톤디자인)
+        </p>
+        <p className="indent-2">• 수강 인원과 전임교원을 설정합니다.</p>
+      </p>
+      <p>
+        <span className="font-bold">
+          7. 분반 버튼으로 입력한 교과목에 대한 분반을 이동할 수 있으며,
+          추가/삭제가 가능합니다.
+        </span>
+      </p>
+    </div>
+  );
+
   return (
     <Form
       title="STEP 4: 교과목 정보"
       prev="/timetable/classrooms"
       next="/timetable/postgraduatelectures"
+      helpContent={helpContent}
     >
       <div className="flex justify-between">
         {/* 드롭다운을 이용한 교과목 선택 */}

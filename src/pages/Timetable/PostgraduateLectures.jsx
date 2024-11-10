@@ -36,7 +36,10 @@ export default function PostgraduateLectures() {
 
   const lectures = watch("postgraduateLectures");
   const classrooms = watch("classrooms");
-  const numberOfClassrooms = classrooms.length;
+  const filteredClassrooms = classrooms.filter(
+    (classroom) => classroom.forGrad === 2 || classroom.forGrad === 3
+  );
+  const numberOfClassrooms = filteredClassrooms.length;
   const gradClassrooms = watch(
     `postgraduateLectures.${currentIndex}.gradClassrooms`
   );
@@ -95,11 +98,64 @@ export default function PostgraduateLectures() {
     }
   }, [timetableName, navigate]);
 
+  const helpContent = (
+    <div className="flex flex-col gap-4 text-sm">
+      <p>
+        <span className="font-bold">
+          1. 교과목명과 교과목 코드를 설정합니다.
+        </span>
+        <p className="indent-2">
+          • 교과목명 - "대학원 강의 1", 교과목 코드 - "5303031"
+        </p>
+      </p>
+      <p>
+        <span className="font-bold">
+          2. 야간 교과목 여부를 설정하기 위해 체크를 진행합니다. (18 ~ 22시)
+        </span>
+      </p>
+      <p>
+        <span className="font-bold">3. 강의실을 선택합니다.</span>
+        <p className="indent-2">
+          • 대학원용 / 일반 + 대학원용 강의실 중 배치할 강의실을 선택합니다.
+        </p>
+      </p>
+      <p>
+        <span className="font-bold">
+          4. 드롭다운 메뉴로 입력한 교과목을 이동할 수 있으며, 추가/삭제가
+          가능합니다.
+        </span>
+      </p>
+      <p>
+        <span className="font-bold">
+          5. 각 교과목에 대해 분반을 설정합니다.
+        </span>
+        <p className="indent-2">
+          • 분반 번호는 자동으로 시스템에서 관리합니다.
+        </p>
+        <p className="indent-2">
+          • 강의 시간 분리 1/2는 한 번 강의할 때의 강의 시간을 나타냅니다.
+        </p>
+        <p className="indent-2">
+          • 강의 시간 분리 그룹화 체크를 하면, 다른 분반을 같은 시간에
+          배정합니다. (캡스톤디자인)
+        </p>
+        <p className="indent-2">• 수강 인원과 전임교원을 설정합니다.</p>
+      </p>
+      <p>
+        <span className="font-bold">
+          6. 분반 버튼으로 입력한 교과목에 대한 분반을 이동할 수 있으며,
+          추가/삭제가 가능합니다.
+        </span>
+      </p>
+    </div>
+  );
+
   return (
     <Form
       title="STEP 5: 대학원 교과목 정보"
       prev="/timetable/lectures"
       next="/timetable/timetablecustomizing"
+      helpContent={helpContent}
     >
       {/* 드롭다운을 이용한 교과목 선택 */}
       <Select
@@ -259,7 +315,7 @@ export default function PostgraduateLectures() {
       {/* 모달 창 */}
       {isModalOpen && (
         <ClassroomModal
-          classrooms={classrooms}
+          classrooms={filteredClassrooms}
           selectedClassrooms={selectedClassrooms} // 선택된 강의실 전달
           onClose={handleModalClose}
         />

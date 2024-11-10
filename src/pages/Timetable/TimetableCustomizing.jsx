@@ -378,11 +378,41 @@ export default function TimetableCustomizing() {
     }
   };
 
+  const helpContent = (
+    <div className="flex flex-col gap-4 text-sm">
+      <p>
+        <span className="font-bold">
+          1. 특정 교과목을 미리 특정 시간에 배치할 수 있는 기능입니다.
+        </span>
+        <p className="indent-2">
+          • 교과목명 선택 → 분반 선택 → 시간 선택 후 원하는 시간대 클릭
+        </p>
+        <p className="indent-2">
+          • 여러 강의가 한 시간에 중복되어 배치될 수 있습니다.
+          <p className="indent-4"> 예시 - 월요일 1교시에 여러 강의 배치</p>
+        </p>
+        <p className="indent-2">
+          • 한 번 배치된 강의의 시간은 중복 배치될 수 없습니다.
+          <p className="indent-4">
+            예시 - 자료구조 1분반 3시간을 미리 배치했다면 남은 1시간만 배치 가능
+          </p>
+        </p>
+      </p>
+      <p>
+        <span className="font-bold">
+          2. 배치된 강의가 있는 시간을 클릭하면 강의의 정보가 표시됩니다.
+        </span>
+        <p className="indent-2">• 강의 배치를 해제할 수 있습니다.</p>
+      </p>
+    </div>
+  );
+
   return (
     <Form
       title="STEP 6: 커스터마이징"
       prev="/timetable/postgraduatelectures"
       next="/timetable/timetableresult"
+      helpContent={helpContent}
     >
       <div className="flex justify-between">
         <h2 className="text-xl font-bold mb-4">시간표</h2>
@@ -447,11 +477,11 @@ export default function TimetableCustomizing() {
           </table>
         </div>
 
-        {/* 강의 및 분반 선택 영역 */}
+        {/* 교과목 및 분반 선택 영역 */}
         <div className="w-1/4 p-4 border-l-2 border-gray-200">
-          <h2 className="text-xl font-bold mb-4">강의 및 분반 선택</h2>
+          <h2 className="text-xl font-bold mb-4">교과목 및 분반 선택</h2>
 
-          {/* 강의 선택 */}
+          {/* 교과목 선택 */}
           <div className="space-y-4">
             {combinedLectures.map((lecture) => (
               <div
@@ -614,7 +644,7 @@ export default function TimetableCustomizing() {
                   className="btn btn-sm btn-error mt-2"
                   onClick={() => handleUnregisterTP(section)}
                 >
-                  등록 해제
+                  배치 해제
                 </button>
               </div>
             ))}
