@@ -1930,7 +1930,7 @@ export const defaultValues = {
     {
       postgraduateLectureName: "연구윤리 및 연구과제 I",
       postgraduateLectureCode: "PG-01",
-      gradClassrooms: ["S4-1-101"],
+      gradClassrooms: ["S4-1-101", "S4-1-222"],
       isGrad: true,
       atNight: true,
       divisionGroup: [
@@ -2045,7 +2045,7 @@ export const defaultValues = {
       postgraduateLectureCode: "PG-03",
       gradClassrooms: ["S4-1-222"],
       isGrad: true,
-      atNight: true,
+      atNight: false,
       divisionGroup: [
         {
           divisionNumber: 0,
@@ -2073,7 +2073,7 @@ export const defaultValues = {
       postgraduateLectureCode: "PG-04",
       gradClassrooms: ["S4-1-222"],
       isGrad: true,
-      atNight: true,
+      atNight: false,
       divisionGroup: [
         {
           divisionNumber: 0,
@@ -2101,7 +2101,7 @@ export const defaultValues = {
       postgraduateLectureCode: "PG-05",
       gradClassrooms: ["S4-1-222"],
       isGrad: true,
-      atNight: true,
+      atNight: false,
       divisionGroup: [
         {
           divisionNumber: 0,
@@ -2129,7 +2129,7 @@ export const defaultValues = {
       postgraduateLectureCode: "PG-06",
       gradClassrooms: ["S4-1-222"],
       isGrad: true,
-      atNight: true,
+      atNight: false,
       divisionGroup: [
         {
           divisionNumber: 0,
@@ -2159,7 +2159,7 @@ export const defaultValues = {
       postgraduateLectureCode: "PG-07",
       gradClassrooms: ["S4-1-222"],
       isGrad: true,
-      atNight: true,
+      atNight: false,
       divisionGroup: [
         {
           divisionNumber: 0,

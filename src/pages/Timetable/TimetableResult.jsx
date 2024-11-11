@@ -6,6 +6,27 @@ import Form from "../../components/form/Form";
 import { v4 as uuidv4 } from "uuid";
 import AutoScroll from "../../components/AutoScroll";
 
+export const helpContent7 = (
+  <div className="flex flex-col gap-4 text-sm">
+    <p>
+      <span className="font-bold">
+        1. 입력된 정보를 한 눈에 확인할 수 있는 페이지 입니다.
+      </span>
+    </p>
+    <p>
+      <span className="font-bold">
+        2. 우측 하단 '시간표 제출하기' 버튼으로 정보를 제출할 수 있습니다.
+      </span>
+    </p>
+    <p>
+      <span className="font-bold">
+        3. 정보 제출 시 로딩이 발생할 수 있으며 파일 제작 완료 시 'Excel 파일로
+        저장하기' 버튼이 활성화 됩니다.
+      </span>
+    </p>
+  </div>
+);
+
 export default function TimetableResult() {
   const { watch, handleSubmit } = useFormContext();
   const navigate = useNavigate();
@@ -450,33 +471,12 @@ export default function TimetableResult() {
     }
   };
 
-  const helpContent = (
-    <div className="flex flex-col gap-4 text-sm">
-      <p>
-        <span className="font-bold">
-          1. 입력된 정보를 한 눈에 확인할 수 있는 페이지 입니다.
-        </span>
-      </p>
-      <p>
-        <span className="font-bold">
-          2. 우측 하단 '시간표 제출하기' 버튼으로 정보를 제출할 수 있습니다.
-        </span>
-      </p>
-      <p>
-        <span className="font-bold">
-          3. 정보 제출 시 로딩이 발생할 수 있으며 파일 제작 완료 시 'Excel
-          파일로 저장하기' 버튼이 활성화 됩니다.
-        </span>
-      </p>
-    </div>
-  );
-
   return (
     <Form
       title="STEP 7: 시간표 저장"
       prev="/timetable/timetablecustomizing"
       final={true}
-      helpContent={helpContent}
+      helpContent={helpContent7}
     >
       {status === "initial" && (
         <>

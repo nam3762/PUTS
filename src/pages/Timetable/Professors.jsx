@@ -12,6 +12,32 @@ import usePreventBackNavigation from "../../hooks/usePreventBackNavigation";
 
 const weekdays = ["월요일", "화요일", "수요일", "목요일", "금요일"];
 const periodLabels = Array.from({ length: 9 }, (_, i) => `${i + 1}교시`);
+export const helpContent2 = (
+  <div className="flex flex-col gap-4 text-sm">
+    <p>
+      <span className="font-bold">
+        1. 교원 이름과 번호를 설정할 수 있습니다.
+      </span>
+    </p>
+    <p>
+      <span className="font-bold">
+        2. 전임교원 여부를 구분하기 위해 체크를 진행합니다.
+      </span>
+    </p>
+    <p>
+      <span className="font-bold">
+        3. 강의 불가능한 시간과 강의 선호시간을 요일과 시간별로 설정할 수
+        있습니다.
+      </span>
+    </p>
+    <p>
+      <span className="font-bold">
+        4. 드롭다운 메뉴로 입력한 교원을 이동할 수 있으며, 추가/삭제가
+        가능합니다.
+      </span>
+    </p>
+  </div>
+);
 
 export default function Professors() {
   const {
@@ -76,39 +102,12 @@ export default function Professors() {
     }
   }, [timetableName, navigate]);
 
-  const helpContent = (
-    <div className="flex flex-col gap-4 text-sm">
-      <p>
-        <span className="font-bold">
-          1. 교원 이름과 번호를 설정할 수 있습니다.
-        </span>
-      </p>
-      <p>
-        <span className="font-bold">
-          2. 전임교원 여부를 구분하기 위해 체크를 진행합니다.
-        </span>
-      </p>
-      <p>
-        <span className="font-bold">
-          3. 강의 불가능한 시간과 강의 선호시간을 요일과 시간별로 설정할 수
-          있습니다.
-        </span>
-      </p>
-      <p>
-        <span className="font-bold">
-          4. 드롭다운 메뉴로 입력한 교원을 이동할 수 있으며, 추가/삭제가
-          가능합니다.
-        </span>
-      </p>
-    </div>
-  );
-
   return (
     <Form
       title="STEP 2: 교원 정보"
       prev="/timetable"
       next="/timetable/classrooms"
-      helpContent={helpContent}
+      helpContent={helpContent2}
     >
       {/* 드롭다운 메뉴로 교원 선택 */}
       <Select

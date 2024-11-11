@@ -6,27 +6,27 @@ import usePreventBackNavigation from "../../hooks/usePreventBackNavigation";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+export const helpContent1 = (
+  <div className="flex flex-col gap-4 text-sm">
+    <p>
+      <span className="font-bold">
+        1. 시간표 이름과 비밀번호를 설정하면 추후 시간표에 접근할 수 있습니다.
+      </span>
+    </p>
+    <p>
+      <span className="font-bold">
+        2. 시간표 설명에는 시간표에 대한 간단한 설명을 적어주세요.
+      </span>
+    </p>
+  </div>
+);
+
 // 사용자 입력 첫 화면 (STEP 1: 시간표 정보 입력)
 export default function TimetableGenerator() {
   const {
     register,
     formState: { errors },
   } = useFormContext();
-
-  const helpContent = (
-    <div className="flex flex-col gap-4 text-sm">
-      <p>
-        <span className="font-bold">
-          1. 시간표 이름과 비밀번호를 설정하면 추후 시간표에 접근할 수 있습니다.
-        </span>
-      </p>
-      <p>
-        <span className="font-bold">
-          2. 시간표 설명에는 시간표에 대한 간단한 설명을 적어주세요.
-        </span>
-      </p>
-    </div>
-  );
 
   const navigate = useNavigate();
 
@@ -69,7 +69,7 @@ export default function TimetableGenerator() {
       title="STEP 1: 시간표 정보"
       prev="/"
       next="/timetable/professors"
-      helpContent={helpContent}
+      helpContent={helpContent1}
     >
       <span className="my-2 label-text text-right text-xs text-green-500 font-bold">
         모든 정보는 서버에 저장되며 언제든 불러올 수 있습니다.
