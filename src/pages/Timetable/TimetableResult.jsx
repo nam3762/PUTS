@@ -4,6 +4,7 @@ import usePreventBackNavigation from "../../hooks/usePreventBackNavigation";
 import { useFormContext } from "react-hook-form";
 import Form from "../../components/form/Form";
 import { v4 as uuidv4 } from "uuid";
+import AutoScroll from "../../components/AutoScroll";
 
 export default function TimetableResult() {
   const { watch, handleSubmit } = useFormContext();
@@ -530,17 +531,20 @@ export default function TimetableResult() {
       )}
 
       {status === "processing" && (
-        <div className="text-center my-8">
-          <h1 className="text-lg font-semibold mb-2 text-base-content">
-            최적의 시간표 제작 중 ...
-          </h1>
-          <p className="text-xs text-base-content opacity-50 mb-4">
-            시간표 제작에 다소 시간이 소요될 수 있습니다.
-          </p>
-          <progress className="progress w-56"></progress>
-          <div className="block py-8"></div>
-          <div className="btn btn-disabled">Excel 파일로 저장하기</div>
-        </div>
+        <>
+          <AutoScroll />
+          <div className="text-center my-8">
+            <h1 className="text-lg font-semibold mb-2 text-base-content">
+              최적의 시간표 제작 중 ...
+            </h1>
+            <p className="text-xs text-base-content opacity-50 mb-4">
+              시간표 제작에 다소 시간이 소요될 수 있습니다.
+            </p>
+            <progress className="progress w-56"></progress>
+            <div className="block py-8"></div>
+            <div className="btn btn-disabled">Excel 파일로 저장하기</div>
+          </div>
+        </>
       )}
 
       {status === "completed" && (

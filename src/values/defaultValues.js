@@ -55,7 +55,17 @@ export const defaultValues = {
       lectureCnt: 0,
       // 전임교원이 강의하지 못하는 요일과 시간
       // 2차원 배열, ex: [0, 0] -> 월요일 1교시, [4, 7] -> 금요일 8교시
-      offTimes: [],
+      offTimes: [
+        [4, 0],
+        [4, 1],
+        [4, 2],
+        [4, 3],
+        [4, 4],
+        [4, 5],
+        [4, 6],
+        [4, 7],
+        [4, 8],
+      ],
       // 전임교원이 강의하기 희망하는 요일과 시간
       // 2차원 배열, ex: [0, 0] -> 월요일 1교시, [4, 7] -> 금요일 8교시
       hopeTimes: [],
@@ -159,32 +169,6 @@ export const defaultValues = {
       professorName: "이재성",
       // 전임 교원 코드
       professorCode: "P-007",
-      // 전임교원의 교수 여부, 기본 값 true, true = 교수, false = 강사
-      isProfessor: true,
-      // 교수의 총 강의 갯수
-      lectureCnt: 0,
-      // 전임교원이 강의하지 못하는 요일과 시간
-      // 2차원 배열, ex: [0, 0] -> 월요일 1교시, [4, 7] -> 금요일 8교시
-      offTimes: [
-        [4, 0],
-        [4, 1],
-        [4, 2],
-        [4, 3],
-        [4, 4],
-        [4, 5],
-        [4, 6],
-        [4, 7],
-        [4, 8],
-      ],
-      // 전임교원이 강의하기 희망하는 요일과 시간
-      // 2차원 배열, ex: [0, 0] -> 월요일 1교시, [4, 7] -> 금요일 8교시
-      hopeTimes: [],
-    },
-    {
-      // 전임 교원 이름
-      professorName: "이종연",
-      // 전임 교원 코드
-      professorCode: "P-008",
       // 전임교원의 교수 여부, 기본 값 true, true = 교수, false = 강사
       isProfessor: true,
       // 교수의 총 강의 갯수
@@ -1719,8 +1703,37 @@ export const defaultValues = {
       ],
     },
     {
-      lectureName: "창업산학초청세미나II",
+      lectureName: "",
       lectureCode: "LN-022",
+      year: 3,
+      group: 0,
+      majorRequired: false,
+      isGrad: false,
+      divisionGroup: [
+        {
+          divisionNumber: 0,
+          sectionGroup: [
+            {
+              sectionTime: 2,
+              isTPGroup1: false,
+              isFixedTime: false,
+              FixedTime: [],
+            },
+            {
+              sectionTime: 2,
+              isTPGroup2: false,
+              isFixedTime: false,
+              FixedTime: [],
+            },
+          ],
+          capacity: 60,
+          professor: "P-014",
+        },
+      ],
+    },
+    {
+      lectureName: "창업산학초청세미나II",
+      lectureCode: "LN-023",
       year: 4,
       group: 2,
       majorRequired: false,
@@ -1749,7 +1762,7 @@ export const defaultValues = {
     },
     {
       lectureName: "클라우드컴퓨팅",
-      lectureCode: "LN-023",
+      lectureCode: "LN-024",
       year: 4,
       group: 1,
       majorRequired: false,
@@ -1778,7 +1791,7 @@ export const defaultValues = {
     },
     {
       lectureName: "자연언어처리",
-      lectureCode: "LN-024",
+      lectureCode: "LN-025",
       year: 4,
       group: 0,
       majorRequired: false,
@@ -1807,7 +1820,7 @@ export const defaultValues = {
     },
     {
       lectureName: "창업파일럿프로젝트(종합설계)",
-      lectureCode: "LN-025",
+      lectureCode: "LN-026",
       year: 4,
       group: 0,
       majorRequired: false,
@@ -1855,7 +1868,7 @@ export const defaultValues = {
     },
     {
       lectureName: "빅데이터분석시각화",
-      lectureCode: "LN-026",
+      lectureCode: "LN-027",
       year: 4,
       group: 0,
       majorRequired: false,
@@ -1884,7 +1897,7 @@ export const defaultValues = {
     },
     {
       lectureName: "정보·컴퓨터교육론",
-      lectureCode: "LN-027",
+      lectureCode: "LN-028",
       year: 4,
       group: 0,
       majorRequired: false,
@@ -2107,7 +2120,7 @@ export const defaultValues = {
             },
           ],
           capacity: 30,
-          professor: "P-008",
+          professor: "P-002",
         },
       ],
     },

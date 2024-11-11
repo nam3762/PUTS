@@ -18,6 +18,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { defaultValues } from "./values/defaultValues";
 import TimetableCustomizing from "./pages/Timetable/TimetableCustomizing";
 import TimetableInfo from "./pages/Timetable/TimetableInfo";
+import Help from "./pages/Help";
 
 function Layout() {
   const location = useLocation();
@@ -45,6 +46,15 @@ function Layout() {
             <>
               <AutoScroll />
               <About />
+            </>
+          }
+        ></Route>
+        <Route
+          path="/help"
+          element={
+            <>
+              <AutoScroll />
+              <Help />
             </>
           }
         ></Route>
