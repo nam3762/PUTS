@@ -135,7 +135,18 @@ export default function Classrooms() {
 
             <div className="flex flex-row justify-center items-center">
               <label className="label cursor-pointer flex flex-col">
-                <span className="label-text mb-2">일반 강의용</span>
+                <span className="label-text mb-2">일반 교과목용</span>
+                <input
+                  type="radio"
+                  name={`classrooms.${currentIndex}.forGrad`}
+                  value="0"
+                  className="radio checked:radio-primary"
+                  checked={forGrad === 0}
+                  onChange={() => handleRadioChange("forGrad", 0)}
+                />
+              </label>
+              <label className="label cursor-pointer flex flex-col">
+                <span className="label-text mb-2">대학원용</span>
                 <input
                   type="radio"
                   name={`classrooms.${currentIndex}.forGrad`}
@@ -146,7 +157,7 @@ export default function Classrooms() {
                 />
               </label>
               <label className="label cursor-pointer flex flex-col">
-                <span className="label-text mb-2">대학원용</span>
+                <span className="label-text mb-2">일반 + 대학원</span>
                 <input
                   type="radio"
                   name={`classrooms.${currentIndex}.forGrad`}
@@ -154,17 +165,6 @@ export default function Classrooms() {
                   className="radio checked:radio-primary"
                   checked={forGrad === 2}
                   onChange={() => handleRadioChange("forGrad", 2)}
-                />
-              </label>
-              <label className="label cursor-pointer flex flex-col">
-                <span className="label-text mb-2">일반 + 대학원</span>
-                <input
-                  type="radio"
-                  name={`classrooms.${currentIndex}.forGrad`}
-                  value="3"
-                  className="radio checked:radio-primary"
-                  checked={forGrad === 3}
-                  onChange={() => handleRadioChange("forGrad", 3)}
                 />
               </label>
             </div>

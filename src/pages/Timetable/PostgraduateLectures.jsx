@@ -10,7 +10,6 @@ import { usePostgraduateLecture } from "../../hooks/usePostgraduateLecture";
 import usePreventBackNavigation from "../../hooks/usePreventBackNavigation";
 import { useNavigate } from "react-router-dom";
 import ClassroomModal from "../../components/modal/ClassroomModal";
-import Tooltip from "../../components/Tooltip";
 
 export default function PostgraduateLectures() {
   const {
@@ -37,7 +36,7 @@ export default function PostgraduateLectures() {
   const lectures = watch("postgraduateLectures");
   const classrooms = watch("classrooms");
   const filteredClassrooms = classrooms.filter(
-    (classroom) => classroom.forGrad === 2 || classroom.forGrad === 3
+    (classroom) => classroom.forGrad === 1 || classroom.forGrad === 2
   );
   const numberOfClassrooms = filteredClassrooms.length;
   const gradClassrooms = watch(
