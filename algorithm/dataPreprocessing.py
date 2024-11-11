@@ -33,8 +33,8 @@ def get_lecturesByTime(lectures, professors):
         # 시간이 고정된 강의인 경우
         if lecture.isFixedTime:
             lectureByTime.available = [[False for _ in range(13)] for _ in range(5)]
-            day_index = lecture.FixedTime[0]
-            period_index = lecture.FixedTime[1]
+            day_index = lecture.FixedTime[0][0]
+            period_index = lecture.FixedTime[0][1]
             if 0 <= day_index < 5 and 0 <= period_index < 13:
                 lectureByTime.available[day_index][period_index] = True
             else:
@@ -126,7 +126,7 @@ def get_lecturesByClassroom(lectures, classrooms):
                 lecturesByClassrooms.append(lectureByClassroom)
         else:  # 대학교 강의인 경우
             for classroom in classrooms:
-                if classroom.forGrad in (0, 1):  # 강의실이 기본 또는 대학원도 가능
+                if classroom.forGrad == 0 or classroom.forGrad == 2:  # 강의실이 기본 또는 대학원도 가능
                     if lecture.capacity <= classroom.capacity:
                         if lecture.group == classroom.group:
                             lectureByClassroom.classroomList.add((classroom.building, classroom.classroomNo))
@@ -189,6 +189,8 @@ def preprocess_data(lectures, professors, classrooms):
     # 데이터 확인 함수 호출
     display_data(lectures, professors)
 
+    for lecture in lectures:
+        print(lecture.name, lecture.available)
     return lectures
 
 ##### 데이터 확인 함수 #####

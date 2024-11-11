@@ -13,8 +13,6 @@ def run_backtracking(lectures, professors, option):
     print("가능한 시간표 조합을 짜는 중입니다...")
 
     # 데이터를 랜덤하게 섞어줍니다.
-    random.shuffle(lectures)
-    random.shuffle(professors)
     currentschedule = []
 
     # 제약조건 확인 함수
@@ -43,6 +41,7 @@ def run_backtracking(lectures, professors, option):
         ):
             return True
         return False
+
 
     # 건물, 교실, 날짜에 따른 시간이 겹치면 안 됨
     def isValid_timeSpace(day, period, building, classroomNo, lecture_duration, currentschedule):
@@ -125,26 +124,20 @@ def run_backtracking(lectures, professors, option):
     # 교수가 주당 4일 근무하는지
     def isValid_week(professor, day, currentschedule):
         if option.isWeek and professor.weekConstraint:
-            # 주 4일 근무 제약 조건 적용 대상인 경우
-            day_lists = [False for _ in range(5)]
-            day_lists[day] = True  # 현재 강의를 해당 요일에 배정한다고 가정
-            for scheduled in currentschedule:
-                if professor.profCode == scheduled.profCode:
-                    day_lists[scheduled.batched[0]] = True  # 이미 배정된 요일 표시
-            cnt = sum(day_lists)
-            remaining_lectures = professor.lectureCnt - 1  # 현재 강의를 배정한다고 가정하여 남은 강의 수 계산
-            possible_days = 5 - cnt  # 남은 가능한 요일 수
-
-            if cnt + remaining_lectures < 4:
-                # 남은 강의를 모두 다른 요일에 배정해도 총 4일을 채울 수 없는 경우
-                return False
-
-            if remaining_lectures > possible_days:
-                # 남은 강의를 배정할 수 있는 요일이 부족한 경우
-                return False
-        return True  # 제약 조건 미적용 또는 만족하는 경우
-
-
+            if professor.isprof and professor.lectureCnt == 1:          # 교수의 남은 강의 수가 1개인 경우
+                day_lists = [False for _ in range(5)]  # 해당 날짜를 근무하는지
+                day_lists[day] = True               # 현재 강의의 대입을 가정,
+                for scheduled in currentschedule:   # 이미 존재하던 강의 확인
+                    if professor.profCode == scheduled.profCode:
+                        day_lists[scheduled.batched[0]] = True
+                cnt = 0
+                for day in day_lists:   # 강의하는 날짜 카운트
+                    if day:
+                        cnt += 1
+                if cnt < 4:             # 주 4일이 안 되면 안 됨
+                    return False
+        return True
+    
     # 특정 학년의 어느 날에 점심시간이 존재하는지 확인
     def isValid_lunch(day, period, duration, year, currentschedule):
         if option.isLunch:
@@ -179,13 +172,16 @@ def run_backtracking(lectures, professors, option):
         if index > highest:
             highest = index
             time_limit += 0.005
+            print(index)
 
         if index == len(lectures):
+            print("All lectures scheduled successfully.")
             return True
 
         lecture = lectures[index]
         professor = find_professor(lecture.profCode)
         if professor is None:
+            print(f"Error: No professor found for lecture {lecture.lectureCode}")
             return False
 
         available_slots = list(lecture.available)
@@ -208,16 +204,24 @@ def run_backtracking(lectures, professors, option):
         return False
 
     # 초기화 및 실행
-    start_time = time.time()
-    time_limit = 10  # 시간 제한을 적절히 설정
-    highest = len(lectures) * 0.8
+
 
     while True:
-        if backtrack(currentschedule, 0, start_time, time_limit, highest):
+        currentschedule = []
+        start_time = time.time()
+        time_limit = 0.015  # 시간 제한을 적절히 설정
+        highest = len(lectures) * 0.8
+        index = 0  # 매 루프마다 초기화
+        if backtrack(currentschedule, index, start_time, time_limit, highest):
             break
-        else:
-            random.shuffle(lectures)
-            random.shuffle(professors)
-            currentschedule = []
-
+        random.shuffle(lectures)
+        random.shuffle(professors)
+        # for lecture in lectures:
+        #     if lecture.batched == None:
+        #         print(lecture.name, end=' ')
+        # print()
+        # for lecture in lectures:
+        #     if lecture.batched is not None:
+        #         print(lecture.name,lecture.batched)
+            
     return currentschedule  # currentschedule을 반환하도록 수정

@@ -142,7 +142,7 @@ def load_and_map_data(timetable_id):
             gradClassrooms=lecture_data.get('gradClassrooms', []),
             atNight=lecture_data.get('atNight', False),
             isFixedTime=lecture_data.get('isFixedTime', False),
-            FixedTime=lecture_data.get('FixedTime', []),
+            FixedTime = lecture_data.get('FixedTime', []),
             isFixedSpace=lecture_data.get('isFixedSpace', False),
             FixedSpace=lecture_data.get('FixedSpace', []),
             available=lecture_data.get('available', []),
@@ -191,5 +191,6 @@ def display_data(lectures, professors):
     print("미리 고정된 강의 개수를 확인합니다...", end=" ")
     fixedLectureCnt = sum(1 for lecture in lectures if lecture.isFixedTime)
     print(f"총 {fixedLectureCnt}개의 강의가 고정되었습니다.")
+    print(f"총 강의의 수:{len(lectures)}")
 
 # 추가적인 코드 및 시간표 생성 로직을 여기에 추가하시면 됩니다.
