@@ -1703,35 +1703,6 @@ export const defaultValues = {
       ],
     },
     {
-      lectureName: "",
-      lectureCode: "LN-022",
-      year: 3,
-      group: 0,
-      majorRequired: false,
-      isGrad: false,
-      divisionGroup: [
-        {
-          divisionNumber: 0,
-          sectionGroup: [
-            {
-              sectionTime: 2,
-              isTPGroup1: false,
-              isFixedTime: false,
-              FixedTime: [],
-            },
-            {
-              sectionTime: 2,
-              isTPGroup2: false,
-              isFixedTime: false,
-              FixedTime: [],
-            },
-          ],
-          capacity: 60,
-          professor: "P-014",
-        },
-      ],
-    },
-    {
       lectureName: "창업산학초청세미나II",
       lectureCode: "LN-023",
       year: 4,
