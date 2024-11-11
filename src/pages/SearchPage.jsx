@@ -25,7 +25,7 @@ export default function SearchPage() {
   const fetchAllTimetables = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://125.251.212.92:8000/timetables");
+      const response = await fetch("https://125.251.212.92/timetables");
       if (!response.ok) {
         throw new Error("데이터를 불러오는데 실패했습니다.");
       }
@@ -110,7 +110,7 @@ export default function SearchPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="text-center">로딩 중...</div>
+        <div className="text-center text-base-content">로딩 중...</div>
       </div>
     );
   }

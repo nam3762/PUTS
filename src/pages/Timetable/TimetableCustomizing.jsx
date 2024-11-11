@@ -478,73 +478,72 @@ export default function TimetableCustomizing() {
         </div>
 
         {/* 교과목 및 분반 선택 영역 */}
-        <div className="w-1/4 p-4 border-l-2 border-gray-200">
+        <div className="w-1/4 p-4 border-l-2 border-gray-200 overflow-y-auto">
           <h2 className="text-xl font-bold mb-4">교과목 및 분반 선택</h2>
 
           {/* 교과목 선택 */}
           <div className="space-y-4">
             {combinedLectures.map((lecture) => (
-              <div
-                key={lecture.id}
-                className={`p-2 border rounded cursor-pointer ${
-                  selectedLecture && selectedLecture.id === lecture.id
-                    ? "bg-blue-200"
-                    : "bg-white"
-                }`}
-                onClick={() => handleLectureSelect(lecture)}
-              >
-                {lecture.lectureName || lecture.postgraduateLectureName}
+              <div key={lecture.id}>
+                <div
+                  className={`p-2 border rounded cursor-pointer ${
+                    selectedLecture && selectedLecture.id === lecture.id
+                      ? "bg-blue-200"
+                      : "bg-white"
+                  }`}
+                  onClick={() => handleLectureSelect(lecture)}
+                >
+                  {lecture.lectureName || lecture.postgraduateLectureName}
+                </div>
+                {selectedLecture && selectedLecture.id === lecture.id && (
+                  // Render divisions
+                  <div className="mt-2 ml-4 space-y-2">
+                    {lecture.divisionGroup.map((division) => (
+                      <div key={division.id}>
+                        <div
+                          className={`p-2 border rounded cursor-pointer ${
+                            selectedDivision &&
+                            selectedDivision.id === division.id
+                              ? "bg-blue-200"
+                              : "bg-white"
+                          }`}
+                          onClick={() => handleDivisionSelect(division)}
+                        >
+                          {division.divisionNumber !== undefined
+                            ? `${division.divisionNumber + 1}번`
+                            : "Unnamed"}
+                        </div>
+                        {selectedDivision &&
+                          selectedDivision.id === division.id && (
+                            // Render sections
+                            <div className="mt-2 ml-4 space-y-2">
+                              {division.sectionGroup.map((section) => (
+                                <div
+                                  key={section.id}
+                                  className={`p-2 border rounded cursor-pointer ${
+                                    selectedSection &&
+                                    selectedSection.id === section.id
+                                      ? "bg-yellow-200"
+                                      : "bg-white"
+                                  }`}
+                                  onClick={() => handleSectionSelect(section)}
+                                >
+                                  {`강의 시간: ${
+                                    section.sectionTime || "미지정"
+                                  } ${
+                                    section.isFixedTime ? "(이미 등록됨)" : ""
+                                  }`}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
-
-          {/* 분반 선택 */}
-          {selectedLecture && (
-            <div className="mt-6">
-              <h3 className="font-bold">분반 선택</h3>
-              <div className="space-y-2">
-                {selectedLecture.divisionGroup.map((division) => (
-                  <div
-                    key={division.id}
-                    className={`p-2 border rounded cursor-pointer ${
-                      selectedDivision && selectedDivision.id === division.id
-                        ? "bg-blue-200"
-                        : "bg-white"
-                    }`}
-                    onClick={() => handleDivisionSelect(division)}
-                  >
-                    {division.divisionNumber !== undefined
-                      ? `${division.divisionNumber + 1}번`
-                      : "Unnamed"}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* TP 선택 */}
-          {selectedDivision && (
-            <div className="mt-6">
-              <h3 className="font-bold">섹션 선택</h3>
-              <div className="space-y-2">
-                {selectedDivision.sectionGroup.map((section) => (
-                  <div
-                    key={section.id}
-                    className={`p-2 border rounded cursor-pointer ${
-                      selectedSection && selectedSection.id === section.id
-                        ? "bg-yellow-200"
-                        : "bg-white"
-                    }`}
-                    onClick={() => handleSectionSelect(section)}
-                  >
-                    {`강의 시간: ${section.sectionTime || "미지정"} ${
-                      section.isFixedTime ? "(이미 등록됨)" : ""
-                    }`}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

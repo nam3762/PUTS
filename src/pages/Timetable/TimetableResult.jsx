@@ -345,8 +345,8 @@ export default function TimetableResult() {
                           {classroom.forGrad === 0
                             ? "일반 교과목만"
                             : classroom.forGrad === 1
-                            ? "둘 다 가능"
-                            : "대학원 교과목만"}
+                            ? "대학원 교과목만"
+                            : "둘 다 가능"}
                         </td>
                         <td>
                           {classroomGroups.find(
@@ -391,8 +391,9 @@ export default function TimetableResult() {
                             .join(", ")}
                         </td>
                         <td>
+                          {/* 분반 1번부터 시작 */}
                           {lecture.divisionGroup
-                            .map((div) => div.divisionNumber)
+                            .map((div) => div.divisionNumber + 1)
                             .join(", ")}
                         </td>
                       </tr>
@@ -430,7 +431,7 @@ export default function TimetableResult() {
                             </td>
                             <td>
                               {lecture.divisionGroup
-                                .map((div) => div.divisionNumber)
+                                .map((div) => div.divisionNumber + 1)
                                 .join(", ")}
                             </td>
                           </tr>
