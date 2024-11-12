@@ -28,7 +28,7 @@ const constraints = (
     </p>
     <p className="indent-2">• 전공 필수 교과목 간 같은 시간 배치 불가</p>
     <p className="indent-2">• 같은 학년의 교과목 같은 시간 배치 불가</p>
-    <p className="indent-2">• 한 강의의 다른 시간대가 같은 요일에 배치 불가</p>
+    <p className="indent-2">• 한 분반의 다른 시간대가 같은 요일에 배치 불가</p>
     <p className="indent-2">
       • 같은 강의의 다른 분반은 동시에 배치 가능 (강의 시간 분할 그룹화)
     </p>
