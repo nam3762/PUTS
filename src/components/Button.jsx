@@ -5,7 +5,7 @@ export default function Button({ onClick, style = "", children }) {
     <button
       type="button"
       onClick={onClick}
-      className={`btn mb-4 max-w-28 ${style}`}
+      className={`btn ${style} mb-4 max-w-28 `}
     >
       {children}
     </button>

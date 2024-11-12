@@ -71,7 +71,7 @@ export default function Classrooms() {
 
   const classroomsOptions = classroomFields.map((classroom, index) => ({
     value: index,
-    label: `${classroom.buildingName}-${classroom.classroomNumber}`,
+    label: `${classroom.buildingName || ""}-${classroom.classroomNumber || ""}`,
   }));
 
   const handleAddClassroom = () => {
@@ -107,6 +107,26 @@ export default function Classrooms() {
     setValue(`classrooms.${currentIndex}.${field}`, value);
   };
 
+  const [isForGradModalOpen, setIsForGradModalOpen] = useState(false);
+  const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
+
+  const openForGradModal = () => setIsForGradModalOpen(true);
+  const closeForGradModal = () => setIsForGradModalOpen(false);
+
+  const openGroupModal = () => setIsGroupModalOpen(true);
+  const closeGroupModal = () => setIsGroupModalOpen(false);
+
+  const forGradText = {
+    0: "일반 교과목용",
+    1: "대학원용",
+    2: "일반 + 대학원",
+  };
+
+  const groupText = defaultValues.classroomGroups.reduce((acc, group) => {
+    acc[group.id] = group.groupName;
+    return acc;
+  }, {});
+
   return (
     <Form
       title="STEP 3: 강의실 정보"
@@ -133,65 +153,14 @@ export default function Classrooms() {
               </kbd>
             </div>
 
-            <div className="flex flex-row justify-center items-center">
-              <label className="label cursor-pointer flex flex-col">
-                <span className="label-text mb-2">일반 교과목용</span>
-                <input
-                  type="radio"
-                  name={`classrooms.${currentIndex}.forGrad`}
-                  value="0"
-                  className="radio checked:radio-primary"
-                  checked={forGrad === 0}
-                  onChange={() => handleRadioChange("forGrad", 0)}
-                />
-              </label>
-              <label className="label cursor-pointer flex flex-col">
-                <span className="label-text mb-2">대학원용</span>
-                <input
-                  type="radio"
-                  name={`classrooms.${currentIndex}.forGrad`}
-                  value="1"
-                  className="radio checked:radio-primary"
-                  checked={forGrad === 1}
-                  onChange={() => handleRadioChange("forGrad", 1)}
-                />
-              </label>
-              <label className="label cursor-pointer flex flex-col">
-                <span className="label-text mb-2">일반 + 대학원</span>
-                <input
-                  type="radio"
-                  name={`classrooms.${currentIndex}.forGrad`}
-                  value="2"
-                  className="radio checked:radio-primary"
-                  checked={forGrad === 2}
-                  onChange={() => handleRadioChange("forGrad", 2)}
-                />
-              </label>
-            </div>
-
-            <div className="flex flex-row justify-center items-center">
-              {defaultValues.classroomGroups.map((group) => (
-                <label
-                  key={group.id}
-                  className="label cursor-pointer flex flex-col"
-                >
-                  <span className="label-text mb-2">{group.groupName}</span>
-                  <input
-                    type="radio"
-                    name={`classrooms.${currentIndex}.group`}
-                    value={group.id}
-                    className="radio checked:radio-primary"
-                    checked={currentGroup === group.id}
-                    onChange={() => handleRadioChange("group", group.id)}
-                  />
-                </label>
-              ))}
-            </div>
-
-            <div className="flex justify-end">
+            {/* Remove Classroom */}
+            <div className="flex justify-end col-span-3">
               {classroomFields.length > 1 && (
                 <Button
-                  onClick={() => remove(currentIndex)}
+                  onClick={() => {
+                    remove(currentIndex);
+                    setCurrentIndex(0);
+                  }}
                   style="btn-error btn-sm -mb-2"
                 >
                   강의실 삭제
@@ -199,6 +168,7 @@ export default function Classrooms() {
               )}
             </div>
 
+            {/* Building Name */}
             <div className="w-full mb-4">
               <span className="label-text text-base-content font-bold">
                 건물 이름
@@ -217,6 +187,7 @@ export default function Classrooms() {
               )}
             </div>
 
+            {/* Classroom Number */}
             <div className="w-full mb-4">
               <span className="label-text text-base-content font-bold">
                 강의실 번호
@@ -235,6 +206,7 @@ export default function Classrooms() {
               )}
             </div>
 
+            {/* Capacity */}
             <div className="w-full mb-4">
               <span className="label-text text-base-content font-bold">
                 수용 인원
@@ -259,12 +231,133 @@ export default function Classrooms() {
                 </p>
               )}
             </div>
+
+            <div className="flex flex-row justify-between">
+              {/* ForGrad Setting */}
+              <div className="flex flex-col justify-center items-center gap-4">
+                <span className="label-text font-bold">
+                  {forGradText[forGrad]}
+                </span>
+                <Button onClick={openForGradModal} style="btn-sm text-xs">
+                  강의 구분 설정
+                </Button>
+              </div>
+
+              {/* Group Setting */}
+              <div className="flex flex-col justify-center items-center gap-4">
+                <span className="label-text font-bold">
+                  {groupText[currentGroup]}
+                </span>
+                <Button onClick={openGroupModal} style="btn-sm text-xs">
+                  강의실 그룹 설정
+                </Button>
+              </div>
+            </div>
           </div>
+
+          {/* ForGrad Modal */}
+          <ForGradModal
+            isOpen={isForGradModalOpen}
+            onClose={closeForGradModal}
+            value={forGrad}
+            onChange={(value) => {
+              handleRadioChange("forGrad", value);
+              closeForGradModal();
+            }}
+          />
+
+          {/* Group Modal */}
+          <GroupModal
+            isOpen={isGroupModalOpen}
+            onClose={closeGroupModal}
+            value={currentGroup}
+            onChange={(value) => {
+              handleRadioChange("group", value);
+              closeGroupModal();
+            }}
+            groupOptions={defaultValues.classroomGroups}
+          />
         </div>
       )}
       <Button onClick={handleAddClassroom} style="mt-4">
         강의실 추가
       </Button>
     </Form>
+  );
+}
+
+function ForGradModal({ isOpen, onClose, value, onChange }) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal modal-open text-base-content">
+      <div className="modal-box">
+        <h3 className="font-bold text-lg mb-4">강의 구분 설정</h3>
+        <div className="flex flex-col gap-2">
+          <label className="cursor-pointer flex items-center">
+            <input
+              type="radio"
+              value="0"
+              checked={value === 0}
+              onChange={() => onChange(0)}
+              className="radio checked:radio-primary mr-2"
+            />
+            일반 교과목용
+          </label>
+          <label className="cursor-pointer flex items-center">
+            <input
+              type="radio"
+              value="1"
+              checked={value === 1}
+              onChange={() => onChange(1)}
+              className="radio checked:radio-primary mr-2"
+            />
+            대학원용
+          </label>
+          <label className="cursor-pointer flex items-center">
+            <input
+              type="radio"
+              value="2"
+              checked={value === 2}
+              onChange={() => onChange(2)}
+              className="radio checked:radio-primary mr-2"
+            />
+            일반 + 대학원
+          </label>
+        </div>
+        <div className="modal-action">
+          <Button onClick={onClose}>닫기</Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function GroupModal({ isOpen, onClose, value, onChange, groupOptions }) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal modal-open text-base-content">
+      <div className="modal-box">
+        <h3 className="font-bold text-lg mb-4">강의실 그룹 설정</h3>
+        <div className="flex flex-col gap-2">
+          {groupOptions.map((group) => (
+            <label key={group.id} className="cursor-pointer flex items-center">
+              <input
+                type="radio"
+                value={group.id}
+                checked={value === group.id}
+                onChange={() => onChange(group.id)}
+                className="radio checked:radio-primary mr-2"
+              />
+              {group.groupName}
+            </label>
+          ))}
+        </div>
+        <div className="modal-action">
+          <Button onClick={onClose}>닫기</Button>
+        </div>
+      </div>
+    </div>
   );
 }
