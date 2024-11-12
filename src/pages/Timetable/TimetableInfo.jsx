@@ -116,7 +116,7 @@ export default function TimetableInfo() {
           </p>
           <div className="card-actions justify-end mt-4">
             <a
-              href={`https://125.251.212.92/downloads/${timetable.file_url}`}
+              href={`https://125.251.212.92/downloads/timetable_${timetableId}.xlsx`}
               download
               target="_blank"
               rel="noopener noreferrer"
