@@ -16,7 +16,7 @@ export default function TimetableInfo() {
     const fetchTimetable = async () => {
       try {
         const response = await fetch(
-          `http://125.251.212.92:8000/timetables/${timetableId}`
+          `https://125.251.212.92/timetables/${timetableId}`
         );
         if (!response.ok) {
           throw new Error("시간표 데이터를 불러오는데 실패했습니다.");
@@ -53,7 +53,7 @@ export default function TimetableInfo() {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://125.251.212.92:8000/timetables/${timetableId}`,
+        `https://125.251.212.92/timetables/${timetableId}`,
         {
           method: "DELETE",
         }
@@ -103,7 +103,7 @@ export default function TimetableInfo() {
           </p>
           <div className="card-actions justify-end mt-4">
             <a
-              href={`http://125.251.212.92:8000/downloads/${timetable.file_url}`}
+              href={`https://125.251.212.92/downloads/${timetable.file_url}`}
               download
               target="_blank"
               rel="noopener noreferrer"
