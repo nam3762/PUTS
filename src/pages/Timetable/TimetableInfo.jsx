@@ -100,7 +100,7 @@ export default function TimetableInfo() {
   }
 
   return (
-    <div className="flex flex-col items-center mx-auto w-full max-w-4xl p-5">
+    <div className="flex flex-col items-center mx-auto w-full max-w-4xl p-5 h-screen">
       <h1 className="text-base-content text-2xl font-bold mb-6">시간표 정보</h1>
       <div className="card w-full bg-base-100 shadow-xl mb-8 text-base-content">
         <div className="card-body">
