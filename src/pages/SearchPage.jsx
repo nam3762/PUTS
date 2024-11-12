@@ -154,7 +154,7 @@ export default function SearchPage() {
 
         {/* 에러 메시지 (검색 결과 없음 등) */}
         {error && data.length > 0 && (
-          <div className="text-center text-red-500 mb-4">{error}</div>
+          <div className="text-center text-red-500 mb-4 h-screen">{error}</div>
         )}
 
         {/* 목록 테이블 */}
@@ -195,7 +195,7 @@ export default function SearchPage() {
               ))
             ) : (
               <tr>
-                <td colSpan="3" className="text-base-content">
+                <td colSpan="3" className="text-base-content h-screen">
                   검색 결과가 없습니다.
                 </td>
               </tr>

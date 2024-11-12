@@ -5,11 +5,11 @@ export const defaultValues = {
   // 시간표 id (MongoDB에서 사용하는 _id와 다른 값이며 UUID를 생성한 값을 사용)
   id: "6666",
   // 시간표 이름
-  timetableName: "2024-2",
+  timetableName: "",
   // 시간표 비밀번호 (시간표 id와 password로 식별)
-  password: "1234",
+  password: "",
   // 시간표 설명
-  timetableDescription: "12341234",
+  timetableDescription: "",
   // 시간표 결과값 갯수
   timetableResult: 1,
   // 시간표 점심시간 제약조건 설정
