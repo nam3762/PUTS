@@ -109,8 +109,13 @@ export default function SearchPage() {
   // 로딩 중일 때
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-center text-base-content">로딩 중...</div>
+      <div className="flex flex-1 items-center justify-center h-screen -mt-12">
+        <div className="flex flex-col justify-center items-center">
+          <div className="text-center text-base-content text-sm my-4">
+            로딩 중...
+          </div>
+          <span className="loading loading-spinner loading-lg text-base-content"></span>
+        </div>
       </div>
     );
   }
@@ -118,7 +123,7 @@ export default function SearchPage() {
   // 데이터 로딩 에러 발생 시
   if (error && data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex flex-1 items-center justify-center h-screen -mt-12">
         <div className="text-center text-red-500">{error}</div>
       </div>
     );

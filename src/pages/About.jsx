@@ -7,34 +7,28 @@ export default function About() {
       role: "프론트엔드 개발",
       description:
         "React 및 최신 프론트엔드 기술을 이용하여 디자인과 UI/UX를 구현했습니다.",
-      image: "https://via.placeholder.com/150", // 대체 이미지 URL
     },
     {
       name: "나광호",
       role: "백엔드 개발",
       description: "Django와 MongoDB를 사용하여 서버 및 API를 구축하였습니다.",
-      image: "https://via.placeholder.com/150",
     },
     {
       name: "이지형",
       role: "알고리즘 개발",
       description:
         "Python을 이용해 시간표 자동화 제작 알고리즘을 구현했습니다.",
-      image: "https://via.placeholder.com/150",
     },
   ];
 
   return (
-    <div className="flex flex-col items-center mx-auto w-full max-w-4xl p-5">
+    <div className="flex flex-col items-center mx-auto w-full max-w-4xl p-5 h-screen">
       <h1 className="text-2xl font-bold mb-8 text-base-content">About Us</h1>
 
       {/* 개발자 소개 섹션 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-base-content">
         {developers.map((dev, index) => (
           <div key={index} className="card bg-base-100 shadow-xl">
-            <figure className="px-10 pt-10">
-              <img src={dev.image} alt={dev.name} className="rounded-xl" />
-            </figure>
             <div className="card-body items-center text-center">
               <h2 className="card-title">{dev.name}</h2>
               <p className="text-gray-500">{dev.role}</p>

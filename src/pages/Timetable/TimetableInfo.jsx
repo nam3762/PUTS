@@ -78,12 +78,25 @@ export default function TimetableInfo() {
 
   // 로딩 중일 때
   if (loading) {
-    return <div className="text-center">로딩 중...</div>;
+    return (
+      <div className="flex flex-1 items-center justify-center h-screen -mt-12">
+        <div className="flex flex-col justify-center items-center">
+          <div className="text-center text-base-content text-sm my-4">
+            시간표 정보 로딩 중...
+          </div>
+          <span className="loading loading-spinner loading-lg text-base-content"></span>
+        </div>
+      </div>
+    );
   }
 
   // 에러가 발생했을 때
   if (error) {
-    return <div className="text-center text-red-500">{error}</div>;
+    return (
+      <div className="flex flex-1 items-center justify-center h-screen -mt-12">
+        <div className="text-center text-red-500">{error}</div>
+      </div>
+    );
   }
 
   return (
