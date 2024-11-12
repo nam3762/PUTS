@@ -130,19 +130,19 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="flex flex-1 justify-center">
-      <div className="flex flex-col justify-center items-center mx-auto w-full max-w-4xl p-5">
+    <div className="flex flex-1 justify-center items-baseline min-h-screen">
+      <div className="flex flex-col justify-center items-center mx-auto w-full max-w-4xl p-4 mt-4">
         <h1 className="text-base-content text-2xl font-bold mb-6">
           시간표 검색
         </h1>
 
         {/* 검색 입력 필드 */}
-        <div className="flex items-center mb-5">
+        <div className="flex items-center mb-6">
           <input
             type="text"
             ref={searchRef} // useRef로 input 값을 참조
-            placeholder="시간표 ID 또는 이름을 입력하세요"
-            className="input input-bordered w-full max-w-xs text-base-content"
+            placeholder="시간표 ID 또는 이름을 입력"
+            className="input input-bordered w-full max-w-xs text-sm text-base-content"
           />
           <button
             className="btn btn-primary ml-2"
@@ -200,6 +200,18 @@ export default function SearchPage() {
                 </td>
               </tr>
             )}
+            {/* 빈 행 추가 */}
+            {[...Array(itemsPerPage - currentItems.length)].map((_, idx) => (
+              <tr key={`empty-${idx}`}>
+                <td
+                  colSpan="3"
+                  className="border-b border-b-content"
+                  style={{ height: "72px" }}
+                >
+                  &nbsp;
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
 

@@ -20,13 +20,13 @@ export default function Mainpage() {
           </Link>
 
           {/* 인증서 신뢰 링크로 리다이렉트 */}
-          <button onClick={handleRedirect} className="btn btn-secondary mt-4">
-            인증서 신뢰 페이지로 이동
-          </button>
-          <p className="text-sm mt-2 text-base-content">
+          <p className="text-sm mt-4 text-base-content">
             버튼을 클릭해 인증서 신뢰를 해주셔야 시간표 생성 및 저장이
             가능합니다.
           </p>
+          <button onClick={handleRedirect} className="btn btn-secondary mt-4">
+            인증서 신뢰 페이지로 이동
+          </button>
         </div>
       </div>
     </div>
