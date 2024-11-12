@@ -9,12 +9,13 @@ import { helpContent7 } from "./Timetable/TimetableResult";
 
 const warning = (
   <div className="flex flex-col gap-4 text-sm">
-    <p className="font-bold">
-      시간표 제작은 총 7단계의 입력으로 구성되며, 입력 도중 사이트를 이탈할 시
+    <p className="text-xl font-bold text-base-content">주의사항</p>
+    <p className="font-bold indent-2">
+      • 시간표 제작은 총 7단계의 입력으로 구성되며, 입력 도중 사이트를 이탈할 시
       입력한 내용이 저장되지 않습니다.
     </p>
-    <p className="font-bold">
-      컴퓨터(크롬 브라우저, 전체 화면)에서 입력을 권장합니다.
+    <p className="font-bold indent-2">
+      • 컴퓨터(크롬 브라우저, 전체 화면)에서 입력을 권장합니다.
     </p>
   </div>
 );
