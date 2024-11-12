@@ -249,11 +249,11 @@ export default function PostgraduateLectures() {
                   </Button>
                 </div>
 
-                <div className="mt-8 h-16 w-full p-1 bg-base-200 rounded border border-base-300 text-center">
-                  <span className="font-bold text-sm text-base-content p-2">
+                <div className="flex flex-col justify-center gap-1 items-center mt-8 h-16 w-full bg-base-200 rounded border border-base-300 text-center">
+                  <span className="font-bold text-sm text-base-content">
                     선택된 강의실 개수
                   </span>
-                  <span className="font-bold text-sm text-base-content p-2">
+                  <span className="font-bold text-sm text-base-content">
                     {gradClassrooms?.length || 0}/{numberOfClassrooms}
                   </span>
                   {errors?.postgraduateLectures?.[currentIndex]

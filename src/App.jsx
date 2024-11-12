@@ -19,6 +19,7 @@ import { defaultValues } from "./values/defaultValues";
 import TimetableCustomizing from "./pages/Timetable/TimetableCustomizing";
 import TimetableInfo from "./pages/Timetable/TimetableInfo";
 import Help from "./pages/Help";
+import FullAutoScroll from "./components/FullAutoScroll";
 
 function Layout() {
   const location = useLocation();
@@ -44,7 +45,7 @@ function Layout() {
           path="/about"
           element={
             <>
-              <AutoScroll />
+              <FullAutoScroll />
               <About />
             </>
           }
@@ -53,7 +54,7 @@ function Layout() {
           path="/help"
           element={
             <>
-              <AutoScroll />
+              <FullAutoScroll />
               <Help />
             </>
           }
