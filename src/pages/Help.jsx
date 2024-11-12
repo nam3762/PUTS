@@ -55,7 +55,7 @@ export default function Help() {
 
   return (
     <div className="flex flex-col items-center mx-auto w-full max-w-4xl p-5">
-      <h1 className="text-2xl font-bold mb-8 text-base-content">도움말</h1>
+      <h1 className="text-2xl font-bold text-base-content">도움말</h1>
 
       {/* 각각의 카드 생성 */}
       {cardContents.map((item, index) => (
