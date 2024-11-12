@@ -28,11 +28,11 @@ const constraints = (
     </p>
     <p className="indent-2">• 전공 필수 교과목 간 같은 시간 배치 불가</p>
     <p className="indent-2">• 같은 학년의 교과목 같은 시간 배치 불가</p>
-    <p className="indent-2">• 한 분반의 다른 시간대가 같은 요일에 배치 불가</p>
+    <p className="indent-2">• 한 분반의 다른 강의가 같은 요일에 배치 불가</p>
     <p className="indent-2">
-      • 같은 강의의 다른 분반은 동시에 배치 가능 (강의 시간 분할 그룹화)
+      • 같은 교과목의 다른 분반은 동시에 배치 가능 (강의 시간 분할 그룹화)
     </p>
-    <p className="indent-2">• 교원의 최소 강의일 수 보장 (4일)</p>
+    <p className="indent-2">• 교수의 근무일 수 보장 (연구일 포함 5일)</p>
     <p className="indent-2">
       • 각 학년의 점심시간은 11시부터 15시 사이에 배정하며, 1시간 이상 확보 보장
     </p>
